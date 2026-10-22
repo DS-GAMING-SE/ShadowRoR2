@@ -1,5 +1,5 @@
-# <img src="https://github.com/DS-GAMING-SE/Sonic/blob/master/SonicUnityProject/Assets/SonicAssets/Icons/texSonicIcon.png?raw=true" width="64"> Character Name
-To test the latest version of the mod, download the Latest.zip file found [here](https://github.com/DS-GAMING-SE/Sonic/tree/master/Thunderstore) and add it to your mod list using your mod managers "import local mod" option.
+# <img src="https://github.com/DS-GAMING-SE/Sonic/blob/master/SonicUnityProject/Assets/SonicAssets/Icons/texSonicIcon.png?raw=true" width="64"> Shadow the Hedgehog
+To test the latest version of the mod, download the ShadowLatest.zip file found [here](https://github.com/DS-GAMING-SE/ShadowRoR2/tree/master/Thunderstore) and add it to your mod list using your mod managers "import local mod" option.
 
 description todo
 
@@ -7,11 +7,11 @@ description todo
 
 | Skill | Icon | Description |
 | ---- | -------- | ---- |
-| Passive - **Passive Name** | <img src="https://github.com/DS-GAMING-SE/Sonic/blob/master/SonicUnityProject/Assets/SonicAssets/Icons/texMomentumIcon.png?raw=true" width="128"> | Passive desc. |
-| Primary - **Primary Name** | <img src="https://github.com/DS-GAMING-SE/Sonic/blob/master/SonicUnityProject/Assets/SonicAssets/Icons/texMeleeIcon.png?raw=true" width="128"> | Primary desc. |
-| Secondary - **Secondary Name**  | <img src="https://github.com/DS-GAMING-SE/Sonic/blob/master/SonicUnityProject/Assets/SonicAssets/Icons/texSonicBoomIcon.png?raw=true" width="128"> | Secondary desc. <details>todo</details>  |
-| Utility - **Utility Name** | <img src="https://github.com/DS-GAMING-SE/Sonic/blob/master/SonicUnityProject/Assets/SonicAssets/Icons/texBoostIcon.png?raw=true" width="128"> | Utility desc. <details>todo</details> |
-| Special - **Special Name** | <img src="https://github.com/DS-GAMING-SE/Sonic/blob/master/SonicUnityProject/Assets/SonicAssets/Icons/texGrandSlamIcon.png?raw=true" width="128"> | Special Desc.<details>todo</details> |
+| Passive - **Passive Name** | <img src="https://github.com/DS-GAMING-SE/ShadowRoR2/blob/master/ShadowUnityProject/Assets/ShadowAssets/ShadowBundle/Icons/texPassiveSkillIcon.png?raw=true" width="128"> | Passive desc. |
+| Primary - **Primary Name** | <img src="https://github.com/DS-GAMING-SE/ShadowRoR2/blob/master/ShadowUnityProject/Assets/ShadowAssets/ShadowBundle/Icons/texChaosSnapSkillIcon.png?raw=true" width="128"> | Primary desc. |
+| Secondary - **Secondary Name**  | <img src="https://github.com/DS-GAMING-SE/ShadowRoR2/blob/master/ShadowUnityProject/Assets/ShadowAssets/ShadowBundle/Icons/texChaosSpearSkillIcon.png?raw=true" width="128"> | Secondary desc. <details>todo</details>  |
+| Utility - **Utility Name** | <img src="https://github.com/DS-GAMING-SE/ShadowRoR2/blob/master/ShadowUnityProject/Assets/SohadowAssets/ShadowBundle/Icons/texBoostSkillIcon.png?raw=true" width="128"> | Utility desc. <details>todo</details> |
+| Special - **Special Name** | <img src="https://github.com/DS-GAMING-SE/ShadowRoR2/blob/master/ShadowUnityProject/Assets/ShadowAssets/ShadowBundle/Icons/texChaosBoostSkillIcon.png?raw=true" width="128"> | Special Desc.<details>todo</details> |
 
 # Compatible Mods
 - [LookingGlass](https://thunderstore.io/package/DropPod/LookingGlass/)
@@ -21,5 +21,4 @@ description todo
 | Name | Platform | Contribution|
 | ---- | ---- | ------|
 **DS Gaming** (ds_gaming) | Discord | Code |
-
-[**Woodmeister** (woodie5273) | Discord | Commissioned this mod |]: #
+**Thunder (Determined)** (keybladehero17) | Discord | Commissioned this mod |

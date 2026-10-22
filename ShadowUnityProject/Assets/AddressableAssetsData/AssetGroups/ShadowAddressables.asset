@@ -41,20 +41,20 @@ MonoBehaviour:
     m_Address: Assets/HenryAssets/HenryBundle/Icons/texHenryIcon.png
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: e1b58742d5489f9409faeafa1fe57f42
-    m_Address: Assets/HenryAssets/HenryBundle/Icons/texSecondaryIcon.png
+  - m_GUID: 13162ebc3e59e934eaf3c5aa849b2948
+    m_Address: Assets/ShadowAssets/ShadowBundle/Icons/texVoicelinesDisableSkillIcon.png
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 0f5783e971afb924daa22df12d6c1325
-    m_Address: Assets/HenryAssets/HenryBundle/Icons/texUtilityIcon.png
+  - m_GUID: 89141efa71806744d9caf29b253b0d33
+    m_Address: Assets/ShadowAssets/ShadowBundle/Icons/texChaosSnapSkillIcon.png
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 44a1d09fd35f1384e819b98e0f18058e
-    m_Address: Assets/HenryAssets/HenryBundle/Icons/texSpecialIcon.png
+  - m_GUID: 18f6e1df055a2dd4085e66d3d3c5979e
+    m_Address: Assets/ShadowAssets/ShadowBundle/Icons/texChaosSpearSkillIcon.png
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 977438518be9ff545a06824ddf881e15
-    m_Address: Assets/HenryAssets/HenryBundle/Icons/texPassiveIcon.png
+  - m_GUID: 1c07abb3d41d38c4cac5563c3c1630d7
+    m_Address: Assets/ShadowAssets/ShadowBundle/Icons/texBoostSkillIcon.png
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 05b273758480af74a919e826c7b80a86
@@ -89,8 +89,8 @@ MonoBehaviour:
     m_Address: Assets/HenryAssets/HenryBundle/Icons/texMasteryAchievement.png
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 4d32648010cd8714d980002a6b64b503
-    m_Address: Assets/HenryAssets/HenryBundle/Icons/texPrimaryIcon.png
+  - m_GUID: 6c6ddbdba1fa78d4caaf9fe144d3ac0e
+    m_Address: Assets/ShadowAssets/ShadowBundle/Icons/texChaosBoostSkillIcon.png
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 507751368e16e18409e1c93f8022eb8c
@@ -107,6 +107,22 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: 95bb770c878495b4296296a4b09a6034
     m_Address: Assets/HenryAssets/HenryBundle/Mesh/meshPistol.mesh
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d36947727e0d2484d8bba10709948a83
+    m_Address: Assets/ShadowAssets/ShadowBundle/Icons/texChaosBlastSkillIcon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c2cc0e85354a76044a13ee6e9667480a
+    m_Address: Assets/ShadowAssets/ShadowBundle/Icons/texVoicelinesEnableSkillIcon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8e7fefe0591a7bf41912ee88085e598d
+    m_Address: Assets/ShadowAssets/ShadowBundle/Icons/texChaosBoostUpgradeSkillIcon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9fcf79bda87678d4e80f4eb6462e4fdf
+    m_Address: Assets/ShadowAssets/ShadowBundle/Icons/texPassiveSkillIcon.png
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0

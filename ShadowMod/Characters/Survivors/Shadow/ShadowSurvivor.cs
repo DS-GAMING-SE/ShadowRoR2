@@ -1,17 +1,18 @@
 ﻿using BepInEx.Configuration;
-using ShadowMod.Modules;
-using ShadowMod.Modules.Characters;
+using HG;
+using RoR2;
+using RoR2.ContentManagement;
+using RoR2.Skills;
 using ShadowMod.Characters.Survivors.Shadow.Components;
 using ShadowMod.Characters.Survivors.Shadow.SkillStates;
-using RoR2;
-using RoR2.Skills;
+using ShadowMod.Modules;
+using ShadowMod.Modules.Characters;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using RoR2.ContentManagement;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using HG;
 
 namespace ShadowMod.Characters.Survivors.Shadow
 {
@@ -127,6 +128,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             AddHitboxes();
             bodyPrefab.AddComponent<HedgehogUtils.Miscellaneous.MomentumPassive>();
             bodyPrefab.AddComponent<HedgehogUtils.Boost.BoostLogic>();
+            bodyPrefab.AddComponent<HomingTracker>();
             //anything else here
         }
 
@@ -143,12 +145,11 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Prefabs.ClearEntityStateMachines(bodyPrefab);
 
             //the main "Body" state machine has some special properties
-            Prefabs.AddMainEntityStateMachine(bodyPrefab, "Body", typeof(EntityStates.GenericCharacterMain), typeof(EntityStates.SpawnTeleporterState));
+            Prefabs.AddMainEntityStateMachine(bodyPrefab, "Body", typeof(ShadowMainState), typeof(EntityStates.SpawnTeleporterState));
             //if you set up a custom main characterstate, set it up here
                 //don't forget to register custom entitystates in your HenryStates.cs
 
             Prefabs.AddEntityStateMachine(bodyPrefab, "Weapon");
-            Prefabs.AddEntityStateMachine(bodyPrefab, "Weapon2");
         }
 
         #region skills
@@ -160,8 +161,9 @@ namespace ShadowMod.Characters.Survivors.Shadow
             AddPassiveSkill();
             AddPrimarySkills();
             AddSecondarySkills();
-            AddUtiitySkills();
+            AddUtilitySkills();
             AddSpecialSkills();
+            AddVoicelineSkills();
         }
 
         //skip if you don't have a passive
@@ -169,23 +171,23 @@ namespace ShadowMod.Characters.Survivors.Shadow
         private void AddPassiveSkill()
         {
             //option 1. fake passive icon just to describe functionality we will implement elsewhere
-            bodyPrefab.GetComponent<SkillLocator>().passiveSkill = new SkillLocator.PassiveSkill
+            /*bodyPrefab.GetComponent<SkillLocator>().passiveSkill = new SkillLocator.PassiveSkill
             {
                 enabled = true,
                 skillNameToken = SHADOW_PREFIX + "PASSIVE_NAME",
                 skillDescriptionToken = SHADOW_PREFIX + "PASSIVE_DESCRIPTION",
                 icon = ShadowAssets.passiveSkillIcon.LoadAssetAsync().WaitForCompletion(),
-            };
+            };*/
             #region Multiple Passives
             //option 2. a new SkillFamily for a passive, used if you want multiple selectable passives
-            /*GenericSkill passiveGenericSkill = Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, "PassiveSkill");
+            GenericSkill passiveGenericSkill = Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, "PassiveSkill");
             SkillDef passiveSkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
             {
-                skillName = "HenryPassive",
-                skillNameToken = HENRY_PREFIX + "PASSIVE_NAME",
-                skillDescriptionToken = HENRY_PREFIX + "PASSIVE_DESCRIPTION",
-                keywordTokens = new string[] { "KEYWORD_AGILE" },
-                skillIcon = assetBundle.LoadAsset<Sprite>("texPassiveIcon"),
+                skillName = "ShadowPassive",
+                skillNameToken = SHADOW_PREFIX + "PASSIVE_NAME",
+                skillDescriptionToken = SHADOW_PREFIX + "PASSIVE_DESCRIPTION",
+                //keywordTokens = [ "KEYWORD_AGILE" ],
+                skillIcon = ShadowAssets.passiveSkillIcon.LoadAssetAsync().WaitForCompletion(),
 
                 //unless you're somehow activating your passive like a skill, none of the following is needed.
                 //but that's just me saying things. the tools are here at your disposal to do whatever you like with
@@ -213,7 +215,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 //forceSprintDuringState = false,
 
             });
-            Skills.AddSkillsToFamily(passiveGenericSkill.skillFamily, passiveSkillDef1);*/
+            passiveGenericSkill.hideInLoadoutSelect = true;
+            Skills.AddSkillsToFamily(passiveGenericSkill.skillFamily, passiveSkillDef1);
             #endregion
         }
 
@@ -226,10 +229,10 @@ namespace ShadowMod.Characters.Survivors.Shadow
             //it is also a SteppedSkillDef. Custom Skilldefs are very useful for custom behaviors related to casting a skill. see ror2's different skilldefs for reference
             SteppedSkillDef primarySkillDef1 = Skills.CreateSkillDef<SteppedSkillDef>(new SkillDefInfo
                 (
-                    "HenrySlash",
-                    SHADOW_PREFIX + "PRIMARY_SLASH_NAME",
-                    SHADOW_PREFIX + "PRIMARY_SLASH_DESCRIPTION",
-                    ShadowAssets.primarySkillIcon.LoadAssetAsync().WaitForCompletion(),
+                    "ShadowChaosSnap",
+                    SHADOW_PREFIX + "PRIMARY_CHAOS_SNAP_NAME",
+                    SHADOW_PREFIX + "PRIMARY_CHAOS_SNAP_DESCRIPTION",
+                    ShadowAssets.chaosSnapSkillIcon.LoadAssetAsync().WaitForCompletion(),
                     new EntityStates.SerializableEntityStateType(typeof(SkillStates.SlashCombo)),
                     "Weapon",
                     true
@@ -248,14 +251,14 @@ namespace ShadowMod.Characters.Survivors.Shadow
             //here is a basic skill def with all fields accounted for
             SkillDef secondarySkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
             {
-                skillName = "HenryGun",
-                skillNameToken = SHADOW_PREFIX + "SECONDARY_GUN_NAME",
-                skillDescriptionToken = SHADOW_PREFIX + "SECONDARY_GUN_DESCRIPTION",
-                keywordTokens = new string[] { "KEYWORD_AGILE" },
-                skillIcon = ShadowAssets.secondarySkillIcon.LoadAssetAsync().WaitForCompletion(),
+                skillName = "ShadowChaosSpear",
+                skillNameToken = SHADOW_PREFIX + "SECONDARY_CHAOS_SPEAR_NAME",
+                skillDescriptionToken = SHADOW_PREFIX + "SECONDARY_CHAOS_SPEAR_DESCRIPTION",
+                keywordTokens = ["KEYWORD_AGILE"],
+                skillIcon = ShadowAssets.chaosSpearSkillIcon.LoadAssetAsync().WaitForCompletion(),
 
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Shoot)),
-                activationStateMachineName = "Weapon2",
+                activationStateMachineName = "Weapon",
                 interruptPriority = EntityStates.InterruptPriority.Skill,
 
                 baseRechargeInterval = 1f,
@@ -281,7 +284,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Skills.AddSecondarySkills(bodyPrefab, secondarySkillDef1);
         }
 
-        private void AddUtiitySkills()
+        private void AddUtilitySkills()
         {
             Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, SkillSlot.Utility);
 
@@ -319,7 +322,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             SkillDef boostSkillDef = HedgehogUtils.Boost.SkillDefs.CreateBoostSkillDef<HedgehogUtils.Boost.SkillDefs.BoostSkillDef>(
                 SHADOW_PREFIX + "UTILITY_BOOST_NAME",
                 SHADOW_PREFIX + "UTILITY_BOOST_DESCRIPTION",
-                ShadowAssets.utilitySkillIcon.LoadAssetAsync().WaitForCompletion(),
+                ShadowAssets.boostSkillIcon.LoadAssetAsync().WaitForCompletion(),
                 new EntityStates.SerializableEntityStateType(typeof(Boost)),
                 new EntityStates.SerializableEntityStateType(typeof(BoostIdle)),
                 new EntityStates.SerializableEntityStateType(typeof(Brake)),
@@ -335,14 +338,13 @@ namespace ShadowMod.Characters.Survivors.Shadow
             //a basic skill. some fields are omitted and will just have default values
             SkillDef specialSkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
             {
-                skillName = "HenryBomb",
-                skillNameToken = SHADOW_PREFIX + "SPECIAL_BOMB_NAME",
-                skillDescriptionToken = SHADOW_PREFIX + "SPECIAL_BOMB_DESCRIPTION",
-                skillIcon = ShadowAssets.specialSkillIcon.LoadAssetAsync().WaitForCompletion(),
+                skillName = "ShadowChaosBoost",
+                skillNameToken = SHADOW_PREFIX + "SPECIAL_CHAOS_BOOST_NAME",
+                skillDescriptionToken = SHADOW_PREFIX + "SPECIAL_CHAOS_BOOST_DESCRIPTION",
+                skillIcon = ShadowAssets.chaosBoostSkillIcon.LoadAssetAsync().WaitForCompletion(),
 
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ThrowBomb)),
-                //setting this to the "weapon2" EntityStateMachine allows us to cast this skill at the same time primary, which is set to the "weapon" EntityStateMachine
-                activationStateMachineName = "Weapon2", interruptPriority = EntityStates.InterruptPriority.Skill,
+                activationStateMachineName = "Weapon", interruptPriority = EntityStates.InterruptPriority.Skill,
 
                 baseMaxStock = 1,
                 baseRechargeInterval = 10f,
@@ -353,8 +355,37 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
             Skills.AddSpecialSkills(bodyPrefab, specialSkillDef1);
         }
+
+        private void AddVoicelineSkills()
+        {
+            GenericSkill voicelinesGenericSkill = Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, "Voicelines", true);
+            voicelinesGenericSkill.loadoutTitleToken = HedgehogUtils.Language.voicelinesTitleToken;
+            SkillDef voicelinesEnable = Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = "ShadowVoicelinesEnable",
+                skillNameToken = HedgehogUtils.Language.voicelinesEnableToken,
+                skillDescriptionToken = SHADOW_PREFIX + "VOICELINES_ENABLE_DESCRIPTION",
+                skillIcon = ShadowAssets.voicelineEnableSkillIcon.LoadAssetAsync().WaitForCompletion()
+            });
+            SkillDef voicelinesDisable = Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = "ShadowVoicelinesDisable",
+                skillNameToken = HedgehogUtils.Language.voicelinesDisableToken,
+                skillDescriptionToken = "",
+                skillIcon = ShadowAssets.voicelineDisableSkillIcon.LoadAssetAsync().WaitForCompletion()
+            });
+            Skills.AddSkillsToFamily(voicelinesGenericSkill.skillFamily, voicelinesEnable, voicelinesDisable);
+
+            /*ShadowVoiceLineComponent voiceline = bodyPrefab.AddComponent<ShadowVoiceLineComponent>();
+            string voicelineSoundBankPath = Assembly.GetExecutingAssembly().Location.Replace("ShadowMod.dll", @"Soundbanks\ShadowVoicelinesBank.bnk");
+            voiceline.soundBankFilePath = voicelineSoundBankPath;
+            voiceline.voicelinesEnableSkillDef = voicelinesEnable;
+            voiceline.Initialize();
+            HedgehogUtils.Voicelines.VoicelineDisplayComponent.AddDisplayPrefabVoicelineComponent(displayPrefab, bodyPrefab, voicelinesGenericSkill.skillFamily, voicelinesEnable, voicelineSoundBankPath,
+                ShadowVoiceLineComponent.lobby1);*/
+        }
         #endregion skills
-        
+
         #region skins
         public override void InitializeSkins()
         {

@@ -35,11 +35,15 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public static AssetReferenceT<Avatar> animatorAvatar = new AssetReferenceT<Avatar>("3f55d8352b2212743b809db2974cdd5e");
 
         public static AssetReferenceTexture characterIcon = new AssetReferenceTexture("33c89ac909113894280a0cfd14c99f2e");
-        public static AssetReferenceSprite passiveSkillIcon = new AssetReferenceSprite("977438518be9ff545a06824ddf881e15");
-        public static AssetReferenceSprite primarySkillIcon = new AssetReferenceSprite("4d32648010cd8714d980002a6b64b503");
-        public static AssetReferenceSprite secondarySkillIcon = new AssetReferenceSprite("e1b58742d5489f9409faeafa1fe57f42");
-        public static AssetReferenceSprite utilitySkillIcon = new AssetReferenceSprite("0f5783e971afb924daa22df12d6c1325");
-        public static AssetReferenceSprite specialSkillIcon = new AssetReferenceSprite("44a1d09fd35f1384e819b98e0f18058e");
+        public static AssetReferenceSprite passiveSkillIcon = new AssetReferenceSprite("9fcf79bda87678d4e80f4eb6462e4fdf");
+        public static AssetReferenceSprite chaosSnapSkillIcon = new AssetReferenceSprite("89141efa71806744d9caf29b253b0d33");
+        public static AssetReferenceSprite chaosSpearSkillIcon = new AssetReferenceSprite("18f6e1df055a2dd4085e66d3d3c5979e");
+        public static AssetReferenceSprite boostSkillIcon = new AssetReferenceSprite("1c07abb3d41d38c4cac5563c3c1630d7");
+        public static AssetReferenceSprite chaosBoostSkillIcon = new AssetReferenceSprite("6c6ddbdba1fa78d4caaf9fe144d3ac0e");
+        public static AssetReferenceSprite chaosBoostUpgradedSkillIcon = new AssetReferenceSprite("8e7fefe0591a7bf41912ee88085e598d");
+        public static AssetReferenceSprite chaosBlastSkillIcon = new AssetReferenceSprite("d36947727e0d2484d8bba10709948a83");
+        public static AssetReferenceSprite voicelineEnableSkillIcon = new AssetReferenceSprite("c2cc0e85354a76044a13ee6e9667480a");
+        public static AssetReferenceSprite voicelineDisableSkillIcon = new AssetReferenceSprite("13162ebc3e59e934eaf3c5aa849b2948");
 
         public static AssetReferenceT<Material> defaultSkinMaterial = new AssetReferenceT<Material>("14d6d121af8aca345b797120c5f6331b");
         public static AssetReferenceT<Mesh> defaultSkinMesh = new AssetReferenceT<Mesh>("fee9d8e08c8c818498f7613f868f2e34");

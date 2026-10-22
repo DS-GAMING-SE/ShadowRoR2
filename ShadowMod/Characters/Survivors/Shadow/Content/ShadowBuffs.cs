@@ -19,7 +19,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
         {
             boostBuff = Modules.Content.CreateAndAddBuff("bdShadowBoost",
                 LegacyResourcesAPI.Load<BuffDef>("BuffDefs/CloakSpeed").iconSprite,
-                ShadowSurvivor.shadowRedColor,
+                ShadowSurvivor.shadowYellowColor,
                 false,
                 false);
 

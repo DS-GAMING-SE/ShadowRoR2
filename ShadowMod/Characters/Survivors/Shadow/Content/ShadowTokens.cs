@@ -42,22 +42,27 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Language.Add(prefix + "OUTRO_FAILURE", outroFailure);
 
             #region Skins
-            Language.Add(prefix + "MASTERY_SKIN_NAME", "Alternate");
+            Language.Add(prefix + "MASTERY_SKIN_NAME", "Mephiles");
+            #endregion
+
+            #region Common Keywords
+
+
             #endregion
 
             #region Passive
             Language.Add(prefix + "PASSIVE_NAME", $"{HedgehogUtils.Helpers.wipIcon} All of Me");
-            Language.Add(prefix + "PASSIVE_DESCRIPTION", $"With the <color=#e7c7e6>Artifact of Chaos Emeralds</color> enabled, Shadow can choose to {UtilityText("wield the Chaos Emeralds")}, accept the {RedText("dark influence of Black Doom")}, or forsake both and {DamageText("fight only with his own power")}.");
+            Language.Add(prefix + "PASSIVE_DESCRIPTION", $"With the <color=#e7c7e6>Artifact of Chaos Emeralds</color> enabled, Shadow can choose to {UtilityText("wield the Chaos Emeralds")}, accept the {RedText("dark influence of Black Doom")}, or forsake both and {HealingText("fight only with his own power")}.");
             #endregion
 
             #region Primary
-            Language.Add(prefix + "PRIMARY_SLASH_NAME", $"{HedgehogUtils.Helpers.wipIcon} Sword");
-            Language.Add(prefix + "PRIMARY_SLASH_DESCRIPTION", agilePrefix + $"Swing forward for <style=cIsDamage>{100f * swordDamageCoefficient}% damage</style>.");
+            Language.Add(prefix + "PRIMARY_CHAOS_SNAP_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Snap");
+            Language.Add(prefix + "PRIMARY_CHAOS_SNAP_DESCRIPTION", agilePrefix + $"Swing forward for <style=cIsDamage>{100f * swordDamageCoefficient}% damage</style>.");
             #endregion
 
             #region Secondary
-            Language.Add(prefix + "SECONDARY_GUN_NAME", $"{HedgehogUtils.Helpers.wipIcon} Handgun");
-            Language.Add(prefix + "SECONDARY_GUN_DESCRIPTION", agilePrefix + $"Fire a handgun for <style=cIsDamage>{100f * gunDamageCoefficient}% damage</style>.");
+            Language.Add(prefix + "SECONDARY_CHAOS_SPEAR_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Spear");
+            Language.Add(prefix + "SECONDARY_CHAOS_SPEAR_DESCRIPTION", agilePrefix + $"Fire a handgun for <style=cIsDamage>{100f * gunDamageCoefficient}% damage</style>.");
             #endregion
 
             #region Utility
@@ -66,9 +71,17 @@ namespace ShadowMod.Characters.Survivors.Shadow
             #endregion
 
             #region Special
-            Language.Add(prefix + "SPECIAL_BOMB_NAME", $"{HedgehogUtils.Helpers.wipIcon} Bomb");
-            Language.Add(prefix + "SPECIAL_BOMB_DESCRIPTION", $"Throw a bomb for <style=cIsDamage>{100f * bombDamageCoefficient}% damage</style>.");
+            Language.Add(prefix + "SPECIAL_CHAOS_BOOST_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Boost");
+            Language.Add(prefix + "SPECIAL_CHAOS_BOOST_DESCRIPTION", $"Throw a bomb for <style=cIsDamage>{100f * bombDamageCoefficient}% damage</style>.");
+
+            Language.Add(prefix + "SPECIAL_CHAOS_BLAST_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Blast");
+            Language.Add(prefix + "SPECIAL_CHAOS_BLAST_DESCRIPTION", $"{HedgehogUtils.Helpers.wipIcon}");
+
+            Language.Add(prefix + "SPECIAL_CHAOS_CONTROL_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Control");
+            Language.Add(prefix + "SPECIAL_CHAOS_CONTROL_DESCRIPTION", $"{HedgehogUtils.Helpers.wipIcon}");
             #endregion
+
+            Language.Add(prefix + "VOICELINES_ENABLE_DESCRIPTION", $"Voicelines recorded by {UtilityText("MotherEggVA")}.");
 
             #region Achievements
             Language.Add(GetAchievementNameToken(ShadowMasteryAchievement.identifier), "Shadow: Mastery");

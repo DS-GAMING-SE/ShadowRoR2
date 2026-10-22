@@ -6,6 +6,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
     {
         public static void Init()
         {
+            Modules.Content.AddEntityState(typeof(ShadowMainState));
+
             Modules.Content.AddEntityState(typeof(SlashCombo));
 
             Modules.Content.AddEntityState(typeof(Shoot));
