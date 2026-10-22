@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: ShadowAddressables
+  m_EditorClassIdentifier: 
+  m_GroupName: ShadowAddressables
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 8195e7a6d7a9ee8469f1facef3976a63
+  m_SerializeEntries:
+  - m_GUID: 2b1ae6eb92856db41a261cf5336101dc
+    m_Address: Assets/HenryAssets/HenryBundle/HenryBombGhost.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9552880169ac54248bdf012a5175ef46
+    m_Address: Assets/HenryAssets/HenryBundle/HenryDisplay.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 14d6d121af8aca345b797120c5f6331b
+    m_Address: Assets/HenryAssets/HenryBundle/Materials/matHenry.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a32fb17ad7dfd7b4f8b893feaf7d7512
+    m_Address: Assets/HenryAssets/HenryBundle/mdlHenry.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e0bd4029a2d0049499dc8c6d68c3716b
+    m_Address: Assets/HenryAssets/HenryBundle/Icons/texMainSkin.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 33c89ac909113894280a0cfd14c99f2e
+    m_Address: Assets/HenryAssets/HenryBundle/Icons/texHenryIcon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e1b58742d5489f9409faeafa1fe57f42
+    m_Address: Assets/HenryAssets/HenryBundle/Icons/texSecondaryIcon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 0f5783e971afb924daa22df12d6c1325
+    m_Address: Assets/HenryAssets/HenryBundle/Icons/texUtilityIcon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 44a1d09fd35f1384e819b98e0f18058e
+    m_Address: Assets/HenryAssets/HenryBundle/Icons/texSpecialIcon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 977438518be9ff545a06824ddf881e15
+    m_Address: Assets/HenryAssets/HenryBundle/Icons/texPassiveIcon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 05b273758480af74a919e826c7b80a86
+    m_Address: Assets/HenryAssets/HenryBundle/VFX/BombExplosionEffect.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3534552e7829f9842ba3156065afc540
+    m_Address: Assets/HenryAssets/HenryBundle/VFX/HenrySwordSwingEffect.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 48eebb9268b618943a4b60bb011fb96d
+    m_Address: Assets/HenryAssets/HenryBundle/VFX/ImpactHenrySlash.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f1a82152954bc974895f8ff9f035f84f
+    m_Address: Assets/HenryAssets/HenryBundle/Animation/animHenry.controller
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4397b394b0996d44ba60f0f7769a33d1
+    m_Address: Assets/HenryAssets/HenryBundle/Animation/animHenryMenu.controller
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fee9d8e08c8c818498f7613f868f2e34
+    m_Address: Assets/HenryAssets/HenryBundle/Mesh/meshHenry.mesh
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e49dd36434c00024985424af2da4cedd
+    m_Address: Assets/HenryAssets/HenryBundle/Mesh/meshHenryAlt.mesh
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b6f91ba019353654992c4a536e207a87
+    m_Address: Assets/HenryAssets/HenryBundle/Icons/texMasteryAchievement.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4d32648010cd8714d980002a6b64b503
+    m_Address: Assets/HenryAssets/HenryBundle/Icons/texPrimaryIcon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 507751368e16e18409e1c93f8022eb8c
+    m_Address: Assets/HenryAssets/HenryBundle/Materials/matHenryAlt.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 06ba2d7b66b5a7c47ae54f402cb9e132
+    m_Address: Assets/HenryAssets/HenryBundle/Mesh/meshHenrySword.mesh
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7a3e4cd720806a248b00c548032956cd
+    m_Address: Assets/HenryAssets/HenryBundle/Mesh/meshHenrySwordAlt.mesh
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 95bb770c878495b4296296a4b09a6034
+    m_Address: Assets/HenryAssets/HenryBundle/Mesh/meshPistol.mesh
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 80780dc7c8eea2546b3509246a72a4ca, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 77f82c7e3cbaf14409034625ddc212d8, type: 2}
+    - {fileID: 11400000, guid: e8fe0695302af7946a4bf91079ca1b87, type: 2}
