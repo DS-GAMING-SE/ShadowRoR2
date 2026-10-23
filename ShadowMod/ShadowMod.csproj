@@ -23,6 +23,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Reference Include="EnemiesReturns">
+	    <HintPath>..\libs\EnemiesReturns.dll</HintPath>
+	  </Reference>
 	  <Reference Include="HedgehogUtils">
 	    <HintPath>..\libs\HedgehogUtils.dll</HintPath>
 	  </Reference>
@@ -40,6 +43,9 @@
 	  </Reference>
 	  <Reference Include="R2API.Core">
 	    <HintPath>..\libs\R2API.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="R2API.DamageType">
+	    <HintPath>..\libs\R2API.DamageType.dll</HintPath>
 	  </Reference>
 	  <Reference Include="R2API.Items">
 	    <HintPath>..\libs\R2API.Items.dll</HintPath>
@@ -62,11 +68,17 @@
 	  <Reference Include="R2API.Sound">
 	    <HintPath>..\libs\R2API.Sound.dll</HintPath>
 	  </Reference>
+	  <Reference Include="R2API.TempVisualEffect">
+	    <HintPath>..\libs\R2API.TempVisualEffect.dll</HintPath>
+	  </Reference>
 	  <Reference Include="R2API.Unlockable">
 	    <HintPath>..\libs\R2API.Unlockable.dll</HintPath>
 	  </Reference>
 	  <Reference Include="RiskOfOptions">
 	    <HintPath>..\libs\RiskOfOptions.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Postprocessing.Runtime">
+	    <HintPath>..\libs\Unity.Postprocessing.Runtime.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 

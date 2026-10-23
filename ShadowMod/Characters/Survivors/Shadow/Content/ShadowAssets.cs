@@ -15,6 +15,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public static GameObject swordSwingEffect;
         public static GameObject swordHitImpactEffect;
 
+        public static GameObject chaosSpearOrbEffect;
+
         public static GameObject boostFlashEffect;
         public static GameObject boostAuraEffect;
 
@@ -82,6 +84,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
             { swordSwingEffect = Asset.CreateEffect(x.Result, 1f, true, ""); };
             ShadowAssets.hitEffect.LoadAssetAsync().Completed += delegate (AsyncOperationHandle<GameObject> x)
             { swordHitImpactEffect = Asset.CreateEffect(x.Result, 1f); };
+
+            chaosSpearOrbEffect = RoR2.Orbs.OrbStorageUtility.Get("Prefabs/Effects/OrbEffects/BarrierOrbEffect");
 
             boostFlashEffect = HedgehogUtils.Assets.CreateBoostFlashEffect("ShadowBoostFlash", AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_ColorRamps.texRampDroneFire_png).WaitForCompletion(), ShadowSurvivor.shadowYellowColor);
             boostAuraEffect = HedgehogUtils.Assets.CreateBoostAuraEffect("ShadowBoostAura", AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_ColorRamps.texRampDroneFire_png).WaitForCompletion(), ShadowSurvivor.shadowYellowColor);

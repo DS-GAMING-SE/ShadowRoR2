@@ -10,7 +10,7 @@ description todo
 | Passive - **Passive Name** | <img src="https://github.com/DS-GAMING-SE/ShadowRoR2/blob/master/ShadowUnityProject/Assets/ShadowAssets/ShadowBundle/Icons/texPassiveSkillIcon.png?raw=true" width="128"> | Passive desc. |
 | Primary - **Primary Name** | <img src="https://github.com/DS-GAMING-SE/ShadowRoR2/blob/master/ShadowUnityProject/Assets/ShadowAssets/ShadowBundle/Icons/texChaosSnapSkillIcon.png?raw=true" width="128"> | Primary desc. |
 | Secondary - **Secondary Name**  | <img src="https://github.com/DS-GAMING-SE/ShadowRoR2/blob/master/ShadowUnityProject/Assets/ShadowAssets/ShadowBundle/Icons/texChaosSpearSkillIcon.png?raw=true" width="128"> | Secondary desc. <details>todo</details>  |
-| Utility - **Utility Name** | <img src="https://github.com/DS-GAMING-SE/ShadowRoR2/blob/master/ShadowUnityProject/Assets/SohadowAssets/ShadowBundle/Icons/texBoostSkillIcon.png?raw=true" width="128"> | Utility desc. <details>todo</details> |
+| Utility - **Utility Name** | <img src="https://github.com/DS-GAMING-SE/ShadowRoR2/blob/master/ShadowUnityProject/Assets/ShadowAssets/ShadowBundle/Icons/texBoostSkillIcon.png?raw=true" width="128"> | Utility desc. <details>todo</details> |
 | Special - **Special Name** | <img src="https://github.com/DS-GAMING-SE/ShadowRoR2/blob/master/ShadowUnityProject/Assets/ShadowAssets/ShadowBundle/Icons/texChaosBoostSkillIcon.png?raw=true" width="128"> | Special Desc.<details>todo</details> |
 
 # Compatible Mods

@@ -10,9 +10,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
             Modules.Content.AddEntityState(typeof(SlashCombo));
 
-            Modules.Content.AddEntityState(typeof(Shoot));
-
-            Modules.Content.AddEntityState(typeof(Roll));
+            Modules.Content.AddEntityState(typeof(ChaosSpear));
 
             Modules.Content.AddEntityState(typeof(Boost));
             Modules.Content.AddEntityState(typeof(BoostIdle));

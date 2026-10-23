@@ -25,7 +25,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
 
         public override void OnExit()
         {
-            homingTracker.visible = false;
+            if (base.isAuthority) homingTracker.visible = false;
             if (modelLocator)
             {
                 modelLocator.normalizeToFloor = false;

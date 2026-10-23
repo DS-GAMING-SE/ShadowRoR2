@@ -15,109 +15,114 @@ namespace ShadowMod.Characters.Survivors.Shadow
             baseAI.aimVectorMaxSpeed = 360;
 
             //mouse over these fields for tooltips
-            AISkillDriver swingDriver = master.AddComponent<AISkillDriver>();
+            AISkillDriver chaosSnapDriver = master.AddComponent<AISkillDriver>();
             //Selection Conditions
-            swingDriver.customName = "Use Primary Swing";
-            swingDriver.skillSlot = SkillSlot.Primary;
-            swingDriver.requiredSkill = null; //usually used when you have skills that override other skillslots like engi harpoons
-            swingDriver.requireSkillReady = false; //usually false for primaries
-            swingDriver.requireEquipmentReady = false;
-            swingDriver.minUserHealthFraction = float.NegativeInfinity;
-            swingDriver.maxUserHealthFraction = float.PositiveInfinity;
-            swingDriver.minTargetHealthFraction = float.NegativeInfinity;
-            swingDriver.maxTargetHealthFraction = float.PositiveInfinity;
-            swingDriver.minDistance = 0;
-            swingDriver.maxDistance = 8;
-            swingDriver.selectionRequiresTargetLoS = false;
-            swingDriver.selectionRequiresOnGround = false;
-            swingDriver.selectionRequiresAimTarget = false;
-            swingDriver.maxTimesSelected = -1;
+            chaosSnapDriver.customName = "Use Primary Chaos Snap";
+            chaosSnapDriver.skillSlot = SkillSlot.Primary;
+            chaosSnapDriver.requiredSkill = null; //usually used when you have skills that override other skillslots like engi harpoons
+            chaosSnapDriver.requireSkillReady = false; //usually false for primaries
+            chaosSnapDriver.requireEquipmentReady = false;
+            chaosSnapDriver.minUserHealthFraction = float.NegativeInfinity;
+            chaosSnapDriver.maxUserHealthFraction = float.PositiveInfinity;
+            chaosSnapDriver.minTargetHealthFraction = float.NegativeInfinity;
+            chaosSnapDriver.maxTargetHealthFraction = float.PositiveInfinity;
+            chaosSnapDriver.minDistance = 0;
+            chaosSnapDriver.maxDistance = 20;
+            chaosSnapDriver.selectionRequiresTargetLoS = true;
+            chaosSnapDriver.selectionRequiresOnGround = false;
+            chaosSnapDriver.selectionRequiresAimTarget = false;
+            chaosSnapDriver.maxTimesSelected = -1;
 
             //Behavior
-            swingDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
-            swingDriver.activationRequiresTargetLoS = false;
-            swingDriver.activationRequiresAimTargetLoS = false;
-            swingDriver.activationRequiresAimConfirmation = false;
-            swingDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
-            swingDriver.moveInputScale = 1;
-            swingDriver.aimType = AISkillDriver.AimType.AtMoveTarget;
-            swingDriver.ignoreNodeGraph = false; //will chase relentlessly but be kind of stupid
-            swingDriver.shouldSprint = false; 
-            swingDriver.shouldFireEquipment = false;
-            swingDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold; 
+            chaosSnapDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            chaosSnapDriver.activationRequiresTargetLoS = true;
+            chaosSnapDriver.activationRequiresAimTargetLoS = true;
+            chaosSnapDriver.activationRequiresAimConfirmation = true;
+            chaosSnapDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
+            chaosSnapDriver.moveInputScale = 1;
+            chaosSnapDriver.aimType = AISkillDriver.AimType.AtMoveTarget;
+            chaosSnapDriver.ignoreNodeGraph = false; //will chase relentlessly but be kind of stupid
+            chaosSnapDriver.shouldSprint = true; 
+            chaosSnapDriver.shouldFireEquipment = false;
+            chaosSnapDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold; 
 
             //Transition Behavior
-            swingDriver.driverUpdateTimerOverride = -1;
-            swingDriver.resetCurrentEnemyOnNextDriverSelection = false;
-            swingDriver.noRepeat = false;
-            swingDriver.nextHighPriorityOverride = null;
+            chaosSnapDriver.driverUpdateTimerOverride = -1;
+            chaosSnapDriver.resetCurrentEnemyOnNextDriverSelection = false;
+            chaosSnapDriver.noRepeat = false;
+            chaosSnapDriver.nextHighPriorityOverride = null;
 
             //some fields omitted that aren't commonly changed. will be set to default values
-            AISkillDriver shootDriver = master.AddComponent<AISkillDriver>();
+            AISkillDriver chaosSpearDriver = master.AddComponent<AISkillDriver>();
             //Selection Conditions
-            shootDriver.customName = "Use Secondary Shoot";
-            shootDriver.skillSlot = SkillSlot.Secondary;
-            shootDriver.requireSkillReady = true;
-            shootDriver.minDistance = 0;
-            shootDriver.maxDistance = 25;
-            shootDriver.selectionRequiresTargetLoS = false;
-            shootDriver.selectionRequiresOnGround = false;
-            shootDriver.selectionRequiresAimTarget = false;
-            shootDriver.maxTimesSelected = -1;
+            chaosSpearDriver.customName = "Use Secondary Chaos Spear";
+            chaosSpearDriver.skillSlot = SkillSlot.Secondary;
+            chaosSpearDriver.requireSkillReady = true;
+            chaosSpearDriver.minDistance = 0;
+            chaosSpearDriver.maxDistance = 30;
+            chaosSpearDriver.selectionRequiresTargetLoS = true;
+            chaosSpearDriver.selectionRequiresOnGround = false;
+            chaosSpearDriver.selectionRequiresAimTarget = false;
+            chaosSpearDriver.maxTimesSelected = -1;
 
             //Behavior
-            shootDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
-            shootDriver.activationRequiresTargetLoS = false;
-            shootDriver.activationRequiresAimTargetLoS = false;
-            shootDriver.activationRequiresAimConfirmation = true;
-            shootDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
-            shootDriver.moveInputScale = 1;
-            shootDriver.aimType = AISkillDriver.AimType.AtMoveTarget;
-            shootDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold; 
+            chaosSpearDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            chaosSpearDriver.activationRequiresTargetLoS = true;
+            chaosSpearDriver.activationRequiresAimTargetLoS = true;
+            chaosSpearDriver.activationRequiresAimConfirmation = true;
+            chaosSpearDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
+            chaosSpearDriver.moveInputScale = 1;
+            chaosSpearDriver.aimType = AISkillDriver.AimType.AtMoveTarget;
+            chaosSpearDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+
+            chaosSpearDriver.nextHighPriorityOverride = chaosSnapDriver;
             
-            AISkillDriver rollDriver = master.AddComponent<AISkillDriver>();
+            AISkillDriver boostDriver = master.AddComponent<AISkillDriver>();
             //Selection Conditions
-            rollDriver.customName = "Use Utility Roll";
-            rollDriver.skillSlot = SkillSlot.Utility;
-            rollDriver.requireSkillReady = true;
-            rollDriver.minDistance = 8;
-            rollDriver.maxDistance = 20;
-            rollDriver.selectionRequiresTargetLoS = true;
-            rollDriver.selectionRequiresOnGround = false;
-            rollDriver.selectionRequiresAimTarget = false;
-            rollDriver.maxTimesSelected = -1;
+            boostDriver.customName = "Use Utility Boost";
+            boostDriver.skillSlot = SkillSlot.Utility;
+            boostDriver.requireSkillReady = true;
+            boostDriver.minDistance = 8;
+            boostDriver.maxDistance = 20;
+            boostDriver.selectionRequiresTargetLoS = true;
+            boostDriver.selectionRequiresOnGround = false;
+            boostDriver.selectionRequiresAimTarget = false;
+            boostDriver.maxTimesSelected = -1;
 
             //Behavior
-            rollDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
-            rollDriver.activationRequiresTargetLoS = false;
-            rollDriver.activationRequiresAimTargetLoS = false;
-            rollDriver.activationRequiresAimConfirmation = false;
-            rollDriver.movementType = AISkillDriver.MovementType.StrafeMovetarget;
-            rollDriver.moveInputScale = 1;
-            rollDriver.aimType = AISkillDriver.AimType.AtMoveTarget;
-            rollDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            boostDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            boostDriver.activationRequiresTargetLoS = false;
+            boostDriver.activationRequiresAimTargetLoS = false;
+            boostDriver.activationRequiresAimConfirmation = false;
+            boostDriver.movementType = AISkillDriver.MovementType.StrafeMovetarget;
+            boostDriver.moveInputScale = 1;
+            boostDriver.aimType = AISkillDriver.AimType.AtMoveTarget;
+            boostDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            boostDriver.noRepeat = true;
 
-            AISkillDriver bombDriver = master.AddComponent<AISkillDriver>();
+            AISkillDriver chaosBoostDriver = master.AddComponent<AISkillDriver>();
             //Selection Conditions
-            bombDriver.customName = "Use Special bomb";
-            bombDriver.skillSlot = SkillSlot.Special;
-            bombDriver.requireSkillReady = true;
-            bombDriver.minDistance = 0;
-            bombDriver.maxDistance = 20;
-            bombDriver.selectionRequiresTargetLoS = false;
-            bombDriver.selectionRequiresOnGround = false;
-            bombDriver.selectionRequiresAimTarget = false;
-            bombDriver.maxTimesSelected = -1;
+            chaosBoostDriver.customName = "Use Special Chaos Boost";
+            chaosBoostDriver.skillSlot = SkillSlot.Special;
+            chaosBoostDriver.requireSkillReady = true;
+            chaosBoostDriver.minDistance = 0;
+            chaosBoostDriver.maxDistance = 10;
+            chaosBoostDriver.selectionRequiresTargetLoS = false;
+            chaosBoostDriver.selectionRequiresOnGround = false;
+            chaosBoostDriver.selectionRequiresAimTarget = false;
+            chaosBoostDriver.maxTimesSelected = -1;
+            chaosBoostDriver.maxUserHealthFraction = 0.5f;
 
             //Behavior
-            bombDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
-            bombDriver.activationRequiresTargetLoS = false;
-            bombDriver.activationRequiresAimTargetLoS = false;
-            bombDriver.activationRequiresAimConfirmation = false;
-            bombDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
-            bombDriver.moveInputScale = 1;
-            bombDriver.aimType = AISkillDriver.AimType.AtMoveTarget;
-            bombDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
+            chaosBoostDriver.moveTargetType = AISkillDriver.TargetType.CurrentEnemy;
+            chaosBoostDriver.selectionRequiresAimConfirmationByEnemy = true;
+            chaosBoostDriver.activationRequiresTargetLoS = false;
+            chaosBoostDriver.activationRequiresAimTargetLoS = false;
+            chaosBoostDriver.activationRequiresAimConfirmation = false;
+            chaosBoostDriver.movementType = AISkillDriver.MovementType.ChaseMoveTarget;
+            chaosBoostDriver.moveInputScale = 1;
+            chaosBoostDriver.aimType = AISkillDriver.AimType.AtMoveTarget;
+            chaosBoostDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
 
             AISkillDriver chaseDriver = master.AddComponent<AISkillDriver>();
             //Selection Conditions

@@ -112,6 +112,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
             ShadowAssets.Init();
             ShadowBuffs.Init();
+            ShadowDamageTypes.Initialize();
+            KillCooldownSkillDef.Init();
 
             InitializeEntityStateMachines();
             InitializeSkills();
@@ -249,19 +251,19 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, SkillSlot.Secondary);
 
             //here is a basic skill def with all fields accounted for
-            SkillDef secondarySkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
+            SkillDef secondarySkillDef1 = Skills.CreateSkillDef<TrackingSkillDef>(new SkillDefInfo
             {
                 skillName = "ShadowChaosSpear",
                 skillNameToken = SHADOW_PREFIX + "SECONDARY_CHAOS_SPEAR_NAME",
                 skillDescriptionToken = SHADOW_PREFIX + "SECONDARY_CHAOS_SPEAR_DESCRIPTION",
-                keywordTokens = ["KEYWORD_AGILE"],
+                keywordTokens = ["KEYWORD_SHOCKING", SHADOW_PREFIX + "KEYWORD_HOMING", "KEYWORD_AGILE", SHADOW_PREFIX + "KEYWORD_CHAOS_MARK"],
                 skillIcon = ShadowAssets.chaosSpearSkillIcon.LoadAssetAsync().WaitForCompletion(),
 
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Shoot)),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(ChaosSpear)),
                 activationStateMachineName = "Weapon",
                 interruptPriority = EntityStates.InterruptPriority.Skill,
 
-                baseRechargeInterval = 1f,
+                baseRechargeInterval = ShadowStaticValues.chaosSpearCooldown,
                 baseMaxStock = 1,
 
                 rechargeStock = 1,
@@ -271,14 +273,13 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 resetCooldownTimerOnUse = false,
                 fullRestockOnAssign = true,
                 dontAllowPastMaxStocks = false,
-                mustKeyPress = false,
+                mustKeyPress = true,
                 beginSkillCooldownOnSkillEnd = false,
 
                 isCombatSkill = true,
                 canceledFromSprinting = false,
                 cancelSprintingOnActivation = false,
-                forceSprintDuringState = false,
-
+                forceSprintDuringState = false
             });
 
             Skills.AddSecondarySkills(bodyPrefab, secondarySkillDef1);
@@ -336,21 +337,30 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, SkillSlot.Special);
 
             //a basic skill. some fields are omitted and will just have default values
-            SkillDef specialSkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
+            SkillDef specialSkillDef1 = Skills.CreateSkillDef<KillCooldownSkillDef>(new SkillDefInfo
             {
                 skillName = "ShadowChaosBoost",
                 skillNameToken = SHADOW_PREFIX + "SPECIAL_CHAOS_BOOST_NAME",
                 skillDescriptionToken = SHADOW_PREFIX + "SPECIAL_CHAOS_BOOST_DESCRIPTION",
                 skillIcon = ShadowAssets.chaosBoostSkillIcon.LoadAssetAsync().WaitForCompletion(),
+                keywordTokens = [SHADOW_PREFIX + "KEYWORD_KILL_COOLDOWN", SHADOW_PREFIX + "KEYWORD_CHAOS_MARK"],
 
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ThrowBomb)),
-                activationStateMachineName = "Weapon", interruptPriority = EntityStates.InterruptPriority.Skill,
+                activationStateMachineName = "Weapon",
+                interruptPriority = EntityStates.InterruptPriority.PrioritySkill,
 
                 baseMaxStock = 1,
-                baseRechargeInterval = 10f,
+                baseRechargeInterval = ShadowStaticValues.chaosBoostKillsToCharge,
 
+                rechargeStock = int.MaxValue,
+                requiredStock = 1,
+                stockToConsume = int.MaxValue,
+
+                fullRestockOnAssign = false,
                 isCombatSkill = true,
-                mustKeyPress = false,
+                mustKeyPress = true,
+
+                //hideStockCount = true
             });
 
             Skills.AddSpecialSkills(bodyPrefab, specialSkillDef1);

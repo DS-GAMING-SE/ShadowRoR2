@@ -13,7 +13,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
     {
         public static void Init()
         {
-            AddHenryTokens();
+            AddShadowTokens();
 
             ////uncomment this to spit out a lanuage file with all the above tokens that people can translate
             ////make sure you set Language.usingLanguageFolder and printingEnabled to true
@@ -21,7 +21,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             ////refer to guide on how to build and distribute your mod with the proper folders
         }
 
-        public static void AddHenryTokens()
+        public static void AddShadowTokens()
         {
             string prefix = ShadowSurvivor.SHADOW_PREFIX;
 
@@ -46,8 +46,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
             #endregion
 
             #region Common Keywords
-
-
+            Language.Add(prefix + "KEYWORD_HOMING", $"{KeywordText("Homing", "Targets the enemy closest to the crosshair, indicated by the reticle.")}");
+            Language.Add(prefix + "KEYWORD_CHAOS_MARK", $"{KeywordText("Chaos Mark", $"Use {UtilityText("Chaos Snap")} to consume the mark and bypass the move's cooldown.")}");
             #endregion
 
             #region Passive
@@ -57,12 +57,12 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
             #region Primary
             Language.Add(prefix + "PRIMARY_CHAOS_SNAP_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Snap");
-            Language.Add(prefix + "PRIMARY_CHAOS_SNAP_DESCRIPTION", agilePrefix + $"Swing forward for <style=cIsDamage>{100f * swordDamageCoefficient}% damage</style>.");
+            Language.Add(prefix + "PRIMARY_CHAOS_SNAP_DESCRIPTION", $"{UtilityText("Homing")}. Teleport to the target and pummel them while the skill is held, repeatedly dealing {DamageValueText(chaosSnapPummelDamageCoefficient)}. Release to deal {DamageValueText(chaosSnapFinalDamageCoefficient)} and {UtilityText("Launch")} the target. Use your {UtilityText("secondary skill")} to {UtilityText("Launch")} the target up. Use your {UtilityText("utility skill")} to teleport away from or behind the target.");
             #endregion
 
             #region Secondary
-            Language.Add(prefix + "SECONDARY_CHAOS_SPEAR_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Spear");
-            Language.Add(prefix + "SECONDARY_CHAOS_SPEAR_DESCRIPTION", agilePrefix + $"Fire a handgun for <style=cIsDamage>{100f * gunDamageCoefficient}% damage</style>.");
+            Language.Add(prefix + "SECONDARY_CHAOS_SPEAR_NAME", $"Chaos Spear");
+            Language.Add(prefix + "SECONDARY_CHAOS_SPEAR_DESCRIPTION", DamageText("Shocking")+". "+ UtilityText("Homing")+". " + agilePrefix + $"Fire a Chaos Spear dealing {DamageValueText(chaosSpearDamageCoefficient)} and applying a {UtilityText("Chaos Mark")}.");
             #endregion
 
             #region Utility
@@ -71,9 +71,11 @@ namespace ShadowMod.Characters.Survivors.Shadow
             #endregion
 
             #region Special
-            Language.Add(prefix + "SPECIAL_CHAOS_BOOST_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Boost");
-            Language.Add(prefix + "SPECIAL_CHAOS_BOOST_DESCRIPTION", $"Throw a bomb for <style=cIsDamage>{100f * bombDamageCoefficient}% damage</style>.");
+            Language.Add(prefix + "KEYWORD_KILL_COOLDOWN", $"{KeywordText("kill cooldown", $"This skill's cooldown is only charged by killing enemies. Additional skill stocks increase the move's duration.")}");
 
+            Language.Add(prefix + "SPECIAL_CHAOS_BOOST_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Boost");
+            Language.Add(prefix + "SPECIAL_CHAOS_BOOST_DESCRIPTION", $"{RedText("kill cooldown")}. Release a burst of energy dealing {DamageValueText(chaosBoostDamageCoefficient)} and applying {UtilityText("Chaos Marks")}. Enhance your --stats-- for {UtilityText(chaosBoostMaxDuration+"s")}. Killing enough enemies will {UtilityText("upgrade")} the effect and reset its duration.");
+            // Make Chaos Boost apply Chaos Marks to all nearby enemies?
             Language.Add(prefix + "SPECIAL_CHAOS_BLAST_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Blast");
             Language.Add(prefix + "SPECIAL_CHAOS_BLAST_DESCRIPTION", $"{HedgehogUtils.Helpers.wipIcon}");
 
