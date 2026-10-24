@@ -83,6 +83,11 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Language.Add(prefix + "SPECIAL_CHAOS_CONTROL_DESCRIPTION", $"{HedgehogUtils.Helpers.wipIcon}");
             #endregion
 
+            #region Paths
+            Language.Add(prefix + "HERO_PICKUP_SUFFIX", $"{UtilityText("HERO: The Chaos Emeralds enhance your innate chaos abilities, increasing the range of your Homing skills.")}");
+            Language.Add(prefix + "DARK_PICKUP_SUFFIX", $"{RedText("DARK: Black Doom's power has permanently altered you, granting increased stats and more aggressive skills.")}");
+            #endregion
+
             Language.Add(prefix + "VOICELINES_ENABLE_DESCRIPTION", $"Voicelines recorded by {UtilityText("MotherEggVA")}.");
 
             #region Achievements

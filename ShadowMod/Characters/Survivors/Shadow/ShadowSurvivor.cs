@@ -5,6 +5,7 @@ using RoR2.ContentManagement;
 using RoR2.Skills;
 using ShadowMod.Characters.Survivors.Shadow.Components;
 using ShadowMod.Characters.Survivors.Shadow.SkillStates;
+using ShadowMod.Characters.Survivors.Shadow.SkillStates.DoomPowerUpgrades;
 using ShadowMod.Modules;
 using ShadowMod.Modules.Characters;
 using System;
@@ -119,6 +120,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
             InitializeSkills();
             InitializeSkins();
             InitializeCharacterMaster();
+
+            Paths.Items.Init();
 
             AdditionalBodySetup();
 

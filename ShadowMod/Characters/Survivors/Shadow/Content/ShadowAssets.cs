@@ -6,6 +6,9 @@ using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using R2API;
+using UnityEngine.UI;
+using RoR2.UI;
 
 namespace ShadowMod.Characters.Survivors.Shadow
 {
@@ -22,6 +25,9 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
         public static GameObject bombExplosionEffect;
 
+        public static GameObject pathItemHeroNotificationPrefab;
+        public static GameObject pathItemDarkNotificationPrefab;
+
         // networked hit sounds
         public static NetworkSoundEventDef swordHitSoundEvent;
 
@@ -36,7 +42,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public static AssetReferenceT<RuntimeAnimatorController> displayAnimator = new AssetReferenceT<RuntimeAnimatorController>("4397b394b0996d44ba60f0f7769a33d1");
         public static AssetReferenceT<Avatar> animatorAvatar = new AssetReferenceT<Avatar>("3f55d8352b2212743b809db2974cdd5e");
 
-        public static AssetReferenceTexture characterIcon = new AssetReferenceTexture("33c89ac909113894280a0cfd14c99f2e");
+        public static AssetReferenceTexture characterIcon = new AssetReferenceTexture("fbdab69c75e3cd94596054335b2c2744");
         public static AssetReferenceSprite passiveSkillIcon = new AssetReferenceSprite("9fcf79bda87678d4e80f4eb6462e4fdf");
         public static AssetReferenceSprite chaosSnapSkillIcon = new AssetReferenceSprite("89141efa71806744d9caf29b253b0d33");
         public static AssetReferenceSprite chaosSpearSkillIcon = new AssetReferenceSprite("18f6e1df055a2dd4085e66d3d3c5979e");
@@ -47,16 +53,18 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public static AssetReferenceSprite voicelineEnableSkillIcon = new AssetReferenceSprite("c2cc0e85354a76044a13ee6e9667480a");
         public static AssetReferenceSprite voicelineDisableSkillIcon = new AssetReferenceSprite("13162ebc3e59e934eaf3c5aa849b2948");
 
+        public static AssetReferenceT<Sprite> shadowLogoIcon = new("eec1a2a0d7c225548aa2ba6f9c8a5531");
+
         public static AssetReferenceT<Material> defaultSkinMaterial = new AssetReferenceT<Material>("14d6d121af8aca345b797120c5f6331b");
         public static AssetReferenceT<Mesh> defaultSkinMesh = new AssetReferenceT<Mesh>("fee9d8e08c8c818498f7613f868f2e34");
         public static AssetReferenceT<Mesh> defaultSkinSwordMesh = new AssetReferenceT<Mesh>("06ba2d7b66b5a7c47ae54f402cb9e132");
         public static AssetReferenceT<Mesh> defaultSkinGunMesh = new AssetReferenceT<Mesh>("95bb770c878495b4296296a4b09a6034");
-        public static AssetReferenceSprite defaultSkinIcon = new AssetReferenceSprite("e0bd4029a2d0049499dc8c6d68c3716b");
+        public static AssetReferenceSprite defaultSkinIcon = new AssetReferenceSprite("0be3f4ea9f44e3d4da982f8a0fca23a9");
 
         public static AssetReferenceT<Material> masterySkinMaterial = new AssetReferenceT<Material>("507751368e16e18409e1c93f8022eb8c");
         public static AssetReferenceT<Mesh> masterySkinMesh = new AssetReferenceT<Mesh>("e49dd36434c00024985424af2da4cedd");
         public static AssetReferenceT<Mesh> masterySkinSwordMesh = new AssetReferenceT<Mesh>("7a3e4cd720806a248b00c548032956cd");
-        public static AssetReferenceSprite masterySkinIcon = new AssetReferenceSprite("b6f91ba019353654992c4a536e207a87");
+        public static AssetReferenceSprite masterySkinIcon = new AssetReferenceSprite("639a10fc5e926d644a0bfc95000aaa8d");
 
         public static AssetReferenceT<GameObject> projectileGhost = new AssetReferenceT<GameObject>("2b1ae6eb92856db41a261cf5336101dc");
 
@@ -89,6 +97,47 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
             boostFlashEffect = HedgehogUtils.Assets.CreateBoostFlashEffect("ShadowBoostFlash", AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_ColorRamps.texRampDroneFire_png).WaitForCompletion(), ShadowSurvivor.shadowYellowColor);
             boostAuraEffect = HedgehogUtils.Assets.CreateBoostAuraEffect("ShadowBoostAura", AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_ColorRamps.texRampDroneFire_png).WaitForCompletion(), ShadowSurvivor.shadowYellowColor);
+
+            Material pathItemNotificationBackgroundMat = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_UI.matUIIconDronePurchase_mat).WaitForCompletion());
+            pathItemNotificationBackgroundMat.name = "matUIShadowPathItemBackground";
+            pathItemNotificationBackgroundMat.SetColor("_Color", Color.white);
+            pathItemNotificationBackgroundMat.SetFloat("_PatternPixelSize", 90f);
+            pathItemNotificationBackgroundMat.SetTexture("_OverlayTex", AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_TiledTextures.texCloudDifferenceBW2_png).WaitForCompletion());
+            pathItemHeroNotificationPrefab = CreatePathItemNotificationPrefab("ShadowPathItemHeroNotificationPanel", new Color32(149, 205, 229, 255), pathItemNotificationBackgroundMat);
+            pathItemDarkNotificationPrefab = CreatePathItemNotificationPrefab("ShadowPathItemDarkNotificationPanel", new Color32(254, 124, 124, 255), pathItemNotificationBackgroundMat);
+            // Captain tazer for blue part of Chaos Blast
+        }
+
+        private static GameObject CreatePathItemNotificationPrefab(string name, Color color, Material mat)
+        {
+            GameObject prefab = PrefabAPI.InstantiateClone(AssetAsyncReferenceManager<GameObject>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_UI.DroneRepairNotificationPanel_prefab).WaitForCompletion(), name, false);
+            Transform canvas = prefab.transform.Find("CanvasGroup");
+            Transform bgTransform = canvas.Find("IconArea/BG");
+            if (bgTransform)
+            {
+                if (bgTransform.TryGetComponent<AsyncImage>(out var asyncImage))
+                {
+                    asyncImage.Clear();
+                    asyncImage.SetAddress(shadowLogoIcon);
+                }
+                if (bgTransform.TryGetComponent<RawImage>(out var image))
+                {
+                    image.color = color;
+                    image.material = mat;
+                    image.texture = AssetAsyncReferenceManager<Sprite>.LoadAsset(shadowLogoIcon).WaitForCompletion().texture;
+                }
+                ((RectTransform)bgTransform).sizeDelta = new Vector2(96, 96);
+            }
+            else
+            {
+                Log.Error("Background not found on PathItemNotificationPrefab");
+            }
+            Transform flashTransform = canvas.Find("Flash");
+            if (flashTransform && flashTransform.TryGetComponent<RawImage>(out var flashImage))
+            {
+                flashImage.color = color;
+            }
+            return prefab;
         }
 
         private static void CreateBombExplosionEffect(GameObject prefab)

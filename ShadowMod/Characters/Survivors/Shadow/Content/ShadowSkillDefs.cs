@@ -45,7 +45,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             public GenericSkill skillSlot;
             public void OnKilledOther(DamageReport damageReport)
             {
-                if (damageReport.attackerBody && damageReport.attackerBody == skillSlot.characterBody)
+                if (damageReport.attackerBody && damageReport.attackerBody == skillSlot.characterBody && skillSlot.cooldownRemaining > 0)
                 {
                     RoR2.Orbs.OrbManager.instance.AddOrb(new KillCooldownOrb { origin = damageReport.victimBody.mainHurtBox.transform.position, target = damageReport.attackerBody.mainHurtBox });
                 }

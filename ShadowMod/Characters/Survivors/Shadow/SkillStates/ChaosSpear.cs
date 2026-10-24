@@ -13,9 +13,9 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
     public class ChaosSpear : BaseState
     {
         private HomingTracker homingTracker;
-        private HurtBox[] targets;
+        private List<HurtBox> targets;
 
-        public virtual int numAttacks { get { return 1; } }
+        public virtual int maxAttacks { get { return 1; } }
 
         protected const float baseDuration = 0.6f;
         protected const float baseTimeBetweenAttacks = 0.05f;
@@ -23,6 +23,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         protected float duration;
         protected float timeBetweenAttacks;
 
+        protected int numAttacks;
         protected int attackCount;
 
         public override void OnEnter()
@@ -33,8 +34,9 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             if (isAuthority)
             {
                 homingTracker = GetComponent<HomingTracker>();
-                targets = new HurtBox[numAttacks];
-                targets[0] = homingTracker.GetTrackingTarget();
+                targets = new List<HurtBox>();
+                homingTracker.GetTrackingTargets(targets, maxAttacks);
+                numAttacks = targets.Count;
                 homingTracker.locked = true;
             }
             FireSpearVFX();
@@ -101,16 +103,20 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         public override void OnSerialize(NetworkWriter writer)
         {
             base.OnSerialize(writer);
-            writer.WritePackedIndex32(numAttacks);
-            writer.Write(homingTracker.GetTrackingTarget());
+            writer.WritePackedIndex32(targets.Count);
+            foreach (var target in targets)
+            {
+                writer.Write(target);
+            }
         }
         public override void OnDeserialize(NetworkReader reader)
         {
             base.OnDeserialize(reader);
-            targets = new HurtBox[reader.ReadPackedIndex32()];
-            for (int i = 0; i < targets.Length; i++)
+            numAttacks = reader.ReadPackedIndex32();
+            targets = new List<HurtBox>(numAttacks);
+            for (int i = 0; i < numAttacks; i++)
             {
-                targets[i] = reader.ReadHurtBoxReference().ResolveHurtBox();
+                targets.Add(reader.ReadHurtBoxReference().ResolveHurtBox());
             }
         }
     }

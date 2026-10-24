@@ -1,4 +1,6 @@
 ﻿using ShadowMod.Characters.Survivors.Shadow.SkillStates;
+using ShadowMod.Characters.Survivors.Shadow.SkillStates.DoomPowerUpgrades;
+//using ShadowMod.Characters.Survivors.Shadow.SkillStates.SuperFormUpgrades;
 
 namespace ShadowMod.Characters.Survivors.Shadow
 {
@@ -17,6 +19,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Modules.Content.AddEntityState(typeof(Brake));
 
             Modules.Content.AddEntityState(typeof(ThrowBomb));
+
+            Modules.Content.AddEntityState(typeof(DoomSpear));
         }
     }
 }

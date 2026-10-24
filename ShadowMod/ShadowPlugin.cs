@@ -5,11 +5,13 @@ using RoR2;
 using System.Collections.Generic;
 using System.Security;
 using System.Security.Permissions;
+using HG.Reflection;
 
 [module: UnverifiableCode]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
 
 //rename this namespace
+[assembly: SearchableAttribute.OptIn]
 namespace ShadowMod
 {
     [BepInDependency("com.bepis.r2api.content_management", BepInDependency.DependencyFlags.HardDependency)]

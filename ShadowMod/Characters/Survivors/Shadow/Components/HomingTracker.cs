@@ -5,14 +5,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using static UnityEngine.UIElements.StylePropertyAnimationSystem;
 
 namespace ShadowMod.Characters.Survivors.Shadow.Components
 {
     public class HomingTracker : MonoBehaviour, ITargetTracker
     {
-        private Indicator indicator;
-        private LockOnIndicator lockOnIndicator;
-        private bool lockOnIndicatorFound;
+        private IndicatorPair[] indicators;
+        private bool allIndicatorsInitialized;
+        public int maxTargets
+        {
+            get { return _maxTargets; }
+            set 
+            {
+                value = Math.Max(value, 1);
+                UpdateIndicatorCount(value);
+                _maxTargets = value;
+            }
+        }
+        private int _maxTargets = 1;
 
         public bool visible;
         public bool locked
@@ -23,7 +34,10 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
                 _locked = value;
                 if (visible)
                 {
-                    IndicatorRetarget(lockOnIndicator);
+                    foreach (var indicator in indicators)
+                    {
+                        IndicatorRetarget(indicator);
+                    }
                 }
             }
         }
@@ -35,85 +49,147 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
 
         private BullseyeSearch search = new BullseyeSearch();
 
-        private Transform previousTarget;
-        private HurtBox trackingTarget;
-
         private float trackerUpdateStopwatch;
-        private float trackerUpdateFrequency = 10f;
+        private float trackerUpdateFrequency = 8f;
+
+        private static Vector3 secondaryIndicatorScale = new Vector3(0.6f, 0.6f, 0.6f);
+
+        private Color primaryColor;
+        private Color secondaryColor;
 
         public float maxRange { get; private set; }
 
         private void Awake()
         {
-            this.indicator = new Indicator(base.gameObject, HedgehogUtils.Assets.lockOnIndicator); //LegacyResourcesAPI.Load<GameObject>("Prefabs/HuntressTrackingIndicator")
+            indicators = new IndicatorPair[maxTargets];
+            for (int i = 0; i < indicators.Length; i++)
+            {
+                indicators[i] = new IndicatorPair { indicator = new Indicator(base.gameObject, HedgehogUtils.Assets.lockOnIndicator), primary = i == 0 };
+            }
+            allIndicatorsInitialized = false;
             this.characterBody = base.GetComponent<CharacterBody>();
             characterBody.onRecalculateStats += RecalculateHomingStats;
             this.inputBank = base.GetComponent<InputBankTest>();
             this.teamComponent = base.GetComponent<TeamComponent>();
+            ResetColors();
         }
 
         public HurtBox GetTrackingTarget()
         {
-            return this.trackingTarget;
+            return indicators[0].target;
+        }
+        public void GetTrackingTargets(List<HurtBox> results, int max = -1)
+        {
+            HG.ListUtils.EnsureCapacity(results, Math.Min(_maxTargets, max));
+            foreach (var indicator in indicators)
+            {
+                if (indicator.target)
+                {
+                    results.Add(indicator.target);
+                }
+                if (results.Count >= Math.Min(_maxTargets, max)) break;
+            }
         }
         private void OnEnable()
         {
-            this.indicator.active = true;
-            if (this.indicator.hasVisualizer)
+            foreach (var indicator in indicators)
             {
-                InitializeIndicator();
+                indicator.indicator.active = true;
+                if (!indicator.initialized && indicator.indicator.hasVisualizer)
+                {
+                    InitializeIndicator(indicator);
+                }
             }
             RecalculateHomingStats(characterBody);
         }
-        private void InitializeIndicator()
+        private void InitializeIndicator(IndicatorPair indicator)
         {
-            this.lockOnIndicator = this.indicator.visualizerInstance.GetComponent<LockOnIndicator>();
+            LockOnIndicator lockOnIndicator = indicator.indicator.visualizerInstance.GetComponent<LockOnIndicator>();
+            if (!indicator.primary)
+            {
+                indicator.indicator.visualizerInstance.transform.localScale = secondaryIndicatorScale;
+            }
+            indicator.initialized = true;
+            indicator.lockOnIndicator = lockOnIndicator;
             if (lockOnIndicator)
             {
-                lockOnIndicatorFound = true;
-                ResetColors();
+                UpdateColors(indicator);
             }
         }
         public void ResetColors()
         {
-            if (lockOnIndicator)
+            SetColors(ShadowSurvivor.shadowYellowColor, ShadowSurvivor.shadowRedColor);
+        }
+        public void SetColors(Color primary, Color secondary)
+        {
+            primaryColor = primary;
+            secondaryColor = secondary;
+            UpdateColors();
+        }
+        private void UpdateColors()
+        {
+            foreach (var indicator in indicators)
             {
-                lockOnIndicator.SetColors(ShadowSurvivor.shadowYellowColor, ShadowSurvivor.shadowRedColor);
+                if (indicator.lockOnIndicator) indicator.lockOnIndicator.SetColors(primaryColor, secondaryColor);
             }
         }
-        public void SetColors(Color color, Color color2)
+        private void UpdateColors(IndicatorPair indicator)
         {
-            if (lockOnIndicator)
-            {
-                lockOnIndicator.SetColors(color, color2);
-            }
+            if (indicator.lockOnIndicator) indicator.lockOnIndicator.SetColors(primaryColor, secondaryColor);
         }
         private void OnDisable()
         {
-            this.indicator.active = false;
+            foreach (var indicator in indicators)
+            {
+                indicator.indicator.active = false;
+            }
         }
 
         private void FixedUpdate()
         {
             if (!Util.HasEffectiveAuthority(base.gameObject)) return;
-            if (!lockOnIndicatorFound && this.indicator.hasVisualizer) { InitializeIndicator(); }
+            if (!allIndicatorsInitialized)
+            {
+                bool init = true;
+                foreach (var indicator in indicators)
+                {
+                    if (!indicator.initialized)
+                    {
+                        if (indicator.indicator.hasVisualizer)
+                        {
+                            InitializeIndicator(indicator);
+                        }
+                        else
+                        {
+                            init = false;
+                        }
+                    }
+                }
+                allIndicatorsInitialized = init;
+            }
             this.trackerUpdateStopwatch += Time.fixedDeltaTime;
-            if (this.trackerUpdateStopwatch >= 1f / this.trackerUpdateFrequency)
+            if (this.trackerUpdateStopwatch >= 1f / this.trackerUpdateFrequency && !locked)
             {
                 this.trackerUpdateStopwatch = 0;
                 this.SearchForTarget(inputBank.GetAimRay());
                 if (visible)
                 {
-                    if (!locked)
+                    foreach (var indicator in indicators)
                     {
-                        IndicatorRetarget(lockOnIndicator);
+                        IndicatorRetarget(indicator);
                     }
                 }
                 else
                 {
-                    this.indicator.targetTransform = null;
+                    foreach (var indicator in indicators)
+                    {
+                        indicator.indicator.targetTransform = null;
+                    }
                 }
-                previousTarget = this.indicator.targetTransform;
+                for (int i = 0; i < maxTargets; i ++)
+                {
+                    indicators[i].previousTarget = indicators[i].indicator.targetTransform;
+                }
             }
         }
         private void SearchForTarget(Ray aimRay)
@@ -128,15 +204,49 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
             this.search.maxAngleFilter = 12;
             this.search.RefreshCandidates();
             this.search.FilterOutGameObject(base.gameObject);
-            this.trackingTarget = this.search.GetResults().FirstOrDefault(hurt => hurt && hurt.healthComponent && hurt.healthComponent.body && hurt.healthComponent.alive);
-        }
-        private void IndicatorRetarget(LockOnIndicator indicator)
-        {
-            this.indicator.targetTransform = trackingTarget ? this.trackingTarget.transform : null;
-            if (indicator && this.indicator.targetTransform && (!previousTarget || this.indicator.targetTransform != previousTarget))
+            int targetedCount = 0;
+            foreach (var indicator in indicators)
             {
-                indicator.UpdateTarget();
+                indicator.target = null;
+            }
+            foreach (var hurt in search.GetResults())
+            {
+                if (hurt && hurt.healthComponent && hurt.healthComponent.body && hurt.healthComponent.alive)
+                {
+                    indicators[targetedCount++].target = hurt;
+                }
+                if (targetedCount >= indicators.Length) break;
+            }
+        }
+        private void IndicatorRetarget(IndicatorPair indicator)
+        {
+            if (!indicator.initialized) return;
+
+            indicator.indicator.targetTransform = indicator.target ? indicator.target.transform : null;
+            if (indicator.lockOnIndicator && indicator.indicator.targetTransform && 
+                (!indicator.previousTarget || indicator.indicator.targetTransform != indicator.previousTarget))
+            {
+                indicator.lockOnIndicator.UpdateTarget();
                 Util.PlaySound("Play_hedgehogutils_lockon", base.gameObject);
+            }
+        }
+        private void UpdateIndicatorCount(int value)
+        {
+            if (value < _maxTargets)
+            {
+                for (int i = value; i < maxTargets; i++)
+                {
+                    indicators[i].indicator.active = false;
+                }
+            }
+            Array.Resize(ref indicators, value);
+            if (value > _maxTargets)
+            {
+                allIndicatorsInitialized = false;
+                for (int i = _maxTargets; i < value - _maxTargets; i++)
+                {
+                    indicators[i] = new IndicatorPair { indicator = new Indicator(base.gameObject, HedgehogUtils.Assets.lockOnIndicator) };
+                }
             }
         }
 
@@ -144,10 +254,19 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
         {
             CalculateMaxRange();
         }
-
         private void CalculateMaxRange()
         {
             maxRange = 60f;
+        }
+
+        private class IndicatorPair
+        {
+            public Indicator indicator;
+            public LockOnIndicator lockOnIndicator;
+            public HurtBox target;
+            public Transform previousTarget;
+            public bool initialized;
+            public bool primary;
         }
     }
 }
