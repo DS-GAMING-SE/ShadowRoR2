@@ -256,7 +256,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
         }
         private void CalculateMaxRange()
         {
-            maxRange = 60f;
+            maxRange = ShadowStaticValues.homingRange;
         }
 
         private class IndicatorPair

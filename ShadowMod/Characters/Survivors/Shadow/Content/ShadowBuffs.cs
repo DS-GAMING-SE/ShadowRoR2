@@ -46,7 +46,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             if (Language.languagesByName.TryGetValue("en", out RoR2.Language en))
             {
                 RegisterLookingGlassBuff(en, boostBuff, "Shadow Boost", $"Gain <style=cIsUtility>+{ShadowStaticValues.boostArmor} armor</style>. Gain <style=cIsUtility>+{ShadowStaticValues.boostListedSpeedCoefficient * 100}% movement speed</style>.");
-                RegisterLookingGlassBuff(en, chaosMarkDebuff, "Shadow Chaos Mark", $"{HedgehogUtils.Helpers.wipIcon}");
+                RegisterLookingGlassBuff(en, chaosMarkDebuff, "Shadow Chaos Mark", $"Can be consumed to refresh Chaos Snap's cooldown.");
                 RegisterLookingGlassBuff(en, chaosBoostBuff, "Shadow Chaos Boost", $"{HedgehogUtils.Helpers.wipIcon}");
             }
         }

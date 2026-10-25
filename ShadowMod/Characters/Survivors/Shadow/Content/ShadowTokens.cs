@@ -47,17 +47,20 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
             #region Common Keywords
             Language.Add(prefix + "KEYWORD_HOMING", $"{KeywordText("Homing", "Targets the enemy closest to the crosshair, indicated by the reticle.")}");
-            Language.Add(prefix + "KEYWORD_CHAOS_MARK", $"{KeywordText("Chaos Mark", $"Use {UtilityText("Chaos Snap")} to consume the mark and bypass the move's cooldown.")}");
+            Language.Add(prefix + "KEYWORD_CHAOS_MARK", $"{KeywordText("Chaos Mark", $"Using {UtilityText("Chaos Snap")} or killing the target will consume the mark to refresh {UtilityText("Chaos Snap")}'s cooldown.")}");
             #endregion
 
             #region Passive
             Language.Add(prefix + "PASSIVE_NAME", $"{HedgehogUtils.Helpers.wipIcon} All of Me");
             Language.Add(prefix + "PASSIVE_DESCRIPTION", $"With the <color=#e7c7e6>Artifact of Chaos Emeralds</color> enabled, Shadow can choose to {UtilityText("wield the Chaos Emeralds")}, accept the {RedText("dark influence of Black Doom")}, or forsake both and {HealingText("fight only with his own power")}.");
+            Language.Add(prefix + "KEYWORD_HERO_PATH", $"{KeywordText($"{UtilityText("Hero")}", $"Collect the Chaos Emeralds. Improves your {UtilityText("mobility")} and increases your {UtilityText("Homing")} range.")}");
+            Language.Add(prefix + "KEYWORD_DARK_PATH", $"{KeywordText($"{RedText("Dark")}", $"Accept Doom Powers at the end of each stage. Permanently upgrade your skills into more aggressive variants.")}");
+            Language.Add(prefix + "KEYWORD_NEUTRAL_PATH", $"{KeywordText($"{HealingText("Neutral")}", $"Remove your Inhibitor Rings for a stage, gaining incredible power at the cost of disabling all of your items.")}");
             #endregion
 
             #region Primary
-            Language.Add(prefix + "PRIMARY_CHAOS_SNAP_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Snap");
-            Language.Add(prefix + "PRIMARY_CHAOS_SNAP_DESCRIPTION", $"{UtilityText("Homing")}. Teleport to the target and pummel them while the skill is held, repeatedly dealing {DamageValueText(chaosSnapPummelDamageCoefficient)}. Release to deal {DamageValueText(chaosSnapFinalDamageCoefficient)} and {UtilityText("Launch")} the target. Use your {UtilityText("secondary skill")} to {UtilityText("Launch")} the target up. Use your {UtilityText("utility skill")} to teleport away from or behind the target.");
+            Language.Add(prefix + "PRIMARY_CHAOS_SNAP_NAME", $"Chaos Snap");
+            Language.Add(prefix + "PRIMARY_CHAOS_SNAP_DESCRIPTION", $"{UtilityText("Homing")}. Teleport to the target and pummel them for {DamageValueText(chaosSnapPummelDamageCoefficient)} repeatedly while the skill is held. Release to {UtilityText("Launch")} the target for {DamageValueText(chaosSnapFinalDamageCoefficient)}. {HedgehogUtils.Helpers.wipIcon} Use your {UtilityText("secondary skill")} to {UtilityText("Launch")} the target up. {HedgehogUtils.Helpers.wipIcon} Use your {UtilityText("utility skill")} to teleport away from or behind the target.");
             #endregion
 
             #region Secondary
@@ -71,11 +74,11 @@ namespace ShadowMod.Characters.Survivors.Shadow
             #endregion
 
             #region Special
-            Language.Add(prefix + "KEYWORD_KILL_COOLDOWN", $"{KeywordText("kill cooldown", $"This skill's cooldown is only charged by killing enemies. Additional skill stocks increase the move's duration.")}");
+            Language.Add(prefix + "KEYWORD_KILL_COOLDOWN", $"{KeywordText("kill cooldown", $"This skill's cooldown is only charged by killing enemies. Additional skill stocks increase the skill's duration.")}");
 
             Language.Add(prefix + "SPECIAL_CHAOS_BOOST_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Boost");
-            Language.Add(prefix + "SPECIAL_CHAOS_BOOST_DESCRIPTION", $"{RedText("kill cooldown")}. Release a burst of energy dealing {DamageValueText(chaosBoostDamageCoefficient)} and applying {UtilityText("Chaos Marks")}. Enhance your --stats-- for {UtilityText(chaosBoostMaxDuration+"s")}. Killing enough enemies will {UtilityText("upgrade")} the effect and reset its duration.");
-            // Make Chaos Boost apply Chaos Marks to all nearby enemies?
+            Language.Add(prefix + "SPECIAL_CHAOS_BOOST_DESCRIPTION", $"{RedText("kill cooldown")}. Release a burst of energy dealing {DamageValueText(chaosBoostDamageCoefficient)} and applying {UtilityText("Chaos Marks")}. Enhance your stats for {UtilityText(chaosBoostMaxDuration+"s")}. Killing {chaosBoostKillsToUpgrade} enemies will {UtilityText("upgrade")} the effect and reset its duration.");
+
             Language.Add(prefix + "SPECIAL_CHAOS_BLAST_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Blast");
             Language.Add(prefix + "SPECIAL_CHAOS_BLAST_DESCRIPTION", $"{HedgehogUtils.Helpers.wipIcon}");
 

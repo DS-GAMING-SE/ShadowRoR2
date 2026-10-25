@@ -191,7 +191,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 skillName = "ShadowPassive",
                 skillNameToken = SHADOW_PREFIX + "PASSIVE_NAME",
                 skillDescriptionToken = SHADOW_PREFIX + "PASSIVE_DESCRIPTION",
-                //keywordTokens = [ "KEYWORD_AGILE" ],
+                keywordTokens = [SHADOW_PREFIX + "KEYWORD_HERO_PATH", SHADOW_PREFIX + "KEYWORD_DARK_PATH", SHADOW_PREFIX + "KEYWORD_NEUTRAL_PATH"],
                 skillIcon = ShadowAssets.passiveSkillIcon.LoadAssetAsync().WaitForCompletion(),
 
                 //unless you're somehow activating your passive like a skill, none of the following is needed.
@@ -232,19 +232,38 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
             //the primary skill is created using a constructor for a typical primary
             //it is also a SteppedSkillDef. Custom Skilldefs are very useful for custom behaviors related to casting a skill. see ror2's different skilldefs for reference
-            SteppedSkillDef primarySkillDef1 = Skills.CreateSkillDef<SteppedSkillDef>(new SkillDefInfo
-                (
-                    "ShadowChaosSnap",
-                    SHADOW_PREFIX + "PRIMARY_CHAOS_SNAP_NAME",
-                    SHADOW_PREFIX + "PRIMARY_CHAOS_SNAP_DESCRIPTION",
-                    ShadowAssets.chaosSnapSkillIcon.LoadAssetAsync().WaitForCompletion(),
-                    new EntityStates.SerializableEntityStateType(typeof(SkillStates.SlashCombo)),
-                    "Weapon",
-                    true
-                ));
-            //custom Skilldefs can have additional fields that you can set manually
-            primarySkillDef1.stepCount = 2;
-            primarySkillDef1.stepGraceDuration = 0.5f;
+            SkillDef primarySkillDef1 = Skills.CreateSkillDef<TrackingSkillDef>(new SkillDefInfo
+            {
+                skillName = "ShadowChaosSnap",
+                skillNameToken = SHADOW_PREFIX + "PRIMARY_CHAOS_SNAP_NAME",
+                skillDescriptionToken = SHADOW_PREFIX + "PRIMARY_CHAOS_SNAP_DESCRIPTION",
+                skillIcon = ShadowAssets.chaosSnapSkillIcon.LoadAssetAsync().WaitForCompletion(),
+                keywordTokens = [SHADOW_PREFIX + "KEYWORD_HOMING", HedgehogUtils.Language.launchKeyword],
+
+                activationState = new EntityStates.SerializableEntityStateType(typeof(ChaosSnapIn)),
+                activationStateMachineName = "Body",
+                interruptPriority = EntityStates.InterruptPriority.Skill,
+
+                baseRechargeInterval = ShadowStaticValues.chaosSnapCooldown,
+                baseMaxStock = ShadowStaticValues.chaosSnapStocks,
+
+                rechargeStock = 1,
+                requiredStock = 1,
+                stockToConsume = 1,
+
+                resetCooldownTimerOnUse = false,
+                fullRestockOnAssign = true,
+                dontAllowPastMaxStocks = false,
+                mustKeyPress = true,
+                beginSkillCooldownOnSkillEnd = false,
+
+                isCombatSkill = true,
+                canceledFromSprinting = false,
+                cancelSprintingOnActivation = false,
+                forceSprintDuringState = false,
+
+                isCooldownBlockedUntilManuallyReset = true
+            });
 
             Skills.AddPrimarySkills(bodyPrefab, primarySkillDef1);
         }
@@ -363,7 +382,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 isCombatSkill = true,
                 mustKeyPress = true,
 
-                //hideStockCount = true
+                dontAllowPastMaxStocks = true
             });
 
             Skills.AddSpecialSkills(bodyPrefab, specialSkillDef1);

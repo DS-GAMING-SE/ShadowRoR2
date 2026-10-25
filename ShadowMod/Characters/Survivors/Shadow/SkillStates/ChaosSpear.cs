@@ -29,8 +29,8 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
-            duration = baseDuration * attackSpeedStat;
-            timeBetweenAttacks = baseTimeBetweenAttacks * attackSpeedStat;
+            duration = baseDuration / attackSpeedStat;
+            timeBetweenAttacks = baseTimeBetweenAttacks / attackSpeedStat;
             if (isAuthority)
             {
                 homingTracker = GetComponent<HomingTracker>();
@@ -106,7 +106,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             writer.WritePackedIndex32(targets.Count);
             foreach (var target in targets)
             {
-                writer.Write(target);
+                writer.Write(HurtBoxReference.FromHurtBox(target));
             }
         }
         public override void OnDeserialize(NetworkReader reader)

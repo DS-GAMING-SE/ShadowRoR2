@@ -5,6 +5,8 @@ using System.Text;
 using RoR2;
 using ShadowMod;
 using ShadowMod.Characters.Survivors.Shadow;
+using static ShadowMod.Characters.Survivors.Shadow.ShadowBuffs;
+using static ShadowMod.Characters.Survivors.Shadow.ShadowStaticValues;
 
 namespace ShadowMod.Modules
 {
@@ -18,10 +20,34 @@ namespace ShadowMod.Modules
         {
             if (self)
             {
-                if (self.HasBuff(ShadowBuffs.boostBuff))
+                if (self.HasBuff(boostBuff))
                 {
-                    HedgehogUtils.Boost.BoostLogic.BoostStats(self, stats, ShadowStaticValues.boostListedSpeedCoefficient);
-                    stats.armorAdd += ShadowStaticValues.boostArmor;
+                    HedgehogUtils.Boost.BoostLogic.BoostStats(self, stats, boostListedSpeedCoefficient);
+                    stats.armorAdd += boostArmor;
+                }
+                if (self.HasBuff(chaosBoostBuff))
+                {
+                    float chaosBoostStats;
+                    int chaosBoostArmor;
+                    switch (self.GetBuffCount(chaosBoostBuff))
+                    {
+                        case 1:
+                            chaosBoostStats = chaosBoost1Stats;
+                            chaosBoostArmor = chaosBoost1Armor;
+                            break;
+                        case 2:
+                            chaosBoostStats = chaosBoost2Stats;
+                            chaosBoostArmor = chaosBoost2Armor;
+                            break;
+                        case 3:
+                        default:
+                            chaosBoostStats = chaosBoost2Stats;
+                            chaosBoostArmor = chaosBoost2Armor;
+                            break;
+                    }
+                    stats.attackSpeedMultAdd += chaosBoostStats;
+                    stats.moveSpeedMultAdd += chaosBoostStats;
+                    stats.armorAdd += chaosBoostArmor;
                 }
             }
         }

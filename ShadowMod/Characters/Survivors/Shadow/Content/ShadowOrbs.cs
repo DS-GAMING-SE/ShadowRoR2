@@ -52,7 +52,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 {
                     if (skill.skillDef is KillCooldownSkillDef)
                     {
-                        skill.RunRecharge(1);
+                        skill.RunRecharge(1); // Not networked!
                     }
                 }
             }
