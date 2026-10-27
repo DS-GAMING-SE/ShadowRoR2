@@ -359,7 +359,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, SkillSlot.Special);
 
             //a basic skill. some fields are omitted and will just have default values
-            SkillDef specialSkillDef1 = Skills.CreateSkillDef<KillCooldownSkillDef>(new SkillDefInfo
+            ChaosBoostSkillDef specialSkillDef1 = Skills.CreateSkillDef<ChaosBoostSkillDef>(new SkillDefInfo
             {
                 skillName = "ShadowChaosBoost",
                 skillNameToken = SHADOW_PREFIX + "SPECIAL_CHAOS_BOOST_NAME",
@@ -367,9 +367,9 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 skillIcon = ShadowAssets.chaosBoostSkillIcon.LoadAssetAsync().WaitForCompletion(),
                 keywordTokens = [SHADOW_PREFIX + "KEYWORD_KILL_COOLDOWN", SHADOW_PREFIX + "KEYWORD_CHAOS_MARK"],
 
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ThrowBomb)),
-                activationStateMachineName = "Weapon",
-                interruptPriority = EntityStates.InterruptPriority.PrioritySkill,
+                activationState = new EntityStates.SerializableEntityStateType(typeof(ChaosBoost)),
+                activationStateMachineName = "Body",
+                interruptPriority = EntityStates.InterruptPriority.Pain,
 
                 baseMaxStock = 1,
                 baseRechargeInterval = ShadowStaticValues.chaosBoostKillsToCharge,
@@ -384,6 +384,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
                 dontAllowPastMaxStocks = true
             });
+            specialSkillDef1.upgradeSkillIcon = ShadowAssets.chaosBoostUpgradedSkillIcon.LoadAssetAsync().WaitForCompletion();
+            specialSkillDef1.upgradeRechargeInterval = ShadowStaticValues.chaosBoostKillsToUpgrade;
 
             Skills.AddSpecialSkills(bodyPrefab, specialSkillDef1);
         }

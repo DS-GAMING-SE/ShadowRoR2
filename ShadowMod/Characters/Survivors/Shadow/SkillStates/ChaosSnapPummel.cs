@@ -14,16 +14,22 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         protected DamageInfo attack = new DamageInfo();
         protected virtual Type nextStateType { get { return typeof(ChaosSnapFinal); } }
         private ICharacterGravityParameterProvider enemyGrav;
+        private CameraTargetParams.AimRequest cameraAim;
         public override void OnEnter()
         {
             base.OnEnter();
+            if (cameraTargetParams) cameraAim = cameraTargetParams.RequestAimType(CameraTargetParams.AimType.OverTheShoulder);
             attackTimer = ShadowStaticValues.chaosSnapPummelInterval / characterBody.attackSpeed;
             if (activatorSkillSlot) activatorSkillSlot.SetBlockedCooldownSkillState(true);
-            if (target && NetworkServer.active) target.healthComponent.body.AddBuff(HedgehogUtils.Buffs.suppressDeathBuff);
-            if (target && target.healthComponent.TryGetComponent<ICharacterGravityParameterProvider>(out enemyGrav))
+            if (target && target.healthComponent)
             {
-                var param = enemyGrav.gravityParameters;
-                param.channeledAntiGravityGranterCount++;
+                if (NetworkServer.active) target.healthComponent.body.AddBuff(HedgehogUtils.Buffs.suppressDeathBuff);
+                enemyGrav = target.healthComponent.GetComponent<ICharacterGravityParameterProvider>();
+                if (enemyGrav != null)
+                {
+                    var param = enemyGrav.gravityParameters;
+                    param.channeledAntiGravityGranterCount++;
+                }
             }
         }
         public override void FixedUpdate()
@@ -67,6 +73,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             attack.damageType = new DamageTypeCombo(DamageType.Stun1s, DamageTypeExtended.Generic, DamageSource.Primary);
             attack.inflictedHurtbox = target;
             attack.position = target.collider.ClosestPoint(transform.position);
+            attack.physForceFlags = PhysForceFlags.resetVelocity;
         }
         protected virtual void ModifyAttack(DamageInfo damage)
         {
@@ -90,6 +97,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
                 var param = enemyGrav.gravityParameters;
                 param.channeledAntiGravityGranterCount--;
             }
+            cameraAim?.Dispose();
             base.OnExit();
         }
     }

@@ -20,7 +20,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Modules.Content.AddEntityState(typeof(BoostIdle));
             Modules.Content.AddEntityState(typeof(Brake));
 
-            Modules.Content.AddEntityState(typeof(ThrowBomb));
+            Modules.Content.AddEntityState(typeof(ChaosBoost));
 
             #region Doom Powers
             Modules.Content.AddEntityState(typeof(DoomSpear));

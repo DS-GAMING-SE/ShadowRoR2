@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using R2API;
+using R2API.Networking.Interfaces;
 
 namespace ShadowMod.Characters.Survivors.Shadow
 {
@@ -46,16 +47,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
         }
         public override void OnArrival()
         {
-            if (target && target.healthComponent && target.healthComponent.body.skillLocator)
-            {
-                foreach (var skill in target.healthComponent.body.skillLocator.AllSkills)
-                {
-                    if (skill.skillDef is KillCooldownSkillDef)
-                    {
-                        skill.RunRecharge(1); // Not networked!
-                    }
-                }
-            }
+            if (target && target.healthComponent) new NetworkKillCooldown(target.healthComponent.netId).Send(R2API.Networking.NetworkDestination.Clients);
             base.OnArrival();
         }
     }

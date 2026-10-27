@@ -129,6 +129,10 @@ MonoBehaviour:
     m_Address: Assets/ShadowAssets/ShadowBundle/Icons/texShadowLogoIcon.png
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: ad91f54836c7f9249beb441a7c743d31
+    m_Address: Assets/ShadowAssets/ShadowBundle/VFX/Prefabs/Default/ChaosBoostEffect.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 80780dc7c8eea2546b3509246a72a4ca, type: 2}
   m_SchemaSet:

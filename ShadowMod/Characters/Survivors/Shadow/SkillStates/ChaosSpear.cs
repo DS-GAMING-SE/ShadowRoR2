@@ -25,12 +25,13 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
 
         protected int numAttacks;
         protected int attackCount;
-
+        // REMEMBER SETSTATEONHURT.ICUSTOMSTATE FOR CHAOS SPEAR SHOCK VISUALS
         public override void OnEnter()
         {
             base.OnEnter();
             duration = baseDuration / attackSpeedStat;
             timeBetweenAttacks = baseTimeBetweenAttacks / attackSpeedStat;
+            PlayAnimation();
             if (isAuthority)
             {
                 homingTracker = GetComponent<HomingTracker>();
@@ -94,6 +95,10 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         protected virtual Orb CreateSpear(HurtBox target)
         {
             return ChaosSpearOrb.CreateChaosSpearOrb(characterBody, transform.position, target);
+        }
+        protected virtual void PlayAnimation()
+        {
+            PlayAnimation("LeftArm, Override", "ShootGun", "ShootGun.playbackRate", duration * 2f);
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()

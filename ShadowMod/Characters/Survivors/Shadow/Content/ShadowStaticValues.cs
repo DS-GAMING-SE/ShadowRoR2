@@ -17,7 +17,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
         #endregion
 
         #region Chaos Snap
-        public const float chaosSnapPummelDamageCoefficient = 1.2f;
+        public const float chaosSnapPummelDamageCoefficient = 1.5f;
         public const float chaosSnapPummelProcCoefficient = 0.6f;
         public const float chaosSnapPummelFrequency = 4.4f;
         public const float chaosSnapPummelInterval = 1 / chaosSnapPummelFrequency;
@@ -48,7 +48,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
         #region Chaos Boost
         public const float chaosBoostDamageCoefficient = 3f;
 
-        public const float chaosBoostRadius = 20f;
+        public const float chaosBoostRadius = 15f;
 
         public const RoR2.BlastAttack.FalloffModel chaosBoostFalloff = RoR2.BlastAttack.FalloffModel.Linear;
 
@@ -62,9 +62,15 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public const int chaosBoost3Armor = 70;
 
         public const float chaosBoostMaxDuration = 30f;
+        public const float chaosBoostDurationPerExtraStock = 10f;
 
         public const int chaosBoostKillsToCharge = 10;
-        public const int chaosBoostKillsToUpgrade = 10;
+        public const int chaosBoostKillsToUpgrade = 10; // doesn't work
+        #endregion
+        #region Chaos Blast
+        public const float chaosBlastDamageCoefficient = 10f;
+        public const float chaosBlastFrequency = 3f;
+        public const float chaosBlastInterval = 1 / chaosBlastFrequency;
         #endregion
     }
 }

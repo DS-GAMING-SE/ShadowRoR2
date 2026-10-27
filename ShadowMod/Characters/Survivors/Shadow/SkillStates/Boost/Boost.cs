@@ -48,5 +48,9 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         {
             return ShadowAssets.boostAuraEffect;
         }
+        public override bool CanExecuteSkill(GenericSkill skillSlot)
+        {
+            return skillSlot && skillSlot.skillDef && !(skillSlot.skillDef.canceledFromSprinting || skillSlot.skillDef.cancelSprintingOnActivation);
+        }
     }
 }

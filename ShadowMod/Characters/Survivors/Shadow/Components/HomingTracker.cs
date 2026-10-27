@@ -198,7 +198,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
             this.search.filterByLoS = true;
             this.search.searchOrigin = aimRay.origin;
             this.search.searchDirection = aimRay.direction;
-            this.search.sortMode = BullseyeSearch.SortMode.DistanceAndAngle;
+            this.search.sortMode = BullseyeSearch.SortMode.Angle;
             this.search.maxDistanceFilter = maxRange;
             this.search.minDistanceFilter = 0;
             this.search.maxAngleFilter = 12;

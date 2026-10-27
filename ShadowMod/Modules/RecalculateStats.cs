@@ -41,8 +41,8 @@ namespace ShadowMod.Modules
                             break;
                         case 3:
                         default:
-                            chaosBoostStats = chaosBoost2Stats;
-                            chaosBoostArmor = chaosBoost2Armor;
+                            chaosBoostStats = chaosBoost3Stats;
+                            chaosBoostArmor = chaosBoost3Armor;
                             break;
                     }
                     stats.attackSpeedMultAdd += chaosBoostStats;

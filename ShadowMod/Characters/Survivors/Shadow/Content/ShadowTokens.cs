@@ -76,19 +76,19 @@ namespace ShadowMod.Characters.Survivors.Shadow
             #region Special
             Language.Add(prefix + "KEYWORD_KILL_COOLDOWN", $"{KeywordText("kill cooldown", $"This skill's cooldown is only charged by killing enemies. Additional skill stocks increase the skill's duration.")}");
 
-            Language.Add(prefix + "SPECIAL_CHAOS_BOOST_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Boost");
-            Language.Add(prefix + "SPECIAL_CHAOS_BOOST_DESCRIPTION", $"{RedText("kill cooldown")}. Release a burst of energy dealing {DamageValueText(chaosBoostDamageCoefficient)} and applying {UtilityText("Chaos Marks")}. Enhance your stats for {UtilityText(chaosBoostMaxDuration+"s")}. Killing {chaosBoostKillsToUpgrade} enemies will {UtilityText("upgrade")} the effect and reset its duration.");
+            Language.Add(prefix + "SPECIAL_CHAOS_BOOST_NAME", $"Chaos Boost");
+            Language.Add(prefix + "SPECIAL_CHAOS_BOOST_DESCRIPTION", $"{RedText("kill cooldown")}. Release a burst of energy dealing {DamageValueText(chaosBoostDamageCoefficient)} and applying {UtilityText("Chaos Marks")}. Enhance your stats for {UtilityText(chaosBoostMaxDuration+"s")}. Killing {chaosBoostKillsToUpgrade} enemies will {UtilityText("upgrade")} the effect and reset its duration. {HedgehogUtils.Helpers.wipIcon} Can upgrade into {DeathText("Chaos Blast")}.");
 
             Language.Add(prefix + "SPECIAL_CHAOS_BLAST_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Blast");
-            Language.Add(prefix + "SPECIAL_CHAOS_BLAST_DESCRIPTION", $"{HedgehogUtils.Helpers.wipIcon}");
+            Language.Add(prefix + "SPECIAL_CHAOS_BLAST_DESCRIPTION", $"{UtilityText("Homing")}. Hold the target in place and release a massive explosion dealing {DamageValueText(chaosBlastDamageCoefficient)} repeatedly.");
 
             Language.Add(prefix + "SPECIAL_CHAOS_CONTROL_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Control");
             Language.Add(prefix + "SPECIAL_CHAOS_CONTROL_DESCRIPTION", $"{HedgehogUtils.Helpers.wipIcon}");
             #endregion
 
             #region Paths
-            Language.Add(prefix + "HERO_PICKUP_SUFFIX", $"{UtilityText("HERO: The Chaos Emeralds enhance your innate chaos abilities, increasing the range of your Homing skills.")}");
-            Language.Add(prefix + "DARK_PICKUP_SUFFIX", $"{RedText("DARK: Black Doom's power has permanently altered you, granting increased stats and more aggressive skills.")}");
+            Language.Add(prefix + "HERO_PICKUP_SUFFIX", $"{UtilityText("This marks the path you've chosen.")}");
+            Language.Add(prefix + "DARK_PICKUP_SUFFIX", $"{RedText("This marks the path you've chosen.")}");
             #endregion
 
             Language.Add(prefix + "VOICELINES_ENABLE_DESCRIPTION", $"Voicelines recorded by {UtilityText("MotherEggVA")}.");

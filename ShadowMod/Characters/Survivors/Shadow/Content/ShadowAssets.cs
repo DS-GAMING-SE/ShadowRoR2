@@ -9,6 +9,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using R2API;
 using UnityEngine.UI;
 using RoR2.UI;
+using UnityEngine.Rendering.PostProcessing;
 
 namespace ShadowMod.Characters.Survivors.Shadow
 {
@@ -23,6 +24,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public static GameObject boostFlashEffect;
         public static GameObject boostAuraEffect;
 
+        public static GameObject chaosBoostActivationEffect;
         public static GameObject bombExplosionEffect;
 
         public static GameObject pathItemHeroNotificationPrefab;
@@ -71,6 +73,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public static AssetReferenceT<GameObject> projectileExplodeEffect = new AssetReferenceT<GameObject>("05b273758480af74a919e826c7b80a86");
         public static AssetReferenceT<GameObject> swingEffect = new AssetReferenceT<GameObject>("3534552e7829f9842ba3156065afc540");
         public static AssetReferenceT<GameObject> hitEffect = new AssetReferenceT<GameObject>("48eebb9268b618943a4b60bb011fb96d");
+
+        public static AssetReferenceT<GameObject> chaosBoostActivation = new("ad91f54836c7f9249beb441a7c743d31");
         #endregion
 
         public static void Init()
@@ -83,6 +87,46 @@ namespace ShadowMod.Characters.Survivors.Shadow
         #region effects
         private static void CreateEffects()
         {
+            #region Common Stuff
+            Texture texRedRamp = AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_ColorRamps.texRampTeleporter_png).WaitForCompletion();
+            Texture texRedPinkRamp = AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_ColorRamps.texRampArchWisp_png).WaitForCompletion();
+            Texture texPurpleRamp /*pink and cool when brighter*/ = AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC1_Common_ColorRamps.texRampRailgun_png).WaitForCompletion();
+
+            Material matTracerBright = AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_VFX.matTracerBright_mat).WaitForCompletion();
+            Material matGlowHard = AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC4.matProvUltFlareGlowHard2_mat).WaitForCompletion();
+            Material matGlowSoft = AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_VFX.matGlow1Soft_mat).WaitForCompletion();
+            Material matSpark = AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_VFX.matSpark1_mat).WaitForCompletion();
+            Material matDistortionFaded = AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_VFX.matDistortionFaded_mat).WaitForCompletion();
+            Material matSphereBurst = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_DefectiveUnit.matDefectiveUnitDetonateSpherePulse_mat).WaitForCompletion());
+            matSphereBurst.SetColor("_TintColor", new Color(3f, 0f, 0.06f));
+            Material matSphereParticle = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_Items_JumpDamageStrike.matJumpDamageStrikeBlast_mat).WaitForCompletion());
+            matSphereParticle.SetTexture("_RemapTex", texRedPinkRamp);
+            Material matRedEyeFlash = AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Titan.matTitanLaserGlob_mat).WaitForCompletion();
+            Material matPinkPurpleLightning = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_Items_ShockDamageAura.matDroneShockDamageElectricity02_mat).WaitForCompletion());
+            matPinkPurpleLightning.SetFloat("_AlphaBias", 0f);
+            matPinkPurpleLightning.SetFloat("_AlphaBoost", 3.5f);
+            matPinkPurpleLightning.SetTexture("_RemapTex", texPurpleRamp);
+            Material matGenericRing = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_BFG.matBeamSphereBeam_mat).WaitForCompletion());
+            matGenericRing.SetTexture("_RemapTex", AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_ColorRamps.texRampTritone_png).WaitForCompletion());
+            matGenericRing.SetVector("_CutoffScroll", new Vector4(-20, 0, 10, 0));
+            matGenericRing.EnableKeyword("VERTEXCOLOR");
+            Material matChaosBoostOverlay = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_CritOnUse.matFullCrit_mat).WaitForCompletion());
+            matChaosBoostOverlay.SetTexture("_RemapTex", texRedPinkRamp);
+
+            Mesh donut2Mesh = AssetAsyncReferenceManager<Mesh>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_VFX.mdlVFXDonut2_fbx).WaitForCompletion();
+            Mesh noiseSphereMesh /*double radius of normal sphere?*/ = AssetAsyncReferenceManager<Mesh>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3.mdlNoiseSphere_01_fbx_GEO_NoiseSphere_).WaitForCompletion();
+            Mesh electricMesh1 = AssetAsyncReferenceManager<Mesh>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_DefectiveUnit.mdlDetonate_DebuffBolt01_fbx).WaitForCompletion();
+            Mesh electricMesh2 = AssetAsyncReferenceManager<Mesh>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_DefectiveUnit.mdlDetonate_DebuffBolt02_fbx).WaitForCompletion();
+            Mesh electricMesh3 = AssetAsyncReferenceManager<Mesh>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_DefectiveUnit.mdlDetonate_DebuffBolt03_fbx).WaitForCompletion();
+            Mesh electricMesh4 = AssetAsyncReferenceManager<Mesh>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_DefectiveUnit.mdlDetonate_DebuffBolt04_fbx).WaitForCompletion();
+            Mesh[] electricMeshes = [electricMesh1, electricMesh2, electricMesh3, electricMesh4];
+            Mesh electricRingMesh = AssetAsyncReferenceManager<Mesh>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3.mdlBentLightning01_fbx).WaitForCompletion();
+
+            PostProcessProfile ppRed = AssetAsyncReferenceManager<PostProcessProfile>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC1_Railgunner.ppLocalRailgunnerSuper_asset).WaitForCompletion();
+            PostProcessProfile ppPain = AssetAsyncReferenceManager<PostProcessProfile>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC4_Enforcer.ppLocalEnfShieldTackle_asset).WaitForCompletion();
+            PostProcessProfile ppDoom = AssetAsyncReferenceManager<PostProcessProfile>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_title_PostProcessing.ppLocalTPActivation_asset).WaitForCompletion();
+            PostProcessProfile ppChaosBlast = AssetAsyncReferenceManager<PostProcessProfile>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_SolusWingForm1.ppOverheat_asset).WaitForCompletion();
+            #endregion
             ShadowAssets.projectileExplodeEffect.LoadAssetAsync().Completed += delegate (AsyncOperationHandle<GameObject> x)
             { CreateBombExplosionEffect(x.Result);
                 CreateBombProjectile();
@@ -97,6 +141,42 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
             boostFlashEffect = HedgehogUtils.Assets.CreateBoostFlashEffect("ShadowBoostFlash", AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_ColorRamps.texRampDroneFire_png).WaitForCompletion(), ShadowSurvivor.shadowYellowColor);
             boostAuraEffect = HedgehogUtils.Assets.CreateBoostAuraEffect("ShadowBoostAura", AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_ColorRamps.texRampDroneFire_png).WaitForCompletion(), ShadowSurvivor.shadowYellowColor);
+
+            chaosBoostActivation.LoadAssetAsync().Completed += (x) =>
+            {
+                chaosBoostActivationEffect = Asset.CreateEffect(x.Result, 1f, true, "", out var vfx, out var effect);
+                vfx.vfxIntensity = VFXAttributes.VFXIntensity.Medium;
+                effect.applyScale = true;
+                var pp = chaosBoostActivationEffect.transform.GetChild(0);
+                var ppDuration = pp.gameObject.AddComponent<PostProcessDuration>();
+                ppDuration.ppVolume = pp.GetComponent<PostProcessVolume>();
+                ppDuration.ppVolume.sharedProfile = ppRed;
+                ppDuration.maxDuration = 0.35f;
+                ppDuration.ppWeightCurve = AnimationCurve.EaseInOut(0f, 0.5f, 1f, 0f);
+                chaosBoostActivationEffect.transform.GetChild(1).gameObject.AddLightIntensityCurve(AnimationCurve.EaseInOut(0f, 1f, 1f, 0f), 0.5f);
+                chaosBoostActivationEffect.transform.GetChild(2).GetComponent<ParticleSystemRenderer>().sharedMaterial = matSphereBurst;
+                chaosBoostActivationEffect.transform.GetChild(3).GetComponent<ParticleSystemRenderer>().sharedMaterial = matGlowHard;
+                chaosBoostActivationEffect.transform.GetChild(4).GetComponent<ParticleSystemRenderer>().sharedMaterial = HedgehogUtils.Assets.glitchOverlayMaterial;
+                chaosBoostActivationEffect.transform.GetChild(5).GetComponent<ParticleSystemRenderer>().sharedMaterial = matDistortionFaded;
+                chaosBoostActivationEffect.transform.GetChild(6).gameObject.SetMaterialAndMesh(matSphereParticle, noiseSphereMesh);
+                chaosBoostActivationEffect.transform.GetChild(7).gameObject.SetMaterialAndMeshes(matPinkPurpleLightning, electricMeshes);
+                chaosBoostActivationEffect.transform.GetChild(8).GetComponent<ParticleSystemRenderer>().sharedMaterial = matSpark;
+                chaosBoostActivationEffect.transform.GetChild(9).GetComponent<ParticleSystemRenderer>().sharedMaterial = matTracerBright;
+                chaosBoostActivationEffect.transform.GetChild(10).GetComponent<ParticleSystemRenderer>().sharedMaterial = matGlowHard;
+
+                ShakeEmitter shakeEmitter = chaosBoostActivationEffect.AddComponent<ShakeEmitter>();
+                shakeEmitter.amplitudeTimeDecay = true;
+                shakeEmitter.duration = 0.4f;
+                shakeEmitter.radius = 4f;
+                shakeEmitter.scaleShakeRadiusWithLocalScale = true;
+
+                shakeEmitter.wave = new Wave
+                {
+                    amplitude = 0.5f,
+                    frequency = 40f,
+                    cycleOffset = 0f
+                };
+            };
 
             Material pathItemNotificationBackgroundMat = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_UI.matUIIconDronePurchase_mat).WaitForCompletion());
             pathItemNotificationBackgroundMat.name = "matUIShadowPathItemBackground";
@@ -160,6 +240,28 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 cycleOffset = 0f
             };
 
+        }
+        internal static void AddLightIntensityCurve(this GameObject gameObject, AnimationCurve curve, float duration)
+        {
+            var light = gameObject.AddComponent<LightIntensityCurve>();
+            light.curve = curve;
+            light.timeMax = duration;
+        }
+        internal static void SetMaterialAndMesh(this GameObject gameObject, Material mat, Mesh mesh)
+        {
+            if (gameObject.TryGetComponent<ParticleSystemRenderer>(out var renderer))
+            {
+                renderer.sharedMaterial = mat;
+                renderer.mesh = mesh;
+            }
+        }
+        internal static void SetMaterialAndMeshes(this GameObject gameObject, Material mat, Mesh[] mesh)
+        {
+            if (gameObject.TryGetComponent<ParticleSystemRenderer>(out var renderer))
+            {
+                renderer.sharedMaterial = mat;
+                renderer.SetMeshes(mesh);
+            }
         }
         #endregion effects
 

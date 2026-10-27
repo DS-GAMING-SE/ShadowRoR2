@@ -72,12 +72,12 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
                 if (fixedAge >= teleportInDuration * 0.5f && !invincible)
                 {
                     invincible = true;
-                    characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
+                    characterBody.AddBuff(RoR2Content.Buffs.Intangible);
                 }
                 else if (fixedAge < teleportInDuration * 1.5f && invincible)
                 {
                     invincible = false;
-                    characterBody.RemoveBuff(RoR2Content.Buffs.HiddenInvincibility);
+                    characterBody.RemoveBuff(RoR2Content.Buffs.Intangible);
                 }
             }
             if (isAuthority)
@@ -107,7 +107,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             homingTracker.locked = false;
             var grav = characterMotor.gravityParameters;
             grav.channeledAntiGravityGranterCount--;
-            if (NetworkServer.active && invincible) characterBody.RemoveBuff(RoR2Content.Buffs.HiddenInvincibility);
+            if (NetworkServer.active && invincible) characterBody.RemoveBuff(RoR2Content.Buffs.Intangible);
             base.OnExit();
         }
         public override void OnSerialize(NetworkWriter writer)

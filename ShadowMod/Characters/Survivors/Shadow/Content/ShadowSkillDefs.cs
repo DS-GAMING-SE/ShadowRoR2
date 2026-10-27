@@ -4,6 +4,7 @@ using RoR2.Skills;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 
 namespace ShadowMod.Characters.Survivors.Shadow
 {
@@ -27,12 +28,12 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public override BaseSkillInstanceData OnAssigned([NotNull] GenericSkill skillSlot)
         {
             InstanceData instanceData = new InstanceData { skillSlot = skillSlot };
-            GlobalEventManager.onCharacterDeathServer += instanceData.OnKilledOther;
+            GlobalEventManager.onDeathProcServer += instanceData.OnKilledOther;
             return instanceData;
         }
         public override void OnUnassigned([NotNull] GenericSkill skillSlot)
         {
-            GlobalEventManager.onCharacterDeathServer -= ((InstanceData)skillSlot.skillInstanceData).OnKilledOther;
+            GlobalEventManager.onDeathProcServer -= ((InstanceData)skillSlot.skillInstanceData).OnKilledOther;
         }
 
         public override void OnFixedUpdate([NotNull] GenericSkill skillSlot, float deltaTime)
@@ -49,6 +50,33 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 {
                     RoR2.Orbs.OrbManager.instance.AddOrb(new KillCooldownOrb { origin = damageReport.victimBody.mainHurtBox.transform.position, target = damageReport.attackerBody.mainHurtBox });
                 }
+            }
+        }
+    }
+    public class ChaosBoostSkillDef : KillCooldownSkillDef
+    {
+        public Sprite upgradeSkillIcon;
+        public float upgradeRechargeInterval;
+        public override Sprite GetCurrentIcon([NotNull] GenericSkill skillSlot)
+        {
+            if (upgradeSkillIcon && skillSlot.characterBody && skillSlot.characterBody.HasBuff(ShadowBuffs.chaosBoostBuff))
+            {
+                return upgradeSkillIcon;
+            }
+            else
+            {
+                return base.GetCurrentIcon(skillSlot);
+            }
+        }
+        public override float GetRechargeInterval([NotNull] GenericSkill skillSlot)
+        {
+            if (skillSlot.characterBody && skillSlot.characterBody.HasBuff(ShadowBuffs.chaosBoostBuff))
+            {
+                return upgradeRechargeInterval;
+            }
+            else
+            {
+                return base.GetRechargeInterval(skillSlot);
             }
         }
     }

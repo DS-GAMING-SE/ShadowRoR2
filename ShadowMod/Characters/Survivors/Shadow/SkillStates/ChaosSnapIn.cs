@@ -16,7 +16,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             if (target && target.healthComponent.body.HasBuff(ShadowBuffs.chaosMarkDebuff))
             {
                 if (NetworkServer.active) target.healthComponent.body.RemoveBuff(ShadowBuffs.chaosMarkDebuff);
-                if (isAuthority) activatorSkillSlot.ApplyAmmoPack();
+                if (isAuthority && activatorSkillSlot.CanApplyAmmoPack()) activatorSkillSlot.ApplyAmmoPack();
             }
             base.OnExit();
         }
