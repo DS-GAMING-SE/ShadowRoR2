@@ -29,6 +29,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
                 {
                     var param = enemyGrav.gravityParameters;
                     param.channeledAntiGravityGranterCount++;
+                    enemyGrav.gravityParameters = param;
                 }
             }
         }
@@ -73,7 +74,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             attack.damageType = new DamageTypeCombo(DamageType.Stun1s, DamageTypeExtended.Generic, DamageSource.Primary);
             attack.inflictedHurtbox = target;
             attack.position = target.collider.ClosestPoint(transform.position);
-            attack.physForceFlags = PhysForceFlags.resetVelocity;
+            //attack.physForceFlags = PhysForceFlags.resetVelocity;
         }
         protected virtual void ModifyAttack(DamageInfo damage)
         {
@@ -96,6 +97,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             {
                 var param = enemyGrav.gravityParameters;
                 param.channeledAntiGravityGranterCount--;
+                enemyGrav.gravityParameters = param;
             }
             cameraAim?.Dispose();
             base.OnExit();

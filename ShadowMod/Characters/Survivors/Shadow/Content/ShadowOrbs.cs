@@ -16,7 +16,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
             ChaosSpearOrb orb = new ChaosSpearOrb();
             orb.speed = 120f;
             orb.damageType = new DamageTypeCombo(DamageType.Shock5s, DamageTypeExtended.Electrical, DamageSource.Secondary);
-            orb.damageType.AddModdedDamageType(ShadowDamageTypes.chaosMark);
+            //orb.damageType.AddModdedDamageType(ShadowDamageTypes.chaosMark);
+            orb.damageType.attackIdentityIndex = ShadowDamageTypes.shadowChaosMarkAttackIdentityIndex;
             orb.target = target;
             orb.origin = origin;
             orb.isCrit = attacker.RollCrit();

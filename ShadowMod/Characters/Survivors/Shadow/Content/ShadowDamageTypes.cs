@@ -9,20 +9,19 @@ namespace ShadowMod.Characters.Survivors.Shadow
 {
     public static class ShadowDamageTypes
     {
-        public static ModdedDamageType chaosMark;
+        //public static ModdedDamageType chaosMark;
+        public static AttackIdentityIndex shadowChaosMarkAttackIdentityIndex;
         internal static void Initialize()
         {
-            chaosMark = ReserveDamageType();
-
-            On.RoR2.GlobalEventManager.ProcessHitEnemy += ProcessHitEnemy;
+            //chaosMark = ReserveDamageType();
         }
 
-        private static void ProcessHitEnemy(On.RoR2.GlobalEventManager.orig_ProcessHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
+        [DamageMacroMethod(assignToStaticReference = "shadowChaosMarkAttackIdentityIndex", index = AttackIdentityIndex.AssignAtRuntime, phase = (DamageMacroPhase.PostDamageCalculation), searchableName = "ShadowChaosMark")]
+        private static void DamageMacroShadowChaosMark(ref DamageMacroData damageMacroData)
         {
-            orig(self, damageInfo, victim);
-            if (damageInfo.HasModdedDamageType(chaosMark) && victim.TryGetComponent<CharacterBody>(out var body))
+            if (/*damageMacroData.damageInfo.HasModdedDamageType(chaosMark) &&*/ damageMacroData.victimCharacterBody)
             {
-                body.AddTimedBuff(ShadowBuffs.chaosMarkDebuff, ShadowStaticValues.chaosMarkDuration);
+                damageMacroData.victimCharacterBody.AddTimedBuff(ShadowBuffs.chaosMarkDebuff, ShadowStaticValues.chaosMarkDuration);
             }
         }
     }

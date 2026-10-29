@@ -194,8 +194,10 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
         }
         private void SearchForTarget(Ray aimRay)
         {
+            this.search.viewer = characterBody;
             this.search.teamMaskFilter = TeamMask.GetUnprotectedTeams(this.teamComponent.teamIndex);
             this.search.filterByLoS = true;
+            this.search.filterByDistinctEntity = true;
             this.search.searchOrigin = aimRay.origin;
             this.search.searchDirection = aimRay.direction;
             this.search.sortMode = BullseyeSearch.SortMode.Angle;

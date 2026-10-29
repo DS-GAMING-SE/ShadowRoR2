@@ -14,7 +14,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
         [SystemInitializer(typeof(BodyCatalog))]
         private static void CacheShadowIndex()
         {
-            shadowBodyIndex = BodyCatalog.FindBodyIndex("ShadowTheHedgehogBody");
+            shadowBodyIndex = BodyCatalog.FindBodyIndex(ShadowSurvivor.instance.bodyName);
         }
         public enum Path
         {

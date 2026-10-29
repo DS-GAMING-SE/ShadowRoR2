@@ -78,9 +78,11 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
             Language.Add(prefix + "SPECIAL_CHAOS_BOOST_NAME", $"Chaos Boost");
             Language.Add(prefix + "SPECIAL_CHAOS_BOOST_DESCRIPTION", $"{RedText("kill cooldown")}. Release a burst of energy dealing {DamageValueText(chaosBoostDamageCoefficient)} and applying {UtilityText("Chaos Marks")}. Enhance your stats for {UtilityText(chaosBoostMaxDuration+"s")}. Killing {chaosBoostKillsToUpgrade} enemies will {UtilityText("upgrade")} the effect and reset its duration. {HedgehogUtils.Helpers.wipIcon} Can upgrade into {DeathText("Chaos Blast")}.");
-
+            
+            string chaosBlastDescription = $"{UtilityText("Homing")}. Hold the target in place and release a massive explosion dealing {DamageValueText(chaosBlastDamageCoefficient)} repeatedly.";
+            Language.Add(prefix + "KEYWORD_CHAOS_BLAST", KeywordText("Chaos Blast", chaosBlastDescription));
             Language.Add(prefix + "SPECIAL_CHAOS_BLAST_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Blast");
-            Language.Add(prefix + "SPECIAL_CHAOS_BLAST_DESCRIPTION", $"{UtilityText("Homing")}. Hold the target in place and release a massive explosion dealing {DamageValueText(chaosBlastDamageCoefficient)} repeatedly.");
+            Language.Add(prefix + "SPECIAL_CHAOS_BLAST_DESCRIPTION", chaosBlastDescription);
 
             Language.Add(prefix + "SPECIAL_CHAOS_CONTROL_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Control");
             Language.Add(prefix + "SPECIAL_CHAOS_CONTROL_DESCRIPTION", $"{HedgehogUtils.Helpers.wipIcon}");

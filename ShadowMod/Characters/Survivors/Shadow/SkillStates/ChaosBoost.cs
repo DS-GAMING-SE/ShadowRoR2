@@ -73,7 +73,8 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             attack.procCoefficient = 1f;
             attack.baseDamage = ShadowStaticValues.chaosBoostDamageCoefficient * characterBody.damage;
             attack.damageType = DamageSource.Special;
-            attack.damageType.AddModdedDamageType(ShadowDamageTypes.chaosMark);
+            //attack.damageType.AddModdedDamageType(ShadowDamageTypes.chaosMark);
+            attack.damageType.attackIdentityIndex = ShadowDamageTypes.shadowChaosMarkAttackIdentityIndex;
             attack.baseForce = 500f;
             attack.falloffModel = ShadowStaticValues.chaosBoostFalloff;
             attack.position = transform.position;

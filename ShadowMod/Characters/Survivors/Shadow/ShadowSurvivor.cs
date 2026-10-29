@@ -232,7 +232,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
             //the primary skill is created using a constructor for a typical primary
             //it is also a SteppedSkillDef. Custom Skilldefs are very useful for custom behaviors related to casting a skill. see ror2's different skilldefs for reference
-            SkillDef primarySkillDef1 = Skills.CreateSkillDef<TrackingSkillDef>(new SkillDefInfo
+            SkillDef primarySkillDef1 = Skills.CreateSkillDef<ChaosSnapSkillDef>(new SkillDefInfo
             {
                 skillName = "ShadowChaosSnap",
                 skillNameToken = SHADOW_PREFIX + "PRIMARY_CHAOS_SNAP_NAME",
@@ -248,7 +248,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 baseMaxStock = ShadowStaticValues.chaosSnapStocks,
 
                 rechargeStock = 1,
-                requiredStock = 1,
+                requiredStock = 0,
                 stockToConsume = 1,
 
                 resetCooldownTimerOnUse = false,
@@ -365,7 +365,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 skillNameToken = SHADOW_PREFIX + "SPECIAL_CHAOS_BOOST_NAME",
                 skillDescriptionToken = SHADOW_PREFIX + "SPECIAL_CHAOS_BOOST_DESCRIPTION",
                 skillIcon = ShadowAssets.chaosBoostSkillIcon.LoadAssetAsync().WaitForCompletion(),
-                keywordTokens = [SHADOW_PREFIX + "KEYWORD_KILL_COOLDOWN", SHADOW_PREFIX + "KEYWORD_CHAOS_MARK"],
+                keywordTokens = [SHADOW_PREFIX + "KEYWORD_KILL_COOLDOWN", SHADOW_PREFIX + "KEYWORD_CHAOS_MARK", SHADOW_PREFIX + "KEYWORD_CHAOS_BLAST"],
 
                 activationState = new EntityStates.SerializableEntityStateType(typeof(ChaosBoost)),
                 activationStateMachineName = "Body",
@@ -381,6 +381,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 fullRestockOnAssign = false,
                 isCombatSkill = true,
                 mustKeyPress = true,
+                resetCooldownTimerOnUse = true,
 
                 dontAllowPastMaxStocks = true
             });

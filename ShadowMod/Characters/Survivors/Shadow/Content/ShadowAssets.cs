@@ -241,13 +241,13 @@ namespace ShadowMod.Characters.Survivors.Shadow
             };
 
         }
-        internal static void AddLightIntensityCurve(this GameObject gameObject, AnimationCurve curve, float duration)
+        private static void AddLightIntensityCurve(this GameObject gameObject, AnimationCurve curve, float duration)
         {
             var light = gameObject.AddComponent<LightIntensityCurve>();
             light.curve = curve;
             light.timeMax = duration;
         }
-        internal static void SetMaterialAndMesh(this GameObject gameObject, Material mat, Mesh mesh)
+        private static void SetMaterialAndMesh(this GameObject gameObject, Material mat, Mesh mesh)
         {
             if (gameObject.TryGetComponent<ParticleSystemRenderer>(out var renderer))
             {
@@ -255,7 +255,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 renderer.mesh = mesh;
             }
         }
-        internal static void SetMaterialAndMeshes(this GameObject gameObject, Material mat, Mesh[] mesh)
+        private static void SetMaterialAndMeshes(this GameObject gameObject, Material mat, Mesh[] mesh)
         {
             if (gameObject.TryGetComponent<ParticleSystemRenderer>(out var renderer))
             {

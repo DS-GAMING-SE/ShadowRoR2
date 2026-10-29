@@ -14,6 +14,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public const float homingRange = 55f;
         public const float homingRangeHero = 75f;
         public const float homingRangeSuper = 90f;
+
+        public const float chaosMarkDuration = 10f;
         #endregion
 
         #region Chaos Snap
@@ -34,9 +36,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
         #region Chaos Spear
         public const float chaosSpearDamageCoefficient = 7f;
 
-        public const float chaosSpearCooldown = 6f;
-
-        public const float chaosMarkDuration = 10f;
+        public const float chaosSpearCooldown = 7f;
         #endregion
 
         #region Boost
@@ -48,7 +48,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
         #region Chaos Boost
         public const float chaosBoostDamageCoefficient = 3f;
 
-        public const float chaosBoostRadius = 15f;
+        public const float chaosBoostRadius = 20f;
 
         public const RoR2.BlastAttack.FalloffModel chaosBoostFalloff = RoR2.BlastAttack.FalloffModel.Linear;
 

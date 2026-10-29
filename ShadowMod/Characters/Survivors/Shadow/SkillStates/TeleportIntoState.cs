@@ -13,7 +13,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
     public abstract class TeleportIntoState : BaseSkillState
     {
         protected HomingTracker homingTracker;
-        protected HurtBox target;
+        public HurtBox target;
         protected Vector3 offset;
         protected virtual float teleportInBaseDuration { get { return 0.35f; } }
         protected float teleportInDuration;
@@ -29,7 +29,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             base.OnEnter();
             homingTracker = GetComponent<HomingTracker>();
             homingTracker.locked = true;
-            target = homingTracker.GetTrackingTarget();
+            if (!target) target = homingTracker.GetTrackingTarget();
             if (!target) // this shouldn't be happening, yet it has. Probably need to rewrite trackingskilldef
             {
                 outer.SetNextStateToMain(); 
