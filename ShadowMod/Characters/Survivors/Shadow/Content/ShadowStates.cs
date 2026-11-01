@@ -13,6 +13,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Modules.Content.AddEntityState(typeof(ChaosSnapIn));
             Modules.Content.AddEntityState(typeof(ChaosSnapPummel));
             Modules.Content.AddEntityState(typeof(ChaosSnapFinal));
+            Modules.Content.AddEntityState(typeof(ChaosSnapSingle));
 
             Modules.Content.AddEntityState(typeof(ChaosSpear));
 

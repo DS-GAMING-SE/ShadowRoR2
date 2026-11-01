@@ -19,6 +19,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         protected float teleportInDuration;
         protected virtual float baseDuration { get { return 0.5f; } }
         protected float duration;
+        private const float INTANGIBLE_DURATION_PERCENT = 0.7f;
 
         public abstract Type nextStateType { get; }
         private bool invincible;
@@ -69,12 +70,12 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             base.FixedUpdate();
             if (NetworkServer.active)
             {
-                if (fixedAge >= teleportInDuration * 0.5f && !invincible)
+                if (fixedAge >= teleportInDuration * (1 - INTANGIBLE_DURATION_PERCENT) && !invincible)
                 {
                     invincible = true;
                     characterBody.AddBuff(RoR2Content.Buffs.Intangible);
                 }
-                else if (fixedAge < teleportInDuration * 1.5f && invincible)
+                else if (fixedAge < teleportInDuration * INTANGIBLE_DURATION_PERCENT && invincible)
                 {
                     invincible = false;
                     characterBody.RemoveBuff(RoR2Content.Buffs.Intangible);
@@ -85,18 +86,22 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
                 characterMotor.velocity = Vector3.Lerp(characterMotor.velocity, Vector3.zero, fixedAge / teleportInDuration);
                 if (fixedAge >= duration)
                 {
-                    EntityState state = EntityStateCatalog.InstantiateState(nextStateType);
-                    if (state is StickToTargetState stick)
-                    {
-                        stick.target = target;
-                        stick.offset = offset;
-                        stick.activatorSkillSlot = activatorSkillSlot;
-                        outer.SetNextState(stick);
-                        return;
-                    }
-                    outer.SetNextState(state);
+                    SetNextState();
                 }
             }
+        }
+        protected virtual void SetNextState()
+        {
+            EntityState state = EntityStateCatalog.InstantiateState(nextStateType);
+            if (state is StickToTargetState stick)
+            {
+                stick.target = target;
+                stick.offset = offset;
+                stick.activatorSkillSlot = activatorSkillSlot;
+                outer.SetNextState(stick);
+                return;
+            }
+            outer.SetNextState(state);
         }
         protected virtual void PlayAnimation()
         {

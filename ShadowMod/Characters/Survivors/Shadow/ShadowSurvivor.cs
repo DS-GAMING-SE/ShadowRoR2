@@ -134,6 +134,9 @@ namespace ShadowMod.Characters.Survivors.Shadow
             bodyPrefab.AddComponent<HedgehogUtils.Miscellaneous.MomentumPassive>();
             bodyPrefab.AddComponent<HedgehogUtils.Boost.BoostLogic>();
             bodyPrefab.AddComponent<HomingTracker>();
+            var sfxComponent = bodyPrefab.GetComponent<SfxLocator>();
+            sfxComponent.deathSound = "Play_hedgehogutils_death";
+            sfxComponent.jumpSound = "Play_hedgehogutils_jump_ball";
             //anything else here
         }
 

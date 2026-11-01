@@ -1,4 +1,5 @@
 ﻿using EntityStates;
+using RoR2;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,8 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
     public class ChaosSnapIn : TeleportIntoState, ISkillState
     {
         public override Type nextStateType { get { return typeof(ChaosSnapPummel); } }
+        public virtual Type nextSingleStateType { get { return typeof(ChaosSnapSingle); } }
+
         public bool rechargeFromChaosMark = true;
 
         public override void OnExit()
@@ -20,6 +23,25 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
                 if (isAuthority && activatorSkillSlot.CanApplyAmmoPack() && rechargeFromChaosMark) activatorSkillSlot.ApplyAmmoPack();
             }
             base.OnExit();
+        }
+        protected override void SetNextState()
+        {
+            if (inputBank && inputBank.skill1.down)
+            {
+                base.SetNextState();
+            }
+            else
+            {
+                EntityState state = EntityStateCatalog.InstantiateState(nextSingleStateType);
+                if (state is ChaosSnapSingle final)
+                {
+                    final.target = target;
+                    final.activatorSkillSlot = activatorSkillSlot;
+                    outer.SetNextState(final);
+                    return;
+                }
+                outer.SetNextState(state);
+            }
         }
     }
 }

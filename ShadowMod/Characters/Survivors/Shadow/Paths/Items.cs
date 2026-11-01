@@ -32,6 +32,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
                 x => x.MatchCallOrCallvirt(AccessTools.Method(typeof(CharacterMasterNotificationQueue), 
                 nameof(CharacterMasterNotificationQueue.PushPickupNotification), [typeof(CharacterMaster), typeof(UniquePickup)]))))
             {
+                // If Shadow picks up an item and it's a path item, push a path notification instead of a normal item notification
                 normalPickupNotification = c.Prev;
 
                 if (c.TryGotoPrev(MoveType.AfterLabel, x => x.MatchBgt(out afterPickupNotification)))
@@ -62,7 +63,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
                         return false;
                     });
                     c.Emit(OpCodes.Brtrue, afterPickupNotification);
-                    // Add stuff back to the stack in case my check fails because my delegate eated it all
+                    // Add stuff back to the stack in case my check fails because my delegate eated it all either way
                     c.Emit(OpCodes.Ldloc, masterIndex);
                     c.Emit(OpCodes.Ldloc, pickupIndex);
                 }
@@ -88,12 +89,13 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
                 x => x.MatchStfld<NotificationUIController>(nameof(NotificationUIController.currentNotification)),
                 x => x.MatchBr(out afterPrefabSelection))))
             {
+                // Inserting my own kind of notification into the ifelse chain after the trial variant notification
                 c.Goto(itemDefPrefabSelection.Target, MoveType.AfterLabel);
                 
                 c.Emit(OpCodes.Ldarg_0); // NotificationUIController
                 c.Emit(OpCodes.Ldarg_1); // notificationInfo
-                c.Emit(OpCodes.Ldarg_0);
-                c.Emit<NotificationUIController>(OpCodes.Ldfld, nameof(NotificationUIController.genericNotificationPrefab));
+                c.Emit(OpCodes.Ldarg_0); // NotificationUIController for ldfld
+                c.Emit<NotificationUIController>(OpCodes.Ldfld, nameof(NotificationUIController.genericNotificationPrefab)); // ldfld from the last NotificationUIController
                 c.EmitDelegate<Func<NotificationUIController, CharacterMasterNotificationQueue.NotificationInfo, GameObject, bool>>((ui, notificationInfo, genericPrefab) => 
                 {
                     if (notificationInfo.data is PathItem pathItem)
@@ -120,6 +122,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
                 if (c.TryGotoNext(MoveType.After,
                 x => x.MatchIsinst<ItemDef>()))
                 {
+                    // Get item info for the notification from PathItem struct
                     c.Emit(OpCodes.Ldarg_1);
                     c.EmitDelegate<Func<ItemDef, CharacterMasterNotificationQueue.NotificationInfo, ItemDef>>((itemDef, notificationInfo) =>
                     {

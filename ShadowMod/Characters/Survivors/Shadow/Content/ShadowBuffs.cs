@@ -8,6 +8,7 @@ using RoR2;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 using UnityEngine;
+using static ShadowMod.Modules.Tokens;
 
 namespace ShadowMod.Characters.Survivors.Shadow
 {
@@ -47,7 +48,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             {
                 RegisterLookingGlassBuff(en, boostBuff, "Shadow Boost", $"Gain <style=cIsUtility>+{ShadowStaticValues.boostArmor} armor</style>. Gain <style=cIsUtility>+{ShadowStaticValues.boostListedSpeedCoefficient * 100}% movement speed</style>.");
                 RegisterLookingGlassBuff(en, chaosMarkDebuff, "Shadow Chaos Mark", $"Can be consumed to refresh Chaos Snap's cooldown.");
-                RegisterLookingGlassBuff(en, chaosBoostBuff, "Shadow Chaos Boost", $"{HedgehogUtils.Helpers.wipIcon}");
+                RegisterLookingGlassBuff(en, chaosBoostBuff, "Shadow Chaos Boost", $"Gain +{ShadowStaticValues.chaosBoost1Stats * 100f}%-{ShadowStaticValues.chaosBoost3Stats * 100}% {DamageText("attack speed")} and {UtilityText("movement speed")}. Gain {UtilityText("+" + ShadowStaticValues.chaosBoost1Armor+"-"+ShadowStaticValues.chaosBoost3Armor+" armor")}.");
             }
         }
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]

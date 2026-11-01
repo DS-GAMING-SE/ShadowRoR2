@@ -11,14 +11,30 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
     public class ChaosSnapPummel : StickToTargetState, ISkillState
     {
         protected float attackTimer;
-        protected DamageInfo attack = new DamageInfo();
+        protected OverlapAttack attack = new OverlapAttack();
+
         protected virtual Type nextStateType { get { return typeof(ChaosSnapFinal); } }
+
         private ICharacterGravityParameterProvider enemyGrav;
-        private CameraTargetParams.AimRequest cameraAim;
+        protected bool canPushTarget;
+
+        private CharacterCameraParamsData pummelCameraParams = new CharacterCameraParamsData
+        {
+            maxPitch = 80f,
+            minPitch = -80f,
+            pivotVerticalOffset = 1f,
+            idealLocalCameraPos = new Vector3(-1.5f, 0f, -8),
+            wallCushion = 0.1f
+        };
+        private CameraTargetParams.CameraParamsOverrideHandle camOverrideHandle;
         public override void OnEnter()
         {
             base.OnEnter();
-            if (cameraTargetParams) cameraAim = cameraTargetParams.RequestAimType(CameraTargetParams.AimType.OverTheShoulder);
+            if (isAuthority) characterBody.isSprinting = false;
+            if (cameraTargetParams) camOverrideHandle = cameraTargetParams.AddParamsOverride(new CameraTargetParams.CameraParamsOverrideRequest
+            { 
+                cameraParamsData = pummelCameraParams,
+                priority = 1f}, 0.85f);
             attackTimer = ShadowStaticValues.chaosSnapPummelInterval / characterBody.attackSpeed;
             if (activatorSkillSlot) activatorSkillSlot.SetBlockedCooldownSkillState(true);
             if (target && target.healthComponent)
@@ -31,6 +47,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
                     param.channeledAntiGravityGranterCount++;
                     enemyGrav.gravityParameters = param;
                 }
+                canPushTarget = GetCanPushTarget();
             }
         }
         public override void FixedUpdate()
@@ -40,7 +57,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             while (attackTimer <= 0 && target && target.healthComponent && !target.healthComponent.body.HasBuff(RoR2Content.Buffs.Intangible))
             {
                 attackTimer += ShadowStaticValues.chaosSnapPummelInterval / characterBody.attackSpeed;
-                if (NetworkServer.active)
+                if (isAuthority)
                 {
                     CreateAttack();
                     ModifyAttack(attack);
@@ -64,29 +81,36 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             }
             outer.SetNextState(state);
         }
+        protected virtual bool GetCanPushTarget()
+        {
+            return HedgehogUtils.Launch.LaunchManager.AttackCanLaunch(target.healthComponent.body, characterBody, false, 1f, new Vector3(0, ShadowStaticValues.chaosSnapFinalPushForce, 0))
+                    && target.healthComponent.body.hullClassification != HullClassification.BeetleQueen && !target.healthComponent.body.isChampion;
+        }
         protected void CreateAttack()
         {
             attack.attacker = gameObject;
             attack.inflictor = gameObject;
-            attack.crit = RollCrit();
+            attack.isCrit = RollCrit();
             attack.procCoefficient = ShadowStaticValues.chaosSnapPummelProcCoefficient;
             attack.damage = ShadowStaticValues.chaosSnapPummelDamageCoefficient * characterBody.damage;
             attack.damageType = new DamageTypeCombo(DamageType.Stun1s, DamageTypeExtended.Generic, DamageSource.Primary);
-            attack.inflictedHurtbox = target;
-            attack.position = target.collider.ClosestPoint(transform.position);
-            //attack.physForceFlags = PhysForceFlags.resetVelocity;
+            if (canPushTarget)
+            {
+                attack.physForceFlags = PhysForceFlags.resetVelocity | PhysForceFlags.disableAirControlUntilCollision | PhysForceFlags.massIsOne | PhysForceFlags.ignoreGroundStick;
+                attack.pushAwayForce = ((Vector3.Dot(inputBank.moveVector.normalized, -offset.normalized) / 2) + 0.5f) * inputBank.moveVector.magnitude * 2f * characterBody.moveSpeed;
+                attack.pushAwayForce *= target.healthComponent.body.hullClassification == HullClassification.Golem ? 0.75f : 1f;
+                // doesn't work when enemy dies
+            }
         }
-        protected virtual void ModifyAttack(DamageInfo damage)
+        protected virtual void ModifyAttack(OverlapAttack attack)
         {
 
         }
         protected void FireAttack()
         {
-            if (target.healthComponent)
+            if (target && target.healthComponent && !target.healthComponent.body.HasBuff(RoR2Content.Buffs.Intangible))
             {
-                target.healthComponent.TakeDamage(attack);
-                GlobalEventManager.instance.OnHitEnemy(attack, target.healthComponent.gameObject);
-                GlobalEventManager.instance.OnHitAll(attack, target.healthComponent.gameObject);
+                attack.ProcessHits([new OverlapAttack.OverlapInfo { hurtBox = target, hitPosition = target.collider.ClosestPoint(transform.position), pushDirection = GetAimRay().direction, hitOrigin = transform.position }]);
             }
         }
         public override void OnExit()
@@ -99,7 +123,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
                 param.channeledAntiGravityGranterCount--;
                 enemyGrav.gravityParameters = param;
             }
-            cameraAim?.Dispose();
+            if (cameraTargetParams) cameraTargetParams.RemoveParamsOverride(camOverrideHandle, 0.7f);
             base.OnExit();
         }
     }

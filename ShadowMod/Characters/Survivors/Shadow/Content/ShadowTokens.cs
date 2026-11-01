@@ -47,7 +47,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
             #region Common Keywords
             Language.Add(prefix + "KEYWORD_HOMING", $"{KeywordText("Homing", "Targets the enemy closest to the crosshair, indicated by the reticle.")}");
-            Language.Add(prefix + "KEYWORD_CHAOS_MARK", $"{KeywordText("Chaos Mark", $"Using {UtilityText("Chaos Snap")} or killing the target will consume the mark to refresh {UtilityText("Chaos Snap")}'s cooldown.")}");
+            Language.Add(prefix + "KEYWORD_CHAOS_MARK", KeywordText("Chaos Mark", $"Using {UtilityText("Chaos Snap")} or killing the target will consume the mark to refresh {UtilityText("Chaos Snap")}'s cooldown."));
             #endregion
 
             #region Passive
@@ -55,17 +55,23 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Language.Add(prefix + "PASSIVE_DESCRIPTION", $"With the <color=#e7c7e6>Artifact of Chaos Emeralds</color> enabled, Shadow can choose to {UtilityText("wield the Chaos Emeralds")}, accept the {RedText("dark influence of Black Doom")}, or forsake both and {HealingText("fight only with his own power")}.");
             Language.Add(prefix + "KEYWORD_HERO_PATH", $"{KeywordText($"{UtilityText("Hero")}", $"Collect the Chaos Emeralds. Improves your {UtilityText("mobility")} and increases your {UtilityText("Homing")} range.")}");
             Language.Add(prefix + "KEYWORD_DARK_PATH", $"{KeywordText($"{RedText("Dark")}", $"Accept Doom Powers at the end of each stage. Permanently upgrade your skills into more aggressive variants.")}");
-            Language.Add(prefix + "KEYWORD_NEUTRAL_PATH", $"{KeywordText($"{HealingText("Neutral")}", $"Remove your Inhibitor Rings for a stage, gaining incredible power at the cost of disabling all of your items.")}");
+            Language.Add(prefix + "KEYWORD_NEUTRAL_PATH", KeywordText($"{HealingText("Neutral")}", $"{UtilityText("Upon death")}, {UtilityText("return to life")} and remove your inhibitor rings for the rest of the stage, giving {DamageText("incredible power")} but {HealthText("disabling your items")}."));
             #endregion
 
             #region Primary
             Language.Add(prefix + "PRIMARY_CHAOS_SNAP_NAME", $"Chaos Snap");
-            Language.Add(prefix + "PRIMARY_CHAOS_SNAP_DESCRIPTION", $"{UtilityText("Homing")}. Teleport to the target and pummel them for {DamageValueText(chaosSnapPummelDamageCoefficient)} repeatedly while the skill is held. Release to {UtilityText("Launch")} the target for {DamageValueText(chaosSnapFinalDamageCoefficient)}. {HedgehogUtils.Helpers.wipIcon} Use your {UtilityText("secondary skill")} to {UtilityText("Launch")} the target up. {HedgehogUtils.Helpers.wipIcon} Use your {UtilityText("utility skill")} to teleport away from or behind the target.");
+            Language.Add(prefix + "PRIMARY_CHAOS_SNAP_DESCRIPTION", $"{UtilityText("Homing")}. Teleport to the target and pummel them for {DamageValueText(chaosSnapPummelDamageCoefficient)} repeatedly while the skill is held. Release to {UtilityText("Launch")} the target for {DamageValueText(chaosSnapFinalDamageCoefficient)}. {HedgehogUtils.Helpers.wipIcon} Use your {UtilityText("utility skill")} to teleport away from or behind the target.");
             #endregion
 
             #region Secondary
             Language.Add(prefix + "SECONDARY_CHAOS_SPEAR_NAME", $"Chaos Spear");
             Language.Add(prefix + "SECONDARY_CHAOS_SPEAR_DESCRIPTION", DamageText("Shocking")+". "+ UtilityText("Homing")+". " + agilePrefix + $"Fire a Chaos Spear dealing {DamageValueText(chaosSpearDamageCoefficient)} and applying a {UtilityText("Chaos Mark")}.");
+            
+            #region Doom
+            Language.Add(prefix + "SECONDARY_DOOM_SPEAR_NAME", RedText("Doom Spear"));
+            Language.Add(prefix + "SECONDARY_DOOM_SPEAR_DESCRIPTION", DamageText("Shocking") + ". " + UtilityText("Homing") + ". " + agilePrefix + $"Fire {RedText("Doom Spears at up to 5 targets")} dealing {DamageValueText(chaosSpearDamageCoefficient)} and applying {UtilityText("Chaos Marks")}.");
+            #endregion
+
             #endregion
 
             #region Utility
@@ -74,18 +80,21 @@ namespace ShadowMod.Characters.Survivors.Shadow
             #endregion
 
             #region Special
-            Language.Add(prefix + "KEYWORD_KILL_COOLDOWN", $"{KeywordText("kill cooldown", $"This skill's cooldown is only charged by killing enemies. Additional skill stocks increase the skill's duration.")}");
-
+            Language.Add(prefix + "KEYWORD_KILL_COOLDOWN", KeywordText("kill cooldown", $"This skill's cooldown is only charged by killing enemies. Additional charges increase the skill's duration."));
+            #region Chaos Boost
             Language.Add(prefix + "SPECIAL_CHAOS_BOOST_NAME", $"Chaos Boost");
             Language.Add(prefix + "SPECIAL_CHAOS_BOOST_DESCRIPTION", $"{RedText("kill cooldown")}. Release a burst of energy dealing {DamageValueText(chaosBoostDamageCoefficient)} and applying {UtilityText("Chaos Marks")}. Enhance your stats for {UtilityText(chaosBoostMaxDuration+"s")}. Killing {chaosBoostKillsToUpgrade} enemies will {UtilityText("upgrade")} the effect and reset its duration. {HedgehogUtils.Helpers.wipIcon} Can upgrade into {DeathText("Chaos Blast")}.");
-            
+            #endregion
+            #region Chaos Blast
             string chaosBlastDescription = $"{UtilityText("Homing")}. Hold the target in place and release a massive explosion dealing {DamageValueText(chaosBlastDamageCoefficient)} repeatedly.";
             Language.Add(prefix + "KEYWORD_CHAOS_BLAST", KeywordText("Chaos Blast", chaosBlastDescription));
             Language.Add(prefix + "SPECIAL_CHAOS_BLAST_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Blast");
             Language.Add(prefix + "SPECIAL_CHAOS_BLAST_DESCRIPTION", chaosBlastDescription);
-
+            #endregion
+            #region Chaos Control
             Language.Add(prefix + "SPECIAL_CHAOS_CONTROL_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Control");
             Language.Add(prefix + "SPECIAL_CHAOS_CONTROL_DESCRIPTION", $"{HedgehogUtils.Helpers.wipIcon}");
+            #endregion
             #endregion
 
             #region Paths

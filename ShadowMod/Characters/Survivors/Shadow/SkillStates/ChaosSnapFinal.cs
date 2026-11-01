@@ -24,6 +24,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
+            if (isAuthority) characterBody.isSprinting = true;
             duration = baseDuration / attackSpeedStat;
             if (activatorSkillSlot) activatorSkillSlot.SetBlockedCooldownSkillState(true);
             if (target && NetworkServer.active) target.healthComponent.body.AddBuff(HedgehogUtils.Buffs.suppressDeathBuff);
