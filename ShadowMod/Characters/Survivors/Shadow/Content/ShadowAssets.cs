@@ -101,8 +101,9 @@ namespace ShadowMod.Characters.Survivors.Shadow
             matSphereBurst.SetColor("_TintColor", new Color(3f, 0f, 0.06f));
             Material matSphereParticle = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_Items_JumpDamageStrike.matJumpDamageStrikeBlast_mat).WaitForCompletion());
             matSphereParticle.SetTexture("_RemapTex", texRedPinkRamp);
-            Material matRedEyeFlash = AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Titan.matTitanLaserGlob_mat).WaitForCompletion();
+            Material matRedEyeFlash /*combine with EyeFlash component*/ = AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Titan.matTitanLaserGlob_mat).WaitForCompletion();
             Material matPinkPurpleLightning = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_Items_ShockDamageAura.matDroneShockDamageElectricity02_mat).WaitForCompletion());
+            matPinkPurpleLightning.SetFloat("_Boost", 6f);
             matPinkPurpleLightning.SetFloat("_AlphaBias", 0f);
             matPinkPurpleLightning.SetFloat("_AlphaBoost", 3.5f);
             matPinkPurpleLightning.SetTexture("_RemapTex", texPurpleRamp);

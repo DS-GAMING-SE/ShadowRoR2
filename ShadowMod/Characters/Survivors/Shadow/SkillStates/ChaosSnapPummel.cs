@@ -54,7 +54,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         {
             base.FixedUpdate();
             attackTimer -= Time.fixedDeltaTime;
-            while (attackTimer <= 0 && target && target.healthComponent && !target.healthComponent.body.HasBuff(RoR2Content.Buffs.Intangible))
+            while (attackTimer <= 0 && CanStickToTarget())
             {
                 attackTimer += ShadowStaticValues.chaosSnapPummelInterval / characterBody.attackSpeed;
                 if (isAuthority)
@@ -64,7 +64,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
                     FireAttack();
                 }
             }
-            if (isAuthority && (!target || !target.healthComponent || target.healthComponent.body.HasBuff(RoR2Content.Buffs.Intangible) || !inputBank.skill1.down || fixedAge > ShadowStaticValues.chaosSnapPummelMaxDuration))
+            if (isAuthority && (!CanStickToTarget() || !inputBank.skill1.down || fixedAge > ShadowStaticValues.chaosSnapPummelMaxDuration))
             {
                 SetNextState(); // final hit
             }
@@ -108,7 +108,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         }
         protected void FireAttack()
         {
-            if (target && target.healthComponent && !target.healthComponent.body.HasBuff(RoR2Content.Buffs.Intangible))
+            if (CanStickToTarget())
             {
                 attack.ProcessHits([new OverlapAttack.OverlapInfo { hurtBox = target, hitPosition = target.collider.ClosestPoint(transform.position), pushDirection = GetAimRay().direction, hitOrigin = transform.position }]);
             }

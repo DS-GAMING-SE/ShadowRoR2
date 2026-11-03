@@ -6,10 +6,11 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 using RoR2;
+using ShadowMod.Characters.Survivors.Shadow.Components;
 
 namespace ShadowMod.Characters.Survivors.Shadow
 {
-    public class NetworkKillCooldown : INetMessage
+    /*public class NetworkKillCooldown : INetMessage
     {
         private NetworkInstanceId netId;
         public NetworkKillCooldown()
@@ -23,14 +24,20 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public void OnReceived()
         {
             CharacterBody body = RoR2.Util.FindNetworkCharacterBody(netId);
-            if (body && body.skillLocator && body.skillLocator.hasEffectiveAuthority)
+            if (body && body.hasAuthority && body.TryGetComponent<ChaosBoostComponent>(out var chaosBoost))
             {
-                foreach (var skill in body.skillLocator.AllSkills)
+                bool chargedAll = true;
+                foreach (var skill in chaosBoost.killCooldownSkills)
                 {
-                    if (skill.skillDef is KillCooldownSkillDef)
+                    //skill.RunRecharge(1);
+                    if (!skill.IsReady())
                     {
-                        skill.RunRecharge(1);
+                        chargedAll = false;
                     }
+                }
+                if (chargedAll)
+                {
+                    BaseChaosBoostState.SetChaosBoostCharged(body.gameObject, true);
                 }
             }
         }
@@ -43,5 +50,5 @@ namespace ShadowMod.Characters.Survivors.Shadow
         {
             netId = reader.ReadNetworkId();
         }
-    }
+    }*/
 }

@@ -28,6 +28,9 @@ namespace ShadowMod.Modules
 
         public static List<NetworkSoundEventDef> networkSoundEventDefs = new List<NetworkSoundEventDef>();
 
+        public static List<ItemTierDef> itemTierDefs = new List<ItemTierDef>();
+        public static List<ItemDef> itemDefs = new List<ItemDef>();
+
         public void Initialize()
         {
             ContentManager.collectContentPackProviders += ContentManager_collectContentPackProviders;
@@ -57,6 +60,9 @@ namespace ShadowMod.Modules
             contentPack.effectDefs.Add(effectDefs.ToArray());
 
             contentPack.networkSoundEventDefs.Add(networkSoundEventDefs.ToArray());
+
+            contentPack.itemTierDefs.Add(itemTierDefs.ToArray());
+            contentPack.itemDefs.Add(itemDefs.ToArray());
 
             args.ReportProgress(1f);
             yield break;

@@ -2,7 +2,7 @@
 
 namespace ShadowMod.Characters.Survivors.Shadow.Components
 {
-    internal class ShadowComponent : MonoBehaviour
+    public class ShadowComponent : MonoBehaviour
     {
         private void Awake()
         {

@@ -6,6 +6,7 @@ using System.Text;
 using UnityEngine;
 using R2API;
 using R2API.Networking.Interfaces;
+using ShadowMod.Characters.Survivors.Shadow.Paths;
 
 namespace ShadowMod.Characters.Survivors.Shadow
 {
@@ -48,7 +49,10 @@ namespace ShadowMod.Characters.Survivors.Shadow
         }
         public override void OnArrival()
         {
-            if (target && target.healthComponent) new NetworkKillCooldown(target.healthComponent.netId).Send(R2API.Networking.NetworkDestination.Clients);
+            if (target && target.healthComponent && target.healthComponent.body.inventory)
+            {
+                target.healthComponent.body.inventory.GiveItemRented(Items.killCooldownChargeItemDef.itemIndex);
+            }
             base.OnArrival();
         }
     }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ShadowMod.Characters.Survivors.Shadow.Components
 {
-    public class ShadowVoiceLineComponent : VoicelineComponent
+    public class ShadowVoicelineComponent : VoicelineComponent
     {
         private void Awake()
         {

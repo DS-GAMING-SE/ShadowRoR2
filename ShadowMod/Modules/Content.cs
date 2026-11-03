@@ -116,6 +116,59 @@ namespace ShadowMod.Modules
 
             return effectDef;
         }
+        public static ItemDef AddItemDef(string itemName, string token, AssetReferenceT<Sprite> icon, AssetReferenceT<GameObject> pickupModel, ItemTierDef itemTierDef)
+        {
+            ItemDef itemDef = ScriptableObject.CreateInstance<ItemDef>();
+            itemDef.name = itemName;
+            itemDef.tier = ItemTier.AssignedAtRuntime;
+            itemDef.pickupModelReference = pickupModel;
+            itemDef.pickupIconSpriteReference = icon != null && icon.RuntimeKeyIsValid() ? icon : new AssetReferenceT<Sprite>(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Core.texNullIcon_png);
+            itemDef.canRemove = false;
+            itemDef._itemTierDef = itemTierDef;
+            if (!itemTierDef)
+            {
+                itemDef.hidden = true;
+                itemDef.deprecatedTier = ItemTier.NoTier; itemDef.tier = ItemTier.NoTier; 
+            }
+
+            string prefix = ShadowMod.Characters.Survivors.Shadow.ShadowSurvivor.SHADOW_PREFIX + "ITEM_";
+
+            itemDef.nameToken = prefix + token;
+            itemDef.pickupToken = prefix + token + "_PICKUP";
+            itemDef.descriptionToken = prefix + token + "_DESC";
+            itemDef.loreToken = prefix + token + "_LORE";
+            itemDef.tags =
+            [
+                ItemTag.CannotSteal,
+                ItemTag.WorldUnique,
+                ItemTag.CannotDisable,
+                ItemTag.CanBeRental
+            ];
+
+            ContentPacks.itemDefs.Add(itemDef);
+
+            return itemDef;
+        }
+        public static ItemTierDef AddItemTierDef(string token)
+        {
+            ItemTierDef tier = ScriptableObject.CreateInstance<ItemTierDef>();
+            tier.tier = ItemTier.AssignedAtRuntime;
+            tier.isDroppable = true;
+            tier.canRestack = true;
+            tier.canRebirth = false;
+            tier.canScrap = false;
+            tier.pickupRules = ItemTierDef.PickupRules.Default;
+            tier.name = ShadowMod.Characters.Survivors.Shadow.ShadowSurvivor.SHADOW_PREFIX + "ITEM_TIER_" + token;
+            tier.highlightPrefab = Addressables.LoadAssetAsync<GameObject>(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_UI.HighlightTier3Item_prefab).WaitForCompletion();
+            tier.dropletDisplayPrefab = Addressables.LoadAssetAsync<GameObject>(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common.Tier3Orb_prefab).WaitForCompletion();
+            tier.colorIndex = ColorCatalog.ColorIndex.Tier3Item;
+            tier.darkColorIndex = ColorCatalog.ColorIndex.Tier3ItemDark;
+            tier.bgIconTexture = Addressables.LoadAssetAsync<Texture>(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common.texTier3BGIcon_png).WaitForCompletion();
+
+            ContentPacks.itemTierDefs.Add(tier);
+
+            return tier;
+        }
 
         internal static void AddNetworkSoundEventDef(NetworkSoundEventDef networkSoundEventDef)
         {

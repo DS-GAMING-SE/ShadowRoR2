@@ -25,11 +25,11 @@ namespace ShadowMod.Characters.Survivors.Shadow
         {
             string prefix = ShadowSurvivor.SHADOW_PREFIX;
 
-            string desc = "Henry is a skilled fighter who makes use of a wide arsenal of weaponry to take down his foes.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine
-             + "< ! > Sword is a good all-rounder while Boxing Gloves are better for laying a beatdown on more powerful foes." + Environment.NewLine + Environment.NewLine
-             + "< ! > Pistol is a powerful anti air, with its low cooldown and high damage." + Environment.NewLine + Environment.NewLine
-             + "< ! > Roll has a lingering armor buff that helps to use it aggressively." + Environment.NewLine + Environment.NewLine
-             + "< ! > Bomb can be used to wipe crowds with ease." + Environment.NewLine + Environment.NewLine;
+            string desc = "Shadow is a fast and aggressive melee survivor who tears through enemies individually ---reword?---.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine
+             + "< ! > Shadow's lack of group damage can be circumvented with smart use of his Launching ability." + Environment.NewLine + Environment.NewLine
+             + "< ! > Chaos Snap is your go-to attack for any situation. Use it in tandem with your other skills to avoid its cooldown." + Environment.NewLine + Environment.NewLine
+             + "< ! > Chaos Spear ---." + Environment.NewLine + Environment.NewLine
+             + "< ! > Chaos Boost ----." + Environment.NewLine + Environment.NewLine;
 
             string outro = "..and so he left, ?????.";
             string outroFailure = "..and so he vanished, ?????.";
@@ -46,15 +46,15 @@ namespace ShadowMod.Characters.Survivors.Shadow
             #endregion
 
             #region Common Keywords
-            Language.Add(prefix + "KEYWORD_HOMING", $"{KeywordText("Homing", "Targets the enemy closest to the crosshair, indicated by the reticle.")}");
+            Language.Add(prefix + "KEYWORD_HOMING", KeywordText("Homing", "Targets the enemy closest to the crosshair, indicated by the reticle."));
             Language.Add(prefix + "KEYWORD_CHAOS_MARK", KeywordText("Chaos Mark", $"Using {UtilityText("Chaos Snap")} or killing the target will consume the mark to refresh {UtilityText("Chaos Snap")}'s cooldown."));
             #endregion
 
             #region Passive
             Language.Add(prefix + "PASSIVE_NAME", $"{HedgehogUtils.Helpers.wipIcon} All of Me");
             Language.Add(prefix + "PASSIVE_DESCRIPTION", $"With the <color=#e7c7e6>Artifact of Chaos Emeralds</color> enabled, Shadow can choose to {UtilityText("wield the Chaos Emeralds")}, accept the {RedText("dark influence of Black Doom")}, or forsake both and {HealingText("fight only with his own power")}.");
-            Language.Add(prefix + "KEYWORD_HERO_PATH", $"{KeywordText($"{UtilityText("Hero")}", $"Collect the Chaos Emeralds. Improves your {UtilityText("mobility")} and increases your {UtilityText("Homing")} range.")}");
-            Language.Add(prefix + "KEYWORD_DARK_PATH", $"{KeywordText($"{RedText("Dark")}", $"Accept Doom Powers at the end of each stage. Permanently upgrade your skills into more aggressive variants.")}");
+            Language.Add(prefix + "KEYWORD_HERO_PATH", KeywordText($"{UtilityText("Hero")}", $"Collect the Chaos Emeralds. Improves your {UtilityText("mobility")} and increases your {UtilityText("Homing")} range."));
+            Language.Add(prefix + "KEYWORD_DARK_PATH", KeywordText($"{RedText("Dark")}", $"Accept Doom Powers at the end of each stage. Permanently upgrade your skills into more aggressive variants."));
             Language.Add(prefix + "KEYWORD_NEUTRAL_PATH", KeywordText($"{HealingText("Neutral")}", $"{UtilityText("Upon death")}, {UtilityText("return to life")} and remove your inhibitor rings for the rest of the stage, giving {DamageText("incredible power")} but {HealthText("disabling your items")}."));
             #endregion
 
@@ -69,7 +69,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             
             #region Doom
             Language.Add(prefix + "SECONDARY_DOOM_SPEAR_NAME", RedText("Doom Spear"));
-            Language.Add(prefix + "SECONDARY_DOOM_SPEAR_DESCRIPTION", DamageText("Shocking") + ". " + UtilityText("Homing") + ". " + agilePrefix + $"Fire {RedText("Doom Spears at up to 5 targets")} dealing {DamageValueText(chaosSpearDamageCoefficient)} and applying {UtilityText("Chaos Marks")}.");
+            Language.Add(prefix + "SECONDARY_DOOM_SPEAR_DESCRIPTION", DamageText("Shocking") + ". " + UtilityText("Homing") + ". " + agilePrefix + $"Fire Doom Spears {RedText("at up to 5 targets")} dealing {DamageValueText(chaosSpearDamageCoefficient)} and applying {UtilityText("Chaos Marks")}.");
             #endregion
 
             #endregion
@@ -100,6 +100,12 @@ namespace ShadowMod.Characters.Survivors.Shadow
             #region Paths
             Language.Add(prefix + "HERO_PICKUP_SUFFIX", $"{UtilityText("This marks the path you've chosen.")}");
             Language.Add(prefix + "DARK_PICKUP_SUFFIX", $"{RedText("This marks the path you've chosen.")}");
+
+            Language.Add(prefix + "ITEM_DOOM_POWER_NAME", $"{HedgehogUtils.Helpers.wipIcon} Doom Power");
+            string doomPowerDescription = HedgehogUtils.Helpers.wipIcon;
+            Language.Add(prefix + "ITEM_DOOM_POWER_PICKUP", doomPowerDescription);
+            Language.Add(prefix + "ITEM_DOOM_POWER_DESC", doomPowerDescription);
+            //Language.Add(prefix + "ITEM_DOOM_POWER_LORE", "");
             #endregion
 
             Language.Add(prefix + "VOICELINES_ENABLE_DESCRIPTION", $"Voicelines recorded by {UtilityText("MotherEggVA")}.");

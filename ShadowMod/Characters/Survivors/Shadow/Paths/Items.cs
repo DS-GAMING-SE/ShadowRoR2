@@ -3,6 +3,7 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
 using RoR2.UI;
+using ShadowMod.Modules;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,11 +13,23 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
 {
     public static class Items
     {
+        public static ItemDef killCooldownChargeItemDef;
+        public static ItemDef pathIdentifierItemDef;
+
+        public static ItemTierDef doomPowerItemTierDef;
+        public static ItemDef doomPowerItemDef;
+        
         internal static void Init()
         {
             IL.RoR2.GenericPickupController.HandlePickupMessage += PathPickupNotification;
             IL.RoR2.UI.NotificationUIController.SetUpNotification += PathItemNotificationPrefab;
             On.RoR2.UI.GenericNotification.SetItem += ExtraTextForPathItems;
+
+            killCooldownChargeItemDef = Content.AddItemDef("ShadowKillCooldownCharge", "KILL_COOLDOWN_CHARGE", null, null, null);
+            pathIdentifierItemDef = Content.AddItemDef("ShadowPathIdentifier", "PATH_IDENTIFIER", null, null, null);
+
+            doomPowerItemTierDef = Content.AddItemTierDef("DOOM_POWER");
+            doomPowerItemDef = Content.AddItemDef("ShadowDoomPower", "DOOM_POWER", null, null, doomPowerItemTierDef);
         }
 
         private static void PathPickupNotification(ILContext il)
@@ -178,10 +191,10 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
             {
                 return ShadowPaths.Path.Hero;
             }
-            /*if (ItemTierCatalog.GetItemTierDef(item.tier) == ItemTierCatalog.GetItemTierDef(ItemTier.Tier1))
+            if (ItemTierCatalog.GetItemTierDef(item.tier) == doomPowerItemTierDef)
             {
                 return ShadowPaths.Path.Dark;
-            }*/
+            }
             return ShadowPaths.Path.Neutral;
         }
         public struct PathItem // This class just exists so I can include the fact that the itemDef is a path item when I send the object data over

@@ -2,6 +2,8 @@
 using JetBrains.Annotations;
 using RoR2;
 using RoR2.Skills;
+using ShadowMod.Characters.Survivors.Shadow.Components;
+using ShadowMod.Characters.Survivors.Shadow.Paths;
 using ShadowMod.Characters.Survivors.Shadow.SkillStates;
 using System;
 using System.Collections.Generic;
@@ -103,28 +105,55 @@ namespace ShadowMod.Characters.Survivors.Shadow
         }
         public override BaseSkillInstanceData OnAssigned([NotNull] GenericSkill skillSlot)
         {
-            InstanceData instanceData = new InstanceData { skillSlot = skillSlot };
-            GlobalEventManager.onDeathProcServer += instanceData.OnKilledOther;
+            InstanceData instanceData = new InstanceData { chaosBoostComponent = skillSlot.GetComponent<ChaosBoostComponent>(), skillSlot = skillSlot };
+            instanceData.chaosBoostComponent.AddKillCooldownSkill(skillSlot);
+            instanceData.skillSlot.characterBody.onInventoryChanged += instanceData.UpdateKillCooldown;
+            if (fullRestockOnAssign && skillSlot.characterBody.inventory)
+            {
+                instanceData.restockGiven = true;
+                skillSlot.characterBody.inventory.GiveItemRented(Items.killCooldownChargeItemDef.itemIndex, requiredStock);
+            }
             return instanceData;
         }
         public override void OnUnassigned([NotNull] GenericSkill skillSlot)
         {
-            GlobalEventManager.onDeathProcServer -= ((InstanceData)skillSlot.skillInstanceData).OnKilledOther;
+            ((InstanceData)skillSlot.skillInstanceData).chaosBoostComponent.RemoveKillCooldownSkill(skillSlot);
+            ((InstanceData)skillSlot.skillInstanceData).skillSlot.characterBody.onInventoryChanged -= ((InstanceData)skillSlot.skillInstanceData).UpdateKillCooldown;
+        }
+        public override void OnExecute([NotNull] GenericSkill skillSlot)
+        {
+            base.OnExecute(skillSlot);
+            skillSlot.characterBody.inventory.RemoveItemRented(Items.killCooldownChargeItemDef.itemIndex, skillSlot.characterBody.inventory.GetItemCountRented(Items.killCooldownChargeItemDef));
+        }
+        public override bool IsReady([NotNull] GenericSkill skillSlot)
+        {
+            return base.IsReady(skillSlot) && skillSlot.characterBody.inventory;
         }
 
         public override void OnFixedUpdate([NotNull] GenericSkill skillSlot, float deltaTime)
         {
-            // getting rid of normal cooldown
+            // overriding fixedupdate gets rid of normal cooldowns
             // apparently, setting the recharge rate to 0 hides the cooldown in the UI, which is bad
+            if (skillSlot.characterBody.inventory)
+            {
+                skillSlot.stock = skillSlot.characterBody.inventory.GetItemCountEffective(Items.killCooldownChargeItemDef) >= Mathf.CeilToInt(skillSlot.finalRechargeInterval) ? 1 : 0;
+                if (fullRestockOnAssign && !((InstanceData)skillSlot.skillInstanceData).restockGiven)
+                {
+                    ((InstanceData)skillSlot.skillInstanceData).restockGiven = true;
+                    skillSlot.characterBody.inventory.GiveItemRented(Items.killCooldownChargeItemDef.itemIndex, Mathf.CeilToInt(skillSlot.finalRechargeInterval));
+                }
+            }
         }
         private class InstanceData : SkillDef.BaseSkillInstanceData
         {
+            public ChaosBoostComponent chaosBoostComponent;
             public GenericSkill skillSlot;
-            public void OnKilledOther(DamageReport damageReport)
+            public bool restockGiven = false;
+            public void UpdateKillCooldown()
             {
-                if (damageReport.attackerBody && damageReport.attackerBody == skillSlot.characterBody)
+                if (Mathf.CeilToInt(skillSlot.rechargeStopwatch) < skillSlot.characterBody.inventory.GetItemCountEffective(Items.killCooldownChargeItemDef))
                 {
-                    RoR2.Orbs.OrbManager.instance.AddOrb(new KillCooldownOrb { origin = damageReport.damageInfo.position, target = damageReport.attackerBody.mainHurtBox });
+                    skillSlot.RunRecharge(skillSlot.characterBody.inventory.GetItemCountEffective(Items.killCooldownChargeItemDef) - skillSlot.rechargeStopwatch);
                 }
             }
         }

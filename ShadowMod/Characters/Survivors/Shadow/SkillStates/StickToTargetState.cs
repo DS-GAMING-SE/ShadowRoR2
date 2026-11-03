@@ -36,6 +36,10 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
                 characterMotor.Motor.MoveCharacter(target.transform.position + offset);
             }
         }
+        public bool CanStickToTarget()
+        {
+            return target && target.isActiveAndEnabled && target.healthComponent;
+        }
         public static Vector3 GetStickOffset(HurtBox target, Transform user)
         {
             Vector3 offset = target.collider.ClosestPoint(user.transform.position);
