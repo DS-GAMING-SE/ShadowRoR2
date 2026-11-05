@@ -1,5 +1,5 @@
 ﻿using RoR2;
-using ShadowMod.Characters.Survivors.Shadow.Paths;
+using RoR2.Skills;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,17 +12,32 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
             get 
             { 
                 return characterBody && characterBody.inventory && 
-                    characterBody.inventory.GetItemCountEffective(Items.killCooldownChargeItemDef) > ShadowStaticValues.chaosBoostKillsToCharge; 
+                    characterBody.inventory.GetItemCountEffective(KillCooldownSkillDef.killCooldownChargeItemDef) > ShadowStaticValues.chaosBoostKillsToCharge; 
             } 
         }
 
         private bool subscribed;
         public CharacterBody characterBody;
         public readonly List<GenericSkill> killCooldownSkills = new List<GenericSkill>();
+        private SkillDef skillOverride;
+        private bool skillOverrideActive;
 
         private void Awake()
         {
             characterBody = GetComponent<CharacterBody>();
+        }
+        public void ActivateSkillOverride(GenericSkill skillSlot, SkillDef skillOverride)
+        {
+            skillSlot.SetSkillOverride(this, skillOverride, GenericSkill.SkillOverridePriority.Contextual);
+            this.skillOverride = skillOverride;
+            skillOverrideActive = true;
+        }
+        public void DeactivateSkillOverride(GenericSkill skillSlot)
+        {
+            if (!skillOverrideActive) return;
+
+            skillSlot.UnsetSkillOverride(this, skillOverride, GenericSkill.SkillOverridePriority.Contextual);
+            skillOverrideActive = false;
         }
         public void AddKillCooldownSkill(GenericSkill skill)
         {

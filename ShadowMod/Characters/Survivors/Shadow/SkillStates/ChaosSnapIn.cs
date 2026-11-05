@@ -20,7 +20,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             if (target && target.healthComponent.body.HasBuff(ShadowBuffs.chaosMarkDebuff))
             {
                 if (NetworkServer.active) target.healthComponent.body.RemoveOldestTimedBuff(ShadowBuffs.chaosMarkDebuff);
-                if (isAuthority && activatorSkillSlot.CanApplyAmmoPack() && rechargeFromChaosMark) activatorSkillSlot.ApplyAmmoPack();
+                ShadowDamageTypes.ConsumeChaosMark(characterBody, activatorSkillSlot, rechargeFromChaosMark);
             }
             base.OnExit();
         }

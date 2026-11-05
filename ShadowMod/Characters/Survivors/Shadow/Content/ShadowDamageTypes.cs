@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Networking;
 using static R2API.DamageAPI;
 
 namespace ShadowMod.Characters.Survivors.Shadow
@@ -23,6 +24,18 @@ namespace ShadowMod.Characters.Survivors.Shadow
             {
                 damageMacroData.victimCharacterBody.AddTimedBuff(ShadowBuffs.chaosMarkDebuff, ShadowStaticValues.chaosMarkDuration);
             }
+        }
+        public static void ConsumeChaosMark(CharacterBody characterBody, GenericSkill skillSlot, bool recharge = true)
+        {
+            if (recharge && characterBody.hasAuthority && skillSlot.CanApplyAmmoPack())
+            {
+                skillSlot.ApplyAmmoPack();
+            }
+            if (NetworkServer.active && characterBody && characterBody.inventory)
+            {
+                characterBody.inventory.GiveItemRented(KillCooldownSkillDef.killCooldownChargeItemDef.itemIndex);
+            }
+            EffectManager.SpawnEffect(ShadowAssets.chaosMarkConsumeEffect, new EffectData { origin = skillSlot.characterBody.corePosition, rootObject = skillSlot.characterBody.mainHurtBox.gameObject }, false);
         }
     }
 }

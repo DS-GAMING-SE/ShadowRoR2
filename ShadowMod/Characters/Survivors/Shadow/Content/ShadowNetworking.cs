@@ -10,45 +10,36 @@ using ShadowMod.Characters.Survivors.Shadow.Components;
 
 namespace ShadowMod.Characters.Survivors.Shadow
 {
-    /*public class NetworkKillCooldown : INetMessage
+    public class NetworkChaosMarkConsume : INetMessage
     {
-        private NetworkInstanceId netId;
-        public NetworkKillCooldown()
+        private CharacterBody characterBody;
+        private GenericSkill skillSlot;
+        public NetworkChaosMarkConsume()
         {
 
         }
-        public NetworkKillCooldown(NetworkInstanceId netId)
+        public NetworkChaosMarkConsume(CharacterBody characterBody, GenericSkill slot)
         {
-            this.netId = netId;
+            this.characterBody = characterBody;
+            this.skillSlot = slot;
         }
         public void OnReceived()
         {
-            CharacterBody body = RoR2.Util.FindNetworkCharacterBody(netId);
-            if (body && body.hasAuthority && body.TryGetComponent<ChaosBoostComponent>(out var chaosBoost))
-            {
-                bool chargedAll = true;
-                foreach (var skill in chaosBoost.killCooldownSkills)
-                {
-                    //skill.RunRecharge(1);
-                    if (!skill.IsReady())
-                    {
-                        chargedAll = false;
-                    }
-                }
-                if (chargedAll)
-                {
-                    BaseChaosBoostState.SetChaosBoostCharged(body.gameObject, true);
-                }
-            }
+            ShadowDamageTypes.ConsumeChaosMark(characterBody, skillSlot);
         }
         public void Serialize(NetworkWriter writer)
         {
-            writer.Write(netId);
+            writer.Write(characterBody.netId);
+            writer.Write((sbyte)characterBody.skillLocator.GetSkillSlotIndex(skillSlot));
         }
 
         public void Deserialize(NetworkReader reader)
         {
-            netId = reader.ReadNetworkId();
+            characterBody = RoR2.Util.FindNetworkCharacterBody(reader.ReadNetworkId());
+            if (characterBody && characterBody.hasAuthority && characterBody.skillLocator)
+            {
+                skillSlot = characterBody.skillLocator.GetSkillAtIndex(reader.ReadSByte());
+            }
         }
-    }*/
+    }
 }

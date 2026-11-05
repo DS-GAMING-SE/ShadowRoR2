@@ -13,7 +13,6 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
 {
     public static class Items
     {
-        public static ItemDef killCooldownChargeItemDef;
         public static ItemDef pathIdentifierItemDef;
 
         public static ItemTierDef doomPowerItemTierDef;
@@ -25,7 +24,6 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
             IL.RoR2.UI.NotificationUIController.SetUpNotification += PathItemNotificationPrefab;
             On.RoR2.UI.GenericNotification.SetItem += ExtraTextForPathItems;
 
-            killCooldownChargeItemDef = Content.AddItemDef("ShadowKillCooldownCharge", "KILL_COOLDOWN_CHARGE", null, null, null);
             pathIdentifierItemDef = Content.AddItemDef("ShadowPathIdentifier", "PATH_IDENTIFIER", null, null, null);
 
             doomPowerItemTierDef = Content.AddItemTierDef("DOOM_POWER");

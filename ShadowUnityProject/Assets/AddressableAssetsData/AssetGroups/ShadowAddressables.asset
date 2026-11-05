@@ -133,6 +133,10 @@ MonoBehaviour:
     m_Address: Assets/ShadowAssets/ShadowBundle/VFX/Prefabs/Default/ChaosBoostEffect.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: e035764ea9303ca41a4c9d0138783c24
+    m_Address: Assets/ShadowAssets/ShadowBundle/VFX/Prefabs/Default/ChaosBlastExplosionEffect.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 80780dc7c8eea2546b3509246a72a4ca, type: 2}
   m_SchemaSet:

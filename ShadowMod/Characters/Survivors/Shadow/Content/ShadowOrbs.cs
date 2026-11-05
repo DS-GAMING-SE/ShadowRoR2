@@ -6,7 +6,6 @@ using System.Text;
 using UnityEngine;
 using R2API;
 using R2API.Networking.Interfaces;
-using ShadowMod.Characters.Survivors.Shadow.Paths;
 
 namespace ShadowMod.Characters.Survivors.Shadow
 {
@@ -51,7 +50,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
         {
             if (target && target.healthComponent && target.healthComponent.body.inventory)
             {
-                target.healthComponent.body.inventory.GiveItemRented(Items.killCooldownChargeItemDef.itemIndex);
+                target.healthComponent.body.inventory.GiveItemRented(KillCooldownSkillDef.killCooldownChargeItemDef.itemIndex);
             }
             base.OnArrival();
         }

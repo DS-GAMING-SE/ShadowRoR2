@@ -1,10 +1,11 @@
 ﻿using EntityStates;
 using JetBrains.Annotations;
+using R2API.Networking.Interfaces;
 using RoR2;
 using RoR2.Skills;
 using ShadowMod.Characters.Survivors.Shadow.Components;
-using ShadowMod.Characters.Survivors.Shadow.Paths;
 using ShadowMod.Characters.Survivors.Shadow.SkillStates;
+using ShadowMod.Modules;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -77,10 +78,9 @@ namespace ShadowMod.Characters.Survivors.Shadow
             public GenericSkill skillSlot;
             public void OnKilledOther(DamageReport damageReport)
             {
-                if (damageReport.attackerBody && damageReport.attackerBody == skillSlot.characterBody && damageReport.victimBody && damageReport.victimBody.HasBuff(ShadowBuffs.chaosMarkDebuff) &&
-                    damageReport.attackerBody.hasAuthority && skillSlot.CanApplyAmmoPack())
+                if (damageReport.attackerBody && damageReport.attackerBody == skillSlot.characterBody && damageReport.victimBody && damageReport.victimBody.HasBuff(ShadowBuffs.chaosMarkDebuff))
                 {
-                    skillSlot.ApplyAmmoPack();
+                    new NetworkChaosMarkConsume(skillSlot.characterBody, skillSlot).Send(R2API.Networking.NetworkDestination.Clients);
                 }
             }
         }
@@ -88,9 +88,11 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
     public class KillCooldownSkillDef : SkillDef
     {
+        public static ItemDef killCooldownChargeItemDef;
         public static void Init()
         {
             On.RoR2.GenericSkill.CanApplyAmmoPack += NoBandolierOnKillCooldownSkillDef;
+            killCooldownChargeItemDef = Content.AddItemDef("ShadowKillCooldownCharge", "KILL_COOLDOWN_CHARGE", null, null, null);
         }
         private static bool NoBandolierOnKillCooldownSkillDef(On.RoR2.GenericSkill.orig_CanApplyAmmoPack orig, GenericSkill self)
         {
@@ -111,7 +113,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             if (fullRestockOnAssign && skillSlot.characterBody.inventory)
             {
                 instanceData.restockGiven = true;
-                skillSlot.characterBody.inventory.GiveItemRented(Items.killCooldownChargeItemDef.itemIndex, requiredStock);
+                skillSlot.characterBody.inventory.GiveItemRented(killCooldownChargeItemDef.itemIndex, Mathf.CeilToInt(skillSlot.finalRechargeInterval));
             }
             return instanceData;
         }
@@ -123,7 +125,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public override void OnExecute([NotNull] GenericSkill skillSlot)
         {
             base.OnExecute(skillSlot);
-            skillSlot.characterBody.inventory.RemoveItemRented(Items.killCooldownChargeItemDef.itemIndex, skillSlot.characterBody.inventory.GetItemCountRented(Items.killCooldownChargeItemDef));
+            skillSlot.characterBody.inventory.RemoveItemRented(killCooldownChargeItemDef.itemIndex, skillSlot.characterBody.inventory.GetItemCountRented(killCooldownChargeItemDef));
         }
         public override bool IsReady([NotNull] GenericSkill skillSlot)
         {
@@ -136,11 +138,11 @@ namespace ShadowMod.Characters.Survivors.Shadow
             // apparently, setting the recharge rate to 0 hides the cooldown in the UI, which is bad
             if (skillSlot.characterBody.inventory)
             {
-                skillSlot.stock = skillSlot.characterBody.inventory.GetItemCountEffective(Items.killCooldownChargeItemDef) >= Mathf.CeilToInt(skillSlot.finalRechargeInterval) ? 1 : 0;
+                skillSlot.stock = skillSlot.characterBody.inventory.GetItemCountEffective(killCooldownChargeItemDef) >= Mathf.CeilToInt(skillSlot.finalRechargeInterval) ? 1 : 0;
                 if (fullRestockOnAssign && !((InstanceData)skillSlot.skillInstanceData).restockGiven)
                 {
                     ((InstanceData)skillSlot.skillInstanceData).restockGiven = true;
-                    skillSlot.characterBody.inventory.GiveItemRented(Items.killCooldownChargeItemDef.itemIndex, Mathf.CeilToInt(skillSlot.finalRechargeInterval));
+                    skillSlot.characterBody.inventory.GiveItemRented(killCooldownChargeItemDef.itemIndex, Mathf.CeilToInt(skillSlot.finalRechargeInterval));
                 }
             }
         }
@@ -151,9 +153,9 @@ namespace ShadowMod.Characters.Survivors.Shadow
             public bool restockGiven = false;
             public void UpdateKillCooldown()
             {
-                if (Mathf.CeilToInt(skillSlot.rechargeStopwatch) < skillSlot.characterBody.inventory.GetItemCountEffective(Items.killCooldownChargeItemDef))
+                if (Mathf.CeilToInt(skillSlot.rechargeStopwatch) < skillSlot.characterBody.inventory.GetItemCountEffective(killCooldownChargeItemDef))
                 {
-                    skillSlot.RunRecharge(skillSlot.characterBody.inventory.GetItemCountEffective(Items.killCooldownChargeItemDef) - skillSlot.rechargeStopwatch);
+                    skillSlot.RunRecharge(skillSlot.characterBody.inventory.GetItemCountEffective(killCooldownChargeItemDef) - skillSlot.rechargeStopwatch);
                 }
             }
         }
@@ -162,6 +164,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
     {
         public Sprite upgradeSkillIcon;
         public float upgradeRechargeInterval;
+        public SkillDef upgradeSkillOverride;
         public override Sprite GetCurrentIcon([NotNull] GenericSkill skillSlot)
         {
             if (upgradeSkillIcon && skillSlot.characterBody && skillSlot.characterBody.HasBuff(ShadowBuffs.chaosBoostBuff))

@@ -69,9 +69,11 @@ namespace ShadowMod.Characters.Survivors.Shadow
         #endregion
         #region Chaos Blast
         public const float chaosBlastDamageCoefficient = 10f;
-        public const float chaosBlastFrequency = 3f;
+        public const float chaosBlastFrequency = 4f;
         public const float chaosBlastInterval = 1 / chaosBlastFrequency;
-        public const float chaosBlastDuration = 2f;
+        public const float chaosBlastDuration = 1.5f;
+        public const float chaosBlastChargeDuration = 2.5f;
+        public const float chaosBlastMinChargeDuration = 1f;
 
         public const float chaosBlastRadius = 30f;
         #endregion

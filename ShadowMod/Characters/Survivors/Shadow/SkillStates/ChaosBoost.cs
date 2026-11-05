@@ -1,6 +1,7 @@
 ﻿using EntityStates;
 using R2API;
 using RoR2;
+using ShadowMod.Characters.Survivors.Shadow.Components;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,6 +24,11 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             PlayAnimation();
             ExplosionEffect();
             walkSpeedPenalty = characterMotor.AddWalkSpeedPenalty(0.5f);
+            if (characterBody.GetBuffCount(ShadowBuffs.chaosBoostBuff) == 2 && activatorSkillSlot.skillDef is ChaosBoostSkillDef skillDef && 
+                characterBody.TryGetComponent<ChaosBoostComponent>(out var chaosBoostComponent))
+            {
+                chaosBoostComponent.ActivateSkillOverride(activatorSkillSlot, skillDef.upgradeSkillOverride);
+            }
             if (NetworkServer.active)
             {
                 CreateAttack();

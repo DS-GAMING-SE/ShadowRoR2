@@ -1,5 +1,6 @@
 ﻿using BepInEx.Configuration;
 using HG;
+using R2API.Networking;
 using RoR2;
 using RoR2.ContentManagement;
 using RoR2.Skills;
@@ -138,6 +139,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             var sfxComponent = bodyPrefab.GetComponent<SfxLocator>();
             sfxComponent.deathSound = "Play_hedgehogutils_death";
             sfxComponent.jumpSound = "Play_hedgehogutils_jump_ball";
+            NetworkingAPI.RegisterMessageType<NetworkChaosMarkConsume>();
             //anything else here
         }
 
@@ -391,6 +393,33 @@ namespace ShadowMod.Characters.Survivors.Shadow
             });
             specialSkillDef1.upgradeSkillIcon = ShadowAssets.chaosBoostUpgradedSkillIcon.LoadAssetAsync().WaitForCompletion();
             specialSkillDef1.upgradeRechargeInterval = ShadowStaticValues.chaosBoostKillsToUpgrade;
+            SkillDef chaosBlastSkillDef = Skills.CreateSkillDef<KillCooldownSkillDef>(new SkillDefInfo
+            {
+                skillName = "ShadowChaosBlast",
+                skillNameToken = SHADOW_PREFIX + "SPECIAL_CHAOS_BLAST_NAME",
+                skillDescriptionToken = SHADOW_PREFIX + "SPECIAL_CHAOS_BLAST_DESCRIPTION",
+                skillIcon = ShadowAssets.chaosBlastSkillIcon.LoadAssetAsync().WaitForCompletion(),
+                keywordTokens = [SHADOW_PREFIX + "KEYWORD_HOMING", SHADOW_PREFIX + "KEYWORD_KILL_COOLDOWN"],
+
+                activationState = new EntityStates.SerializableEntityStateType(typeof(ChaosBlastIn)),
+                activationStateMachineName = "Body",
+                interruptPriority = EntityStates.InterruptPriority.Skill,
+
+                baseMaxStock = 1,
+                baseRechargeInterval = ShadowStaticValues.chaosBoostKillsToCharge,
+
+                rechargeStock = int.MaxValue,
+                requiredStock = 1,
+                stockToConsume = int.MaxValue,
+
+                fullRestockOnAssign = true,
+                isCombatSkill = true,
+                mustKeyPress = true,
+                resetCooldownTimerOnUse = true,
+
+                dontAllowPastMaxStocks = true
+            });
+            specialSkillDef1.upgradeSkillOverride = chaosBlastSkillDef;
 
             Skills.AddSpecialSkills(bodyPrefab, specialSkillDef1);
         }

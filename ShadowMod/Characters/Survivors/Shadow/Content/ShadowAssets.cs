@@ -19,12 +19,15 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public static GameObject swordSwingEffect;
         public static GameObject swordHitImpactEffect;
 
+        public static GameObject chaosMarkConsumeEffect;
+
         public static GameObject chaosSpearOrbEffect;
 
         public static GameObject boostFlashEffect;
         public static GameObject boostAuraEffect;
 
         public static GameObject chaosBoostActivationEffect;
+        public static GameObject chaosBlastExplosionEffect;
         public static GameObject bombExplosionEffect;
 
         public static GameObject pathItemHeroNotificationPrefab;
@@ -75,6 +78,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public static AssetReferenceT<GameObject> hitEffect = new AssetReferenceT<GameObject>("48eebb9268b618943a4b60bb011fb96d");
 
         public static AssetReferenceT<GameObject> chaosBoostActivation = new("ad91f54836c7f9249beb441a7c743d31");
+        public static AssetReferenceT<GameObject> chaosBlastExplosion = new("e035764ea9303ca41a4c9d0138783c24");
         #endregion
 
         public static void Init()
@@ -127,6 +131,12 @@ namespace ShadowMod.Characters.Survivors.Shadow
             PostProcessProfile ppPain = AssetAsyncReferenceManager<PostProcessProfile>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC4_Enforcer.ppLocalEnfShieldTackle_asset).WaitForCompletion();
             PostProcessProfile ppDoom = AssetAsyncReferenceManager<PostProcessProfile>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_title_PostProcessing.ppLocalTPActivation_asset).WaitForCompletion();
             PostProcessProfile ppChaosBlast = AssetAsyncReferenceManager<PostProcessProfile>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_SolusWingForm1.ppOverheat_asset).WaitForCompletion();
+            PostProcessProfile ppChaosBlastImpact = ScriptableObject.Instantiate<PostProcessProfile>(AssetAsyncReferenceManager<PostProcessProfile>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC4_ReaperBoss.ppReapBossInitialDeath_asset).WaitForCompletion());
+            ppChaosBlastImpact.name = "ppShadowChaosBlastImpact";
+            if (ppChaosBlastImpact.TryGetSettings(out RampFog fog))
+            {
+                fog.fogColorMid.Override(new Color(0.5f, 0f, 0.06f));
+            }
             #endregion
             ShadowAssets.projectileExplodeEffect.LoadAssetAsync().Completed += delegate (AsyncOperationHandle<GameObject> x)
             { CreateBombExplosionEffect(x.Result);
@@ -137,6 +147,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
             { swordSwingEffect = Asset.CreateEffect(x.Result, 1f, true, ""); };
             ShadowAssets.hitEffect.LoadAssetAsync().Completed += delegate (AsyncOperationHandle<GameObject> x)
             { swordHitImpactEffect = Asset.CreateEffect(x.Result, 1f); };
+
+            chaosMarkConsumeEffect = AssetAsyncReferenceManager<GameObject>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_Items_SpeedOnPickup.SpeedOnPickupEffectTier2_prefab).WaitForCompletion();
 
             chaosSpearOrbEffect = RoR2.Orbs.OrbStorageUtility.Get("Prefabs/Effects/OrbEffects/BarrierOrbEffect");
 
@@ -174,6 +186,39 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 shakeEmitter.wave = new Wave
                 {
                     amplitude = 0.5f,
+                    frequency = 40f,
+                    cycleOffset = 0f
+                };
+            };
+            chaosBlastExplosion.LoadAssetAsync().Completed += (x) =>
+            {
+                chaosBlastExplosionEffect = Asset.CreateEffect(x.Result, 10f, false, "", out var vfx, out var effect);
+                vfx.vfxIntensity = VFXAttributes.VFXIntensity.High;
+                effect.applyScale = true;
+                var flashPP = chaosBlastExplosionEffect.transform.GetChild(0);
+                var flashPPDuration = flashPP.gameObject.AddComponent<PostProcessDuration>();
+                flashPPDuration.ppVolume = flashPP.GetComponent<PostProcessVolume>();
+                flashPPDuration.ppVolume.sharedProfile = ppChaosBlastImpact;
+                flashPPDuration.maxDuration = 0.15f;
+                flashPPDuration.ppWeightCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+                var interiorPP = chaosBlastExplosionEffect.transform.GetChild(1);
+                var interiorPPDuration = interiorPP.gameObject.AddComponent<PostProcessDuration>();
+                interiorPPDuration.ppVolume = interiorPP.GetComponent<PostProcessVolume>();
+                interiorPPDuration.ppVolume.sharedProfile = ppChaosBlast;
+                interiorPPDuration.maxDuration = 2f;
+                interiorPPDuration.ppWeightCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+                chaosBlastExplosionEffect.transform.GetChild(2).gameObject.AddLightIntensityCurve(AnimationCurve.EaseInOut(0f, 1f, 1f, 0f), 1.8f);
+                chaosBlastExplosionEffect.transform.GetChild(3).GetComponent<ParticleSystemRenderer>().sharedMaterial = matSphereBurst;
+
+                ShakeEmitter shakeEmitter = chaosBlastExplosionEffect.AddComponent<ShakeEmitter>();
+                shakeEmitter.amplitudeTimeDecay = true;
+                shakeEmitter.duration = 0.4f;
+                shakeEmitter.radius = 4f;
+                shakeEmitter.scaleShakeRadiusWithLocalScale = true;
+
+                shakeEmitter.wave = new Wave
+                {
+                    amplitude = 1f,
                     frequency = 40f,
                     cycleOffset = 0f
                 };

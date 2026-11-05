@@ -80,7 +80,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             #endregion
 
             #region Special
-            Language.Add(prefix + "KEYWORD_KILL_COOLDOWN", KeywordText("kill cooldown", $"This skill's cooldown is only charged by killing enemies. Additional charges increase the skill's duration."));
+            Language.Add(prefix + "KEYWORD_KILL_COOLDOWN", KeywordText("kill cooldown", $"Charge this skill's cooldown by killing enemies or consuming {UtilityText("Chaos Marks")}. Additional charges increase the skill's duration."));
             #region Chaos Boost
             Language.Add(prefix + "SPECIAL_CHAOS_BOOST_NAME", $"Chaos Boost");
             Language.Add(prefix + "SPECIAL_CHAOS_BOOST_DESCRIPTION", $"{RedText("kill cooldown")}. Release a burst of energy dealing {DamageValueText(chaosBoostDamageCoefficient)} and applying {UtilityText("Chaos Marks")}. Enhance your stats for {UtilityText(chaosBoostMaxDuration+"s")}. Killing {chaosBoostKillsToUpgrade} enemies will {UtilityText("upgrade")} the effect and reset its duration. {HedgehogUtils.Helpers.wipIcon} Can upgrade into {DeathText("Chaos Blast")}.");
@@ -101,7 +101,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Language.Add(prefix + "HERO_PICKUP_SUFFIX", $"{UtilityText("This marks the path you've chosen.")}");
             Language.Add(prefix + "DARK_PICKUP_SUFFIX", $"{RedText("This marks the path you've chosen.")}");
 
-            Language.Add(prefix + "ITEM_DOOM_POWER_NAME", $"{HedgehogUtils.Helpers.wipIcon} Doom Power");
+            Language.Add(prefix + "ITEM_DOOM_POWER", $"{HedgehogUtils.Helpers.wipIcon} Doom Power");
             string doomPowerDescription = HedgehogUtils.Helpers.wipIcon;
             Language.Add(prefix + "ITEM_DOOM_POWER_PICKUP", doomPowerDescription);
             Language.Add(prefix + "ITEM_DOOM_POWER_DESC", doomPowerDescription);
