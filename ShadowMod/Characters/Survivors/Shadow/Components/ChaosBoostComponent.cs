@@ -21,10 +21,23 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
         public readonly List<GenericSkill> killCooldownSkills = new List<GenericSkill>();
         private SkillDef skillOverride;
         private bool skillOverrideActive;
+        private int chaosBoostOverrideCount;
 
         private void Awake()
         {
             characterBody = GetComponent<CharacterBody>();
+        }
+        public void ResetChaosBoostOverrideCount()
+        {
+            chaosBoostOverrideCount = 0;
+        }
+        public void AddChaosBoostOverrideCount(GenericSkill skillSlot, SkillDef skillOverride)
+        {
+            if (++chaosBoostOverrideCount >= 3)
+            {
+                chaosBoostOverrideCount = 0;
+                ActivateSkillOverride(skillSlot, skillOverride);
+            }
         }
         public void ActivateSkillOverride(GenericSkill skillSlot, SkillDef skillOverride)
         {

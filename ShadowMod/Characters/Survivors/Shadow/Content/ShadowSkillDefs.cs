@@ -107,7 +107,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
         }
         public override BaseSkillInstanceData OnAssigned([NotNull] GenericSkill skillSlot)
         {
-            InstanceData instanceData = new InstanceData { chaosBoostComponent = skillSlot.GetComponent<ChaosBoostComponent>(), skillSlot = skillSlot };
+            KillCooldownInstanceData instanceData = new KillCooldownInstanceData { chaosBoostComponent = skillSlot.GetComponent<ChaosBoostComponent>(), skillSlot = skillSlot };
             instanceData.chaosBoostComponent.AddKillCooldownSkill(skillSlot);
             instanceData.skillSlot.characterBody.onInventoryChanged += instanceData.UpdateKillCooldown;
             if (fullRestockOnAssign && skillSlot.characterBody.inventory)
@@ -119,8 +119,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
         }
         public override void OnUnassigned([NotNull] GenericSkill skillSlot)
         {
-            ((InstanceData)skillSlot.skillInstanceData).chaosBoostComponent.RemoveKillCooldownSkill(skillSlot);
-            ((InstanceData)skillSlot.skillInstanceData).skillSlot.characterBody.onInventoryChanged -= ((InstanceData)skillSlot.skillInstanceData).UpdateKillCooldown;
+            ((KillCooldownInstanceData)skillSlot.skillInstanceData).chaosBoostComponent.RemoveKillCooldownSkill(skillSlot);
+            ((KillCooldownInstanceData)skillSlot.skillInstanceData).skillSlot.characterBody.onInventoryChanged -= ((KillCooldownInstanceData)skillSlot.skillInstanceData).UpdateKillCooldown;
         }
         public override void OnExecute([NotNull] GenericSkill skillSlot)
         {
@@ -139,14 +139,14 @@ namespace ShadowMod.Characters.Survivors.Shadow
             if (skillSlot.characterBody.inventory)
             {
                 skillSlot.stock = skillSlot.characterBody.inventory.GetItemCountEffective(killCooldownChargeItemDef) >= Mathf.CeilToInt(skillSlot.finalRechargeInterval) ? 1 : 0;
-                if (fullRestockOnAssign && !((InstanceData)skillSlot.skillInstanceData).restockGiven)
+                if (fullRestockOnAssign && !((KillCooldownInstanceData)skillSlot.skillInstanceData).restockGiven)
                 {
-                    ((InstanceData)skillSlot.skillInstanceData).restockGiven = true;
+                    ((KillCooldownInstanceData)skillSlot.skillInstanceData).restockGiven = true;
                     skillSlot.characterBody.inventory.GiveItemRented(killCooldownChargeItemDef.itemIndex, Mathf.CeilToInt(skillSlot.finalRechargeInterval));
                 }
             }
         }
-        private class InstanceData : SkillDef.BaseSkillInstanceData
+        internal class KillCooldownInstanceData : SkillDef.BaseSkillInstanceData
         {
             public ChaosBoostComponent chaosBoostComponent;
             public GenericSkill skillSlot;
@@ -160,6 +160,49 @@ namespace ShadowMod.Characters.Survivors.Shadow
             }
         }
     }
+    public class HomingKillCooldownSkillDef : KillCooldownSkillDef
+    {
+        public override BaseSkillInstanceData OnAssigned([NotNull] GenericSkill skillSlot)
+        {
+            KillCooldownInstanceData instanceData = new HomingKillCooldownInstanceData { chaosBoostComponent = skillSlot.GetComponent<ChaosBoostComponent>(), 
+                skillSlot = skillSlot,
+                targetTracker = skillSlot.GetComponent<ITargetTracker>()};
+            instanceData.chaosBoostComponent.AddKillCooldownSkill(skillSlot);
+            instanceData.skillSlot.characterBody.onInventoryChanged += instanceData.UpdateKillCooldown;
+            if (fullRestockOnAssign && skillSlot.characterBody.inventory)
+            {
+                instanceData.restockGiven = true;
+                skillSlot.characterBody.inventory.GiveItemRented(killCooldownChargeItemDef.itemIndex, Mathf.CeilToInt(skillSlot.finalRechargeInterval));
+            }
+            return instanceData;
+        }
+        public override bool IsReady([NotNull] GenericSkill skillSlot)
+        {
+            return GetTarget(skillSlot) && base.IsReady(skillSlot);
+        }
+        public override EntityState InstantiateNextState([NotNull] GenericSkill skillSlot)
+        {
+            EntityState state = base.InstantiateNextState(skillSlot);
+            if (state is TeleportIntoState chaosSnapIn)
+            {
+                HurtBox target = GetTarget(skillSlot);
+                chaosSnapIn.target = target;
+                return chaosSnapIn;
+            }
+            return state;
+        }
+        private static HurtBox GetTarget([NotNull] GenericSkill skillSlot)
+        {
+            ITargetTracker tracker = ((HomingKillCooldownInstanceData)skillSlot.skillInstanceData).targetTracker;
+            return (tracker != null) ? tracker.GetTrackingTarget() : null;
+        }
+
+        private class HomingKillCooldownInstanceData : KillCooldownSkillDef.KillCooldownInstanceData
+        {
+            public ITargetTracker targetTracker;
+        }
+    }
+
     public class ChaosBoostSkillDef : KillCooldownSkillDef
     {
         public Sprite upgradeSkillIcon;

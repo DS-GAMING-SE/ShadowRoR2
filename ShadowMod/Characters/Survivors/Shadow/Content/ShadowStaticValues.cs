@@ -72,7 +72,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public const float chaosBlastFrequency = 4f;
         public const float chaosBlastInterval = 1 / chaosBlastFrequency;
         public const float chaosBlastDuration = 1.5f;
-        public const float chaosBlastChargeDuration = 2.5f;
+        public const float chaosBlastChargeDuration = 3f;
         public const float chaosBlastMinChargeDuration = 1f;
 
         public const float chaosBlastRadius = 30f;

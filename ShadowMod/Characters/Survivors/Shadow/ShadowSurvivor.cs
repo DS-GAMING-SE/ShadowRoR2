@@ -393,7 +393,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             });
             specialSkillDef1.upgradeSkillIcon = ShadowAssets.chaosBoostUpgradedSkillIcon.LoadAssetAsync().WaitForCompletion();
             specialSkillDef1.upgradeRechargeInterval = ShadowStaticValues.chaosBoostKillsToUpgrade;
-            SkillDef chaosBlastSkillDef = Skills.CreateSkillDef<KillCooldownSkillDef>(new SkillDefInfo
+            SkillDef chaosBlastSkillDef = Skills.CreateSkillDef<HomingKillCooldownSkillDef>(new SkillDefInfo
             {
                 skillName = "ShadowChaosBlast",
                 skillNameToken = SHADOW_PREFIX + "SPECIAL_CHAOS_BLAST_NAME",

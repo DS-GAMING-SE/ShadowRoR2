@@ -112,13 +112,31 @@ namespace ShadowMod.Characters.Survivors.Shadow
             matPinkPurpleLightning.SetFloat("_AlphaBoost", 3.5f);
             matPinkPurpleLightning.SetTexture("_RemapTex", texPurpleRamp);
             Material matGenericRing = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_BFG.matBeamSphereBeam_mat).WaitForCompletion());
+            matGenericRing.name = "matShadowGenericRing";
             matGenericRing.SetTexture("_RemapTex", AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_ColorRamps.texRampTritone_png).WaitForCompletion());
             matGenericRing.SetVector("_CutoffScroll", new Vector4(-20, 0, 10, 0));
             matGenericRing.EnableKeyword("VERTEXCOLOR");
             Material matChaosBoostOverlay = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_CritOnUse.matFullCrit_mat).WaitForCompletion());
             matChaosBoostOverlay.SetTexture("_RemapTex", texRedPinkRamp);
+            Material matSubtleWindTrail = AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Brother.matBrotherStealAura_mat).WaitForCompletion();
+            Material matChaosBlastOuterSphere = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_SolusAmalgamator.matSolusAmalgamatorDeathSphere_mat).WaitForCompletion());
+            matChaosBlastOuterSphere.name = "matShadowChaosBlastOuterSphere";
+            matChaosBlastOuterSphere.SetTexture("_RemapTex", texPurpleRamp);
+            matChaosBlastOuterSphere.SetColor("_TintColor", new Color(2f, 0.1f, 0.2f));
+            matChaosBlastOuterSphere.SetTextureScale("_Cloud1Tex", new Vector2(15f, 15f));
+            matChaosBlastOuterSphere.SetVector("_CutoffScroll", new Vector4(6, 10, 30, 30));
+            matChaosBlastOuterSphere.SetFloat("_RimPower", 0.8f);
+            matChaosBlastOuterSphere.SetFloat("_Boost", 1.7f);
+            Material matBurnGroundSphere = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC2_Items_MeteorAttackOnHighDamage.matRunicLensMeteorStrikeImpactIndicator_mat).WaitForCompletion());
+            matBurnGroundSphere.name = "matShadowBurnGround";
+            matBurnGroundSphere.SetColor("_TintColor", new Color(1f, 0.45f, 0.6f));
+            matBurnGroundSphere.SetFloat("_InvFade", 0.13f);
+            matBurnGroundSphere.SetFloat("_SoftPower", 1f);
+            matBurnGroundSphere.SetFloat("_Boost", 5f);
 
+            Mesh donut1Mesh = AssetAsyncReferenceManager<Mesh>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_VFX.mdlVFXDonut1_fbx).WaitForCompletion();
             Mesh donut2Mesh = AssetAsyncReferenceManager<Mesh>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_VFX.mdlVFXDonut2_fbx).WaitForCompletion();
+            Mesh donut5Mesh = AssetAsyncReferenceManager<Mesh>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_VFX.mdlVFXDonut5_fbx).WaitForCompletion();
             Mesh noiseSphereMesh /*double radius of normal sphere?*/ = AssetAsyncReferenceManager<Mesh>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3.mdlNoiseSphere_01_fbx_GEO_NoiseSphere_).WaitForCompletion();
             Mesh electricMesh1 = AssetAsyncReferenceManager<Mesh>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_DefectiveUnit.mdlDetonate_DebuffBolt01_fbx).WaitForCompletion();
             Mesh electricMesh2 = AssetAsyncReferenceManager<Mesh>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_DefectiveUnit.mdlDetonate_DebuffBolt02_fbx).WaitForCompletion();
@@ -126,6 +144,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Mesh electricMesh4 = AssetAsyncReferenceManager<Mesh>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_DefectiveUnit.mdlDetonate_DebuffBolt04_fbx).WaitForCompletion();
             Mesh[] electricMeshes = [electricMesh1, electricMesh2, electricMesh3, electricMesh4];
             Mesh electricRingMesh = AssetAsyncReferenceManager<Mesh>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3.mdlBentLightning01_fbx).WaitForCompletion();
+            Mesh pSphere1Mesh = /*0.005x size*/AssetAsyncReferenceManager<Mesh>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3.mdlSphereTriLarge_fbx_pSphere1_).WaitForCompletion();
 
             PostProcessProfile ppRed = AssetAsyncReferenceManager<PostProcessProfile>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC1_Railgunner.ppLocalRailgunnerSuper_asset).WaitForCompletion();
             PostProcessProfile ppPain = AssetAsyncReferenceManager<PostProcessProfile>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC4_Enforcer.ppLocalEnfShieldTackle_asset).WaitForCompletion();
@@ -195,7 +214,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 chaosBlastExplosionEffect = Asset.CreateEffect(x.Result, 10f, false, "", out var vfx, out var effect);
                 vfx.vfxIntensity = VFXAttributes.VFXIntensity.High;
                 effect.applyScale = true;
-                var flashPP = chaosBlastExplosionEffect.transform.GetChild(0);
+                var flashPP = chaosBlastExplosionEffect.transform.GetChild(2);
                 var flashPPDuration = flashPP.gameObject.AddComponent<PostProcessDuration>();
                 flashPPDuration.ppVolume = flashPP.GetComponent<PostProcessVolume>();
                 flashPPDuration.ppVolume.sharedProfile = ppChaosBlastImpact;
@@ -207,8 +226,22 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 interiorPPDuration.ppVolume.sharedProfile = ppChaosBlast;
                 interiorPPDuration.maxDuration = 2f;
                 interiorPPDuration.ppWeightCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
-                chaosBlastExplosionEffect.transform.GetChild(2).gameObject.AddLightIntensityCurve(AnimationCurve.EaseInOut(0f, 1f, 1f, 0f), 1.8f);
-                chaosBlastExplosionEffect.transform.GetChild(3).GetComponent<ParticleSystemRenderer>().sharedMaterial = matSphereBurst;
+                var exteriorPP = chaosBlastExplosionEffect.transform.GetChild(0);
+                var exteriorPPDuration = exteriorPP.gameObject.AddComponent<PostProcessDuration>();
+                exteriorPPDuration.ppVolume = exteriorPP.GetComponent<PostProcessVolume>();
+                exteriorPPDuration.ppVolume.sharedProfile = ppRed;
+                exteriorPPDuration.maxDuration = 2f;
+                exteriorPPDuration.ppWeightCurve = AnimationCurve.EaseInOut(0f, 0.65f, 1f, 0f);
+                chaosBlastExplosionEffect.transform.GetChild(3).gameObject.AddLightIntensityCurve(AnimationCurve.EaseInOut(0f, 1f, 1f, 0f), 1.8f);
+                chaosBlastExplosionEffect.transform.GetChild(4).gameObject.SetMaterialAndMesh(matChaosBlastOuterSphere, pSphere1Mesh);
+                chaosBlastExplosionEffect.transform.GetChild(5).GetComponent<ParticleSystemRenderer>().sharedMaterial = matSphereBurst;
+                chaosBlastExplosionEffect.transform.GetChild(6).gameObject.SetMaterialAndMesh(matSphereParticle, noiseSphereMesh);
+                chaosBlastExplosionEffect.transform.GetChild(7).gameObject.SetMaterialAndMesh(matSubtleWindTrail, donut5Mesh);
+                chaosBlastExplosionEffect.transform.GetChild(8).gameObject.SetMaterialAndMesh(matSubtleWindTrail, donut1Mesh);
+                chaosBlastExplosionEffect.transform.GetChild(9).GetComponent<ParticleSystemRenderer>().sharedMaterial = matTracerBright;
+                chaosBlastExplosionEffect.transform.GetChild(10).GetComponent<ParticleSystemRenderer>().sharedMaterial = matGlowSoft;
+                chaosBlastExplosionEffect.transform.GetChild(11).GetComponent<ParticleSystemRenderer>().sharedMaterial = matGlowHard;
+                chaosBlastExplosionEffect.transform.GetChild(12).gameObject.SetMaterialAndMesh(matBurnGroundSphere, pSphere1Mesh);
 
                 ShakeEmitter shakeEmitter = chaosBlastExplosionEffect.AddComponent<ShakeEmitter>();
                 shakeEmitter.amplitudeTimeDecay = true;

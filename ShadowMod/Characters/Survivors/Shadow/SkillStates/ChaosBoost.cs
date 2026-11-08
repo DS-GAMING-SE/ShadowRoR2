@@ -24,10 +24,14 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             PlayAnimation();
             ExplosionEffect();
             walkSpeedPenalty = characterMotor.AddWalkSpeedPenalty(0.5f);
-            if (characterBody.GetBuffCount(ShadowBuffs.chaosBoostBuff) == 2 && activatorSkillSlot.skillDef is ChaosBoostSkillDef skillDef && 
+            if (isAuthority && activatorSkillSlot.skillDef is ChaosBoostSkillDef skillDef && 
                 characterBody.TryGetComponent<ChaosBoostComponent>(out var chaosBoostComponent))
             {
-                chaosBoostComponent.ActivateSkillOverride(activatorSkillSlot, skillDef.upgradeSkillOverride);
+                if (!characterBody.HasBuff(ShadowBuffs.chaosBoostBuff))
+                {
+                    chaosBoostComponent.ResetChaosBoostOverrideCount();
+                }
+                chaosBoostComponent.AddChaosBoostOverrideCount(activatorSkillSlot, skillDef.upgradeSkillOverride);
             }
             if (NetworkServer.active)
             {

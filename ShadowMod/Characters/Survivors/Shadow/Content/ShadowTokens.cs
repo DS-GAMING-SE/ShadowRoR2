@@ -83,7 +83,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Language.Add(prefix + "KEYWORD_KILL_COOLDOWN", KeywordText("kill cooldown", $"Charge this skill's cooldown by killing enemies or consuming {UtilityText("Chaos Marks")}. Additional charges increase the skill's duration."));
             #region Chaos Boost
             Language.Add(prefix + "SPECIAL_CHAOS_BOOST_NAME", $"Chaos Boost");
-            Language.Add(prefix + "SPECIAL_CHAOS_BOOST_DESCRIPTION", $"{RedText("kill cooldown")}. Release a burst of energy dealing {DamageValueText(chaosBoostDamageCoefficient)} and applying {UtilityText("Chaos Marks")}. Enhance your stats for {UtilityText(chaosBoostMaxDuration+"s")}. Killing {chaosBoostKillsToUpgrade} enemies will {UtilityText("upgrade")} the effect and reset its duration. {HedgehogUtils.Helpers.wipIcon} Can upgrade into {DeathText("Chaos Blast")}.");
+            Language.Add(prefix + "SPECIAL_CHAOS_BOOST_DESCRIPTION", $"{RedText("kill cooldown")}. Release a burst of energy dealing {DamageValueText(chaosBoostDamageCoefficient)} and applying {UtilityText("Chaos Marks")}. Enhance your stats for {UtilityText(chaosBoostMaxDuration+"s")}. Killing {chaosBoostKillsToUpgrade} enemies will {UtilityText("upgrade")} the effect and reset its duration. Can upgrade into {DeathText("Chaos Blast")}.");
             #endregion
             #region Chaos Blast
             string chaosBlastDescription = $"{UtilityText("Homing")}. Hold the target in place and release a massive explosion dealing {DamageValueText(chaosBlastDamageCoefficient)} repeatedly.";

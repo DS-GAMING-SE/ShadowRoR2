@@ -31,10 +31,6 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             ExplosionEffect();
             if (isAuthority)
             {
-                if (TryGetComponent<ChaosBoostComponent>(out var chaosBoostComponent))
-                {
-                    chaosBoostComponent.DeactivateSkillOverride(activatorSkillSlot);
-                }
                 CreateAttack();
                 ModifyAttack(attack);
                 FireAttack();
