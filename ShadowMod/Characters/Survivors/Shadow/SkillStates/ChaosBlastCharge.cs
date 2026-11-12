@@ -19,15 +19,21 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
-            if (NetworkServer.active) characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
             chargeDuration = ShadowStaticValues.chaosBlastMinChargeDuration + ((ShadowStaticValues.chaosBlastChargeDuration - ShadowStaticValues.chaosBlastMinChargeDuration) / attackSpeedStat);
             
             if (cameraTargetParams)
             {
                 aimRequest = cameraTargetParams.RequestAimWithData(GetCameraOffset(), chargeDuration, 0.6f);
             }
-
-            if (target && target.healthComponent && target.healthComponent.hasAuthority && target.healthComponent.TryGetComponent<SetStateOnHurt>(out var hurt))
+            if (NetworkServer.active)
+            {
+                characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
+                if (target && target.healthComponent)
+                {
+                    target.healthComponent.body.AddBuff(HedgehogUtils.Buffs.hiddenRootBuff);
+                }
+            }
+            if (target && target.healthComponent && Util.HasEffectiveAuthority(target.healthComponent.gameObject) && target.healthComponent.TryGetComponent<SetStateOnHurt>(out var hurt) && hurt.canBeStunned)
             {
                 hurt.SetStun(chargeDuration * 1.1f);
             }
@@ -49,12 +55,23 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         }
         public override void OnExit()
         {
-            if (NetworkServer.active) characterBody.RemoveBuff(RoR2Content.Buffs.HiddenInvincibility);
+            if (NetworkServer.active) 
+            { 
+                characterBody.RemoveBuff(RoR2Content.Buffs.HiddenInvincibility);
+                if (target && target.healthComponent)
+                {
+                    target.healthComponent.body.RemoveBuff(HedgehogUtils.Buffs.hiddenRootBuff);
+                }
+            }
             if (cameraTargetParams && aimRequest != null)
             {
                 aimRequest.Dispose();
             }
             base.OnExit();
+        }
+        public override InterruptPriority GetMinimumInterruptPriority()
+        {
+            return InterruptPriority.Vehicle;
         }
     }
 }

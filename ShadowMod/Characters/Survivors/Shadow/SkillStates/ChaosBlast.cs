@@ -112,5 +112,10 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             grav.channeledAntiGravityGranterCount--;
             base.OnExit();
         }
+
+        public override InterruptPriority GetMinimumInterruptPriority()
+        {
+            return InterruptPriority.Vehicle;
+        }
     }
 }

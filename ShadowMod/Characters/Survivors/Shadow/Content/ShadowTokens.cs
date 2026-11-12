@@ -28,8 +28,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
             string desc = "Shadow is a fast and aggressive melee survivor who tears through enemies individually ---reword?---.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine
              + "< ! > Shadow's lack of group damage can be circumvented with smart use of his Launching ability." + Environment.NewLine + Environment.NewLine
              + "< ! > Chaos Snap is your go-to attack for any situation. Use it in tandem with your other skills to avoid its cooldown." + Environment.NewLine + Environment.NewLine
-             + "< ! > Chaos Spear ---." + Environment.NewLine + Environment.NewLine
-             + "< ! > Chaos Boost ----." + Environment.NewLine + Environment.NewLine;
+             + "< ! > Chaos Spear -." + Environment.NewLine + Environment.NewLine
+             + "< ! > Chaos Boost marks all nearby enemies, letting you attack without restraint and recharge the skill at the same time. Use it at the right time and watch your power snowball." + Environment.NewLine + Environment.NewLine;
 
             string outro = "..and so he left, ?????.";
             string outroFailure = "..and so he vanished, ?????.";
@@ -37,7 +37,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Language.Add(prefix + "NAME", "Shadow");
             Language.Add(prefix + "DESCRIPTION", desc);
             Language.Add(prefix + "SUBTITLE", "The Ultimate Lifeform");
-            Language.Add(prefix + "LORE", "sample lore");
+            //Language.Add(prefix + "LORE", "sample lore");
             Language.Add(prefix + "OUTRO_FLAVOR", outro);
             Language.Add(prefix + "OUTRO_FAILURE", outroFailure);
 
@@ -83,12 +83,12 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Language.Add(prefix + "KEYWORD_KILL_COOLDOWN", KeywordText("kill cooldown", $"Charge this skill's cooldown by killing enemies or consuming {UtilityText("Chaos Marks")}. Additional charges increase the skill's duration."));
             #region Chaos Boost
             Language.Add(prefix + "SPECIAL_CHAOS_BOOST_NAME", $"Chaos Boost");
-            Language.Add(prefix + "SPECIAL_CHAOS_BOOST_DESCRIPTION", $"{RedText("kill cooldown")}. Release a burst of energy dealing {DamageValueText(chaosBoostDamageCoefficient)} and applying {UtilityText("Chaos Marks")}. Enhance your stats for {UtilityText(chaosBoostMaxDuration+"s")}. Killing {chaosBoostKillsToUpgrade} enemies will {UtilityText("upgrade")} the effect and reset its duration. Can upgrade into {DeathText("Chaos Blast")}.");
+            Language.Add(prefix + "SPECIAL_CHAOS_BOOST_DESCRIPTION", $"{RedText("kill cooldown")}. Release a burst of energy dealing {DamageValueText(chaosBoostDamageCoefficient)} and applying {UtilityText("Chaos Marks")}. Enhance your stats for {UtilityText(chaosBoostMaxDuration+"s")}. Reactivate to {UtilityText("upgrade")} the effect up to {DamageText("3")} times and reset its duration. After {DamageText("3")} uses, unleash {DeathText("Chaos Blast")}.");
             #endregion
             #region Chaos Blast
             string chaosBlastDescription = $"{UtilityText("Homing")}. Hold the target in place and release a massive explosion dealing {DamageValueText(chaosBlastDamageCoefficient)} repeatedly.";
             Language.Add(prefix + "KEYWORD_CHAOS_BLAST", KeywordText("Chaos Blast", chaosBlastDescription));
-            Language.Add(prefix + "SPECIAL_CHAOS_BLAST_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Blast");
+            Language.Add(prefix + "SPECIAL_CHAOS_BLAST_NAME", $"Chaos Blast");
             Language.Add(prefix + "SPECIAL_CHAOS_BLAST_DESCRIPTION", chaosBlastDescription);
             #endregion
             #region Chaos Control

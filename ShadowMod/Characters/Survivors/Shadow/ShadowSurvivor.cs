@@ -136,6 +136,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             bodyPrefab.AddComponent<HedgehogUtils.Boost.BoostLogic>();
             bodyPrefab.AddComponent<HomingTracker>();
             bodyPrefab.AddComponent<ChaosBoostComponent>();
+            bodyPrefab.AddComponent<Paths.ShadowPathsComponent>();
             var sfxComponent = bodyPrefab.GetComponent<SfxLocator>();
             sfxComponent.deathSound = "Play_hedgehogutils_death";
             sfxComponent.jumpSound = "Play_hedgehogutils_jump_ball";
@@ -380,9 +381,9 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 baseMaxStock = 1,
                 baseRechargeInterval = ShadowStaticValues.chaosBoostKillsToCharge,
 
-                rechargeStock = int.MaxValue,
+                rechargeStock = 1,
                 requiredStock = 1,
-                stockToConsume = int.MaxValue,
+                stockToConsume = 1,
 
                 fullRestockOnAssign = false,
                 isCombatSkill = true,
@@ -408,9 +409,9 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 baseMaxStock = 1,
                 baseRechargeInterval = ShadowStaticValues.chaosBoostKillsToCharge,
 
-                rechargeStock = int.MaxValue,
+                rechargeStock = 1,
                 requiredStock = 1,
-                stockToConsume = int.MaxValue,
+                stockToConsume = 1,
 
                 fullRestockOnAssign = true,
                 isCombatSkill = true,

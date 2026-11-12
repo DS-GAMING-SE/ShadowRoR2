@@ -16,8 +16,17 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
         {
             shadowBodyIndex = BodyCatalog.FindBodyIndex(ShadowSurvivor.instance.bodyName);
         }
+        public static void SetPath(Inventory inventory, Path path)
+        {
+            inventory.GiveItemPermanent(Items.pathIdentifierItemDef, ((int)path) - inventory.GetItemCountPermanent(Items.pathIdentifierItemDef));
+        }
+        public static Path GetPath(Inventory inventory)
+        {
+            return (Path)inventory.GetItemCountPermanent(Items.pathIdentifierItemDef);
+        }
         public enum Path
         {
+            NeutralConsumed,
             Neutral,
             Hero,
             Dark

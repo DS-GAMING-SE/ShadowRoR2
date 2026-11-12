@@ -258,6 +258,16 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
         }
         private void CalculateMaxRange()
         {
+            if (characterBody.HasBuff(HedgehogUtils.Buffs.superFormBuff))
+            {
+                maxRange = ShadowStaticValues.homingRangeSuper;
+                return;
+            }
+            if (characterBody.inventory && Paths.ShadowPaths.GetPath(characterBody.inventory) == Paths.ShadowPaths.Path.Hero)
+            {
+                maxRange = ShadowStaticValues.homingRangeHero;
+                return;
+            }
             maxRange = ShadowStaticValues.homingRange;
         }
 

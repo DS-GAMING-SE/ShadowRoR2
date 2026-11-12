@@ -26,7 +26,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
         public const float chaosSnapPummelMaxDuration = 2f;
 
-        public const float chaosSnapFinalDamageCoefficient = 6f;
+        public const float chaosSnapFinalDamageCoefficient = 7f;
         public const float chaosSnapFinalPushForce = 400f;
 
         public const int chaosSnapStocks = 3;

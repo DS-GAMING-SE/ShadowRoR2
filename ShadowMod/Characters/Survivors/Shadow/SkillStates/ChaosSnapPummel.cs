@@ -93,13 +93,12 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             attack.isCrit = RollCrit();
             attack.procCoefficient = ShadowStaticValues.chaosSnapPummelProcCoefficient;
             attack.damage = ShadowStaticValues.chaosSnapPummelDamageCoefficient * characterBody.damage;
-            attack.damageType = new DamageTypeCombo(DamageType.Stun1s, DamageTypeExtended.Generic, DamageSource.Primary);
+            attack.damageType = new DamageTypeCombo(DamageType.Generic, DamageTypeExtended.HitStun, DamageSource.Primary);
             if (canPushTarget)
             {
                 attack.physForceFlags = PhysForceFlags.resetVelocity | PhysForceFlags.disableAirControlUntilCollision | PhysForceFlags.massIsOne | PhysForceFlags.ignoreGroundStick;
                 attack.pushAwayForce = ((Vector3.Dot(inputBank.moveVector.normalized, -offset.normalized) / 2) + 0.5f) * inputBank.moveVector.magnitude * 2f * characterBody.moveSpeed;
                 attack.pushAwayForce *= target.healthComponent.body.hullClassification == HullClassification.Golem ? 0.75f : 1f;
-                // doesn't work when enemy dies
             }
         }
         protected virtual void ModifyAttack(OverlapAttack attack)

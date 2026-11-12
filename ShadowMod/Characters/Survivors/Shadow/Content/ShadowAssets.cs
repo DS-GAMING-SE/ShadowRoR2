@@ -122,17 +122,25 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Material matChaosBlastOuterSphere = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_SolusAmalgamator.matSolusAmalgamatorDeathSphere_mat).WaitForCompletion());
             matChaosBlastOuterSphere.name = "matShadowChaosBlastOuterSphere";
             matChaosBlastOuterSphere.SetTexture("_RemapTex", texPurpleRamp);
-            matChaosBlastOuterSphere.SetColor("_TintColor", new Color(2f, 0.1f, 0.2f));
-            matChaosBlastOuterSphere.SetTextureScale("_Cloud1Tex", new Vector2(15f, 15f));
-            matChaosBlastOuterSphere.SetVector("_CutoffScroll", new Vector4(6, 10, 30, 30));
-            matChaosBlastOuterSphere.SetFloat("_RimPower", 0.8f);
-            matChaosBlastOuterSphere.SetFloat("_Boost", 1.7f);
+            matChaosBlastOuterSphere.SetColor("_TintColor", new Color(2f, 0.03f, 0.13f));
+            matChaosBlastOuterSphere.SetTexture("_Cloud1Tex", AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_TiledTextures.texCloudCrackedIceInverted_png).WaitForCompletion());
+            matChaosBlastOuterSphere.SetTextureScale("_Cloud1Tex", new Vector2(2f, 5f));
+            matChaosBlastOuterSphere.SetVector("_CutoffScroll", new Vector4(6, 10, -30, 30));
+            matChaosBlastOuterSphere.SetFloat("_RimPower", 0.75f);
+            matChaosBlastOuterSphere.SetFloat("_RimStrength", 0.92f);
+            matChaosBlastOuterSphere.SetFloat("_Boost", 1f);
+            matChaosBlastOuterSphere.SetFloat("_AlphaBoost", 0.35f);
             Material matBurnGroundSphere = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC2_Items_MeteorAttackOnHighDamage.matRunicLensMeteorStrikeImpactIndicator_mat).WaitForCompletion());
             matBurnGroundSphere.name = "matShadowBurnGround";
             matBurnGroundSphere.SetColor("_TintColor", new Color(1f, 0.45f, 0.6f));
             matBurnGroundSphere.SetFloat("_InvFade", 0.13f);
             matBurnGroundSphere.SetFloat("_SoftPower", 1f);
             matBurnGroundSphere.SetFloat("_Boost", 5f);
+            Material matChaosBlastFog = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC1_VoidCamp.matVoidCampSphereBackface_mat).WaitForCompletion());
+            matChaosBlastFog.name = "matShadowChaosBlastFog";
+            matChaosBlastFog.SetColor("_TintColor", new Color(0.6f, 0f, 0.1f));
+            matChaosBlastFog.SetFloat("_InvFade", 0.02f);
+            // Look into Death Mark VFX mats for Doom
 
             Mesh donut1Mesh = AssetAsyncReferenceManager<Mesh>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_VFX.mdlVFXDonut1_fbx).WaitForCompletion();
             Mesh donut2Mesh = AssetAsyncReferenceManager<Mesh>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_VFX.mdlVFXDonut2_fbx).WaitForCompletion();
@@ -211,7 +219,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             };
             chaosBlastExplosion.LoadAssetAsync().Completed += (x) =>
             {
-                chaosBlastExplosionEffect = Asset.CreateEffect(x.Result, 10f, false, "", out var vfx, out var effect);
+                chaosBlastExplosionEffect = Asset.CreateEffect(x.Result, 7f, false, "", out var vfx, out var effect);
                 vfx.vfxIntensity = VFXAttributes.VFXIntensity.High;
                 effect.applyScale = true;
                 var flashPP = chaosBlastExplosionEffect.transform.GetChild(2);
@@ -234,7 +242,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 exteriorPPDuration.ppWeightCurve = AnimationCurve.EaseInOut(0f, 0.65f, 1f, 0f);
                 chaosBlastExplosionEffect.transform.GetChild(3).gameObject.AddLightIntensityCurve(AnimationCurve.EaseInOut(0f, 1f, 1f, 0f), 1.8f);
                 chaosBlastExplosionEffect.transform.GetChild(4).gameObject.SetMaterialAndMesh(matChaosBlastOuterSphere, pSphere1Mesh);
-                chaosBlastExplosionEffect.transform.GetChild(5).GetComponent<ParticleSystemRenderer>().sharedMaterial = matSphereBurst;
+                chaosBlastExplosionEffect.transform.GetChild(5).GetComponent<ParticleSystemRenderer>().sharedMaterial = AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Gravekeeper.matOmniExplosion1ArchWisp_mat).WaitForCompletion();
                 chaosBlastExplosionEffect.transform.GetChild(6).gameObject.SetMaterialAndMesh(matSphereParticle, noiseSphereMesh);
                 chaosBlastExplosionEffect.transform.GetChild(7).gameObject.SetMaterialAndMesh(matSubtleWindTrail, donut5Mesh);
                 chaosBlastExplosionEffect.transform.GetChild(8).gameObject.SetMaterialAndMesh(matSubtleWindTrail, donut1Mesh);
@@ -242,6 +250,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 chaosBlastExplosionEffect.transform.GetChild(10).GetComponent<ParticleSystemRenderer>().sharedMaterial = matGlowSoft;
                 chaosBlastExplosionEffect.transform.GetChild(11).GetComponent<ParticleSystemRenderer>().sharedMaterial = matGlowHard;
                 chaosBlastExplosionEffect.transform.GetChild(12).gameObject.SetMaterialAndMesh(matBurnGroundSphere, pSphere1Mesh);
+                chaosBlastExplosionEffect.transform.GetChild(13).gameObject.SetMaterialAndMesh(matChaosBlastFog, pSphere1Mesh);
+                chaosBlastExplosionEffect.transform.GetChild(14).GetComponent<ParticleSystemRenderer>().sharedMaterial = HedgehogUtils.Assets.darkSparkle;
 
                 ShakeEmitter shakeEmitter = chaosBlastExplosionEffect.AddComponent<ShakeEmitter>();
                 shakeEmitter.amplitudeTimeDecay = true;
