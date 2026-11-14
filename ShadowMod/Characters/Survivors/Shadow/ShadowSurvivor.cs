@@ -15,6 +15,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using static RoR2.TeleporterInteraction;
 
 namespace ShadowMod.Characters.Survivors.Shadow
 {
@@ -123,6 +124,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             InitializeCharacterMaster();
 
             Paths.Items.Init();
+            Paths.BlackDoom.Init();
 
             AdditionalBodySetup();
 
@@ -176,7 +178,13 @@ namespace ShadowMod.Characters.Survivors.Shadow
             AddUtilitySkills();
             AddSpecialSkills();
             AddVoicelineSkills();
+            AddDoomPowerSkills();
         }
+        public ChaosSnapSkillDef chaosSnapSkillDef;
+        public SkillDef chaosSpearSkillDef;
+        public HedgehogUtils.Boost.SkillDefs.BoostSkillDef boostSkillDef;
+        public ChaosBoostSkillDef chaosBoostSkillDef;
+        public HomingKillCooldownSkillDef chaosBlastSkillDef;
 
         //skip if you don't have a passive
         //also skip if this is your first look at skills
@@ -239,7 +247,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
             //the primary skill is created using a constructor for a typical primary
             //it is also a SteppedSkillDef. Custom Skilldefs are very useful for custom behaviors related to casting a skill. see ror2's different skilldefs for reference
-            SkillDef primarySkillDef1 = Skills.CreateSkillDef<ChaosSnapSkillDef>(new SkillDefInfo
+            chaosSnapSkillDef = Skills.CreateSkillDef<ChaosSnapSkillDef>(new SkillDefInfo
             {
                 skillName = "ShadowChaosSnap",
                 skillNameToken = SHADOW_PREFIX + "PRIMARY_CHAOS_SNAP_NAME",
@@ -272,7 +280,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 isCooldownBlockedUntilManuallyReset = true
             });
 
-            Skills.AddPrimarySkills(bodyPrefab, primarySkillDef1);
+            Skills.AddPrimarySkills(bodyPrefab, chaosSnapSkillDef);
         }
 
         private void AddSecondarySkills()
@@ -280,7 +288,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, SkillSlot.Secondary);
 
             //here is a basic skill def with all fields accounted for
-            SkillDef secondarySkillDef1 = Skills.CreateSkillDef<TrackingSkillDef>(new SkillDefInfo
+            chaosSpearSkillDef = Skills.CreateSkillDef<TrackingSkillDef>(new SkillDefInfo
             {
                 skillName = "ShadowChaosSpear",
                 skillNameToken = SHADOW_PREFIX + "SECONDARY_CHAOS_SPEAR_NAME",
@@ -311,7 +319,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 forceSprintDuringState = false
             });
 
-            Skills.AddSecondarySkills(bodyPrefab, secondarySkillDef1);
+            Skills.AddSecondarySkills(bodyPrefab, chaosSpearSkillDef);
         }
 
         private void AddUtilitySkills()
@@ -349,7 +357,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 forceSprintDuringState = true,
             });*/
 
-            SkillDef boostSkillDef = HedgehogUtils.Boost.SkillDefs.CreateBoostSkillDef<HedgehogUtils.Boost.SkillDefs.BoostSkillDef>(
+            boostSkillDef = HedgehogUtils.Boost.SkillDefs.CreateBoostSkillDef<HedgehogUtils.Boost.SkillDefs.BoostSkillDef>(
                 SHADOW_PREFIX + "UTILITY_BOOST_NAME",
                 SHADOW_PREFIX + "UTILITY_BOOST_DESCRIPTION",
                 ShadowAssets.boostSkillIcon.LoadAssetAsync().WaitForCompletion(),
@@ -366,7 +374,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, SkillSlot.Special);
 
             //a basic skill. some fields are omitted and will just have default values
-            ChaosBoostSkillDef specialSkillDef1 = Skills.CreateSkillDef<ChaosBoostSkillDef>(new SkillDefInfo
+            chaosBoostSkillDef = Skills.CreateSkillDef<ChaosBoostSkillDef>(new SkillDefInfo
             {
                 skillName = "ShadowChaosBoost",
                 skillNameToken = SHADOW_PREFIX + "SPECIAL_CHAOS_BOOST_NAME",
@@ -392,9 +400,9 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
                 dontAllowPastMaxStocks = true
             });
-            specialSkillDef1.upgradeSkillIcon = ShadowAssets.chaosBoostUpgradedSkillIcon.LoadAssetAsync().WaitForCompletion();
-            specialSkillDef1.upgradeRechargeInterval = ShadowStaticValues.chaosBoostKillsToUpgrade;
-            SkillDef chaosBlastSkillDef = Skills.CreateSkillDef<HomingKillCooldownSkillDef>(new SkillDefInfo
+            chaosBoostSkillDef.upgradeSkillIcon = ShadowAssets.chaosBoostUpgradedSkillIcon.LoadAssetAsync().WaitForCompletion();
+            chaosBoostSkillDef.upgradeRechargeInterval = ShadowStaticValues.chaosBoostKillsToUpgrade;
+            chaosBlastSkillDef = Skills.CreateSkillDef<HomingKillCooldownSkillDef>(new SkillDefInfo
             {
                 skillName = "ShadowChaosBlast",
                 skillNameToken = SHADOW_PREFIX + "SPECIAL_CHAOS_BLAST_NAME",
@@ -420,9 +428,9 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
                 dontAllowPastMaxStocks = true
             });
-            specialSkillDef1.upgradeSkillOverride = chaosBlastSkillDef;
+            chaosBoostSkillDef.upgradeSkillOverride = chaosBlastSkillDef;
 
-            Skills.AddSpecialSkills(bodyPrefab, specialSkillDef1);
+            Skills.AddSpecialSkills(bodyPrefab, chaosBoostSkillDef);
         }
 
         private void AddVoicelineSkills()
@@ -452,6 +460,55 @@ namespace ShadowMod.Characters.Survivors.Shadow
             voiceline.Initialize();
             HedgehogUtils.Voicelines.VoicelineDisplayComponent.AddDisplayPrefabVoicelineComponent(displayPrefab, bodyPrefab, voicelinesGenericSkill.skillFamily, voicelinesEnable, voicelineSoundBankPath,
                 ShadowVoiceLineComponent.lobby1);*/
+        }
+
+        private void AddDoomPowerSkills()
+        {
+            SkillDef doomSpearSkillDef = ScriptableObject.Instantiate(chaosSpearSkillDef);
+            doomSpearSkillDef.skillName = "ShadowDoomSpear";
+            doomSpearSkillDef.skillNameToken = SHADOW_PREFIX + "SECONDARY_DOOM_SPEAR_NAME";
+            doomSpearSkillDef.skillDescriptionToken = SHADOW_PREFIX + "SECONDARY_DOOM_SPEAR_DESCRIPTION";
+            doomSpearSkillDef.icon = ShadowAssets.doomSpearSkillIcon.LoadAssetAsync().WaitForCompletion();
+            doomSpearSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(DoomSpear));
+
+            SkillDef doomBlastSkillDef = ScriptableObject.Instantiate(chaosSnapSkillDef);
+            doomBlastSkillDef.skillName = "ShadowDoomBlast";
+            doomBlastSkillDef.skillNameToken = SHADOW_PREFIX + "PRIMARY_DOOM_BLAST_NAME";
+            doomBlastSkillDef.skillDescriptionToken = SHADOW_PREFIX + "PRIMARY_DOOM_BLAST_DESCRIPTION";
+            doomBlastSkillDef.icon = ShadowAssets.doomBlastSkillIcon.LoadAssetAsync().WaitForCompletion();
+            //doomBlastSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(ChaosSnapIn));
+
+            ChaosBoostSkillDef doomWingSkillDef = ScriptableObject.Instantiate(chaosBoostSkillDef);
+            doomWingSkillDef.skillName = "ShadowDoomWing";
+            doomWingSkillDef.skillNameToken = SHADOW_PREFIX + "SPECIAL_DOOM_WING_NAME";
+            doomWingSkillDef.skillDescriptionToken = SHADOW_PREFIX + "SPECIAL_DOOM_WING_DESCRIPTION";
+            doomWingSkillDef.icon = ShadowAssets.doomWingSkillIcon.LoadAssetAsync().WaitForCompletion();
+            //doomWingSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(ChaosBoost));
+            doomWingSkillDef.upgradeSkillIcon = ShadowAssets.doomWingUpgradedSkillIcon.LoadAssetAsync().WaitForCompletion();
+            Paths.DoomPowerDef.AddDoomPowerDefs([new Paths.DoomPowerDef
+            {
+                skillSlot = SkillSlot.Secondary,
+                skillToOverride = chaosSpearSkillDef,
+                skillDef = doomSpearSkillDef,
+                pickupToken = SHADOW_PREFIX + "SECONDARY_DOOM_SPEAR_PICKUP",
+                requiredDoomPower = 1
+            },
+            new Paths.DoomPowerDef
+            {
+                skillSlot = SkillSlot.Primary,
+                skillToOverride = chaosSnapSkillDef,
+                skillDef = doomBlastSkillDef,
+                pickupToken = SHADOW_PREFIX + "PRIMARY_DOOM_BLAST_PICKUP",
+                requiredDoomPower = 2
+            },
+            new Paths.DoomPowerDef
+            {
+                skillSlot = SkillSlot.Special,
+                skillToOverride = chaosBoostSkillDef,
+                skillDef = doomWingSkillDef,
+                pickupToken = SHADOW_PREFIX + "SPECIAL_DOOM_WING_PICKUP",
+                requiredDoomPower = 3
+            }]);
         }
         #endregion skills
 

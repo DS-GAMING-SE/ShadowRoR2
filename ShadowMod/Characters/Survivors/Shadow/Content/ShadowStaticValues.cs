@@ -4,18 +4,18 @@ namespace ShadowMod.Characters.Survivors.Shadow
 {
     public static class ShadowStaticValues
     {
-        public const float swordDamageCoefficient = 2.8f;
-
-        public const float gunDamageCoefficient = 4.2f;
-
-        public const float bombDamageCoefficient = 16f;
-
         #region General
         public const float homingRange = 48f;
         public const float homingRangeHero = 75f;
         public const float homingRangeSuper = 90f;
 
         public const float chaosMarkDuration = 15f;
+        #endregion
+
+        #region Paths
+        #region Doom
+        public const int doomPowersMax = 3;
+        #endregion
         #endregion
 
         #region Chaos Snap
@@ -31,12 +31,23 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
         public const int chaosSnapStocks = 3;
         public const float chaosSnapCooldown = 5f;
+
+        #region Doom Blast
+        public const float doomBlastExtraDamageCoefficient = 10f;
+        public const float doomBlastFinalProcCoefficient = 1.5f;
+        #endregion
+
         #endregion
 
         #region Chaos Spear
         public const float chaosSpearDamageCoefficient = 7f;
 
         public const float chaosSpearCooldown = 7f;
+
+        #region Doom Spear
+        public const int doomSpearCount = 5;
+        #endregion
+
         #endregion
 
         #region Boost
@@ -67,6 +78,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public const int chaosBoostKillsToCharge = 10;
         public const int chaosBoostKillsToUpgrade = 10; // doesn't work
         #endregion
+
         #region Chaos Blast
         public const float chaosBlastDamageCoefficient = 10f;
         public const float chaosBlastFrequency = 4f;

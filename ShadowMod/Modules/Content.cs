@@ -116,7 +116,7 @@ namespace ShadowMod.Modules
 
             return effectDef;
         }
-        public static ItemDef AddItemDef(string itemName, string token, AssetReferenceT<Sprite> icon, AssetReferenceT<GameObject> pickupModel, ItemTierDef itemTierDef)
+        public static ItemDef AddItemDef(string itemName, string token, AssetReferenceT<Sprite> icon, AssetReferenceT<GameObject> pickupModel, ItemTierDef itemTierDef, params ItemTag[] tags)
         {
             ItemDef itemDef = ScriptableObject.CreateInstance<ItemDef>();
             itemDef.name = itemName;
@@ -137,13 +137,7 @@ namespace ShadowMod.Modules
             itemDef.pickupToken = prefix + token + "_PICKUP";
             itemDef.descriptionToken = prefix + token + "_DESC";
             itemDef.loreToken = prefix + token + "_LORE";
-            itemDef.tags =
-            [
-                ItemTag.CannotSteal,
-                ItemTag.WorldUnique,
-                ItemTag.CannotDisable,
-                ItemTag.CanBeRental
-            ];
+            itemDef.tags = tags;
 
             ContentPacks.itemDefs.Add(itemDef);
 

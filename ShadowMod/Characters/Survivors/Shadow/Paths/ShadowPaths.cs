@@ -18,11 +18,11 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
         }
         public static void SetPath(Inventory inventory, Path path)
         {
-            inventory.GiveItemPermanent(Items.pathIdentifierItemDef, ((int)path) - inventory.GetItemCountPermanent(Items.pathIdentifierItemDef));
+            if (inventory) inventory.GiveItemPermanent(Items.pathIdentifierItemDef, ((int)path) - inventory.GetItemCountPermanent(Items.pathIdentifierItemDef));
         }
         public static Path GetPath(Inventory inventory)
         {
-            return (Path)inventory.GetItemCountPermanent(Items.pathIdentifierItemDef);
+            return !inventory ? Path.NeutralConsumed : (Path)inventory.GetItemCountPermanent(Items.pathIdentifierItemDef);
         }
         public enum Path
         {

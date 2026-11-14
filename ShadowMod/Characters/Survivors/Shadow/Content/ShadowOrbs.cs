@@ -55,4 +55,26 @@ namespace ShadowMod.Characters.Survivors.Shadow
             base.OnArrival();
         }
     }
+    public class DoomPowerOrb : Orb
+    {
+        public override void Begin()
+        {
+            base.duration = 0.25f;
+            EffectData effectData = new EffectData
+            {
+                origin = this.origin,
+                genericFloat = base.duration
+            };
+            effectData.SetHurtBoxReference(this.target);
+            EffectManager.SpawnEffect(OrbStorageUtility.Get("Prefabs/Effects/OrbEffects/ClayGooOrbEffect"), effectData, true);
+        }
+        public override void OnArrival()
+        {
+            if (target && target.healthComponent)
+            {
+                Paths.Items.GiveDoomPower(target.healthComponent.body);
+            }
+            base.OnArrival();
+        }
+    }
 }

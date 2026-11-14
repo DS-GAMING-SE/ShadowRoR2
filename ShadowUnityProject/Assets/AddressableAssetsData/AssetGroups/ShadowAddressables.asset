@@ -15,7 +15,7 @@ MonoBehaviour:
   m_GroupName: ShadowAddressables
   m_Data:
     m_SerializedData: []
-  m_GUID: 8195e7a6d7a9ee8469f1facef3976a63
+  m_GUID: fb1c8621c5d70f14cac6e816504bd38e
   m_SerializeEntries:
   - m_GUID: 2b1ae6eb92856db41a261cf5336101dc
     m_Address: Assets/HenryAssets/HenryBundle/HenryBombGhost.prefab
@@ -137,9 +137,29 @@ MonoBehaviour:
     m_Address: Assets/ShadowAssets/ShadowBundle/VFX/Prefabs/Default/ChaosBlastExplosionEffect.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 46576300890e4a14aa5ef325e2976e7b
+    m_Address: Assets/ShadowAssets/ShadowBundle/BlackDoomInteractable.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c69ee8e8c0ccd5c4c9ab016e47a5328c
+    m_Address: Assets/ShadowAssets/ShadowBundle/Icons/texDoomBlastSkillIcon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e53b10eb5fbccc745a308a44d9f9eb34
+    m_Address: Assets/ShadowAssets/ShadowBundle/Icons/texDoomSpearSkillIcon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 872766d8c9b26e846b35b3d2a63e5664
+    m_Address: Assets/ShadowAssets/ShadowBundle/Icons/texDoomWingSkillIcon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c43d3d32e0bb5aa43966e4e9cf0ee935
+    m_Address: Assets/ShadowAssets/ShadowBundle/Icons/texDoomWingUpgradedSkillIcon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 80780dc7c8eea2546b3509246a72a4ca, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 77f82c7e3cbaf14409034625ddc212d8, type: 2}
-    - {fileID: 11400000, guid: e8fe0695302af7946a4bf91079ca1b87, type: 2}
+    - {fileID: 11400000, guid: 5435267b60d821848844b9792f3cf35e, type: 2}
+    - {fileID: 11400000, guid: fa89532cb846431418e485980ef12bb0, type: 2}

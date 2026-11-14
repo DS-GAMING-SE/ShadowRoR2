@@ -12,7 +12,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates.DoomPowerUpgrades
 {
     public class DoomSpear : ChaosSpear
     {
-        public override int maxAttacks { get { return 5; } }
+        public override int maxAttacks { get { return ShadowStaticValues.doomSpearCount; } }
 
         protected override void FireSpearVFX()
         {

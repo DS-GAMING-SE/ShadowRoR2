@@ -92,7 +92,13 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public static void Init()
         {
             On.RoR2.GenericSkill.CanApplyAmmoPack += NoBandolierOnKillCooldownSkillDef;
-            killCooldownChargeItemDef = Content.AddItemDef("ShadowKillCooldownCharge", "KILL_COOLDOWN_CHARGE", null, null, null);
+            killCooldownChargeItemDef = Content.AddItemDef("ShadowKillCooldownCharge", "KILL_COOLDOWN_CHARGE", null, null, null, [
+                ItemTag.CannotSteal,
+                ItemTag.WorldUnique,
+                ItemTag.CannotDisable,
+                ItemTag.CanBeRental,
+                ItemTag.CannotCopy
+            ]);
         }
         private static bool NoBandolierOnKillCooldownSkillDef(On.RoR2.GenericSkill.orig_CanApplyAmmoPack orig, GenericSkill self)
         {

@@ -54,13 +54,19 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Language.Add(prefix + "PASSIVE_NAME", $"{HedgehogUtils.Helpers.wipIcon} All of Me");
             Language.Add(prefix + "PASSIVE_DESCRIPTION", $"With the <color=#e7c7e6>Artifact of Chaos Emeralds</color> enabled, Shadow can choose to {UtilityText("wield the Chaos Emeralds")}, accept the {RedText("dark influence of Black Doom")}, or forsake both and {HealingText("fight only with his own power")}.");
             Language.Add(prefix + "KEYWORD_HERO_PATH", KeywordText($"{UtilityText("Hero")}", $"Collect the Chaos Emeralds. Improves your {UtilityText("mobility")} and increases your {UtilityText("Homing")} range."));
-            Language.Add(prefix + "KEYWORD_DARK_PATH", KeywordText($"{RedText("Dark")}", $"Accept Doom Powers at the end of each stage. Permanently upgrade your skills into more aggressive variants."));
+            Language.Add(prefix + "KEYWORD_DARK_PATH", KeywordText($"{RedText("Dark")}", $"Accept Doom Powers at the end of each stage. {RedText("Permanently upgrade your skills")} into more aggressive variants."));
             Language.Add(prefix + "KEYWORD_NEUTRAL_PATH", KeywordText($"{HealingText("Neutral")}", $"{UtilityText("Upon death")}, {UtilityText("return to life")} and remove your inhibitor rings for the rest of the stage, giving {DamageText("incredible power")} but {HealthText("disabling your items")}."));
             #endregion
 
             #region Primary
             Language.Add(prefix + "PRIMARY_CHAOS_SNAP_NAME", $"Chaos Snap");
             Language.Add(prefix + "PRIMARY_CHAOS_SNAP_DESCRIPTION", $"{UtilityText("Homing")}. Teleport to the target and pummel them for {DamageValueText(chaosSnapPummelDamageCoefficient)} repeatedly while the skill is held. Release to {UtilityText("Launch")} the target for {DamageValueText(chaosSnapFinalDamageCoefficient)}. {HedgehogUtils.Helpers.wipIcon} Use your {UtilityText("utility skill")} to teleport away from or behind the target.");
+
+            #region Doom
+            Language.Add(prefix + "PRIMARY_DOOM_BLAST_NAME", RedText(HedgehogUtils.Helpers.wipIcon + " Doom Blast"));
+            Language.Add(prefix + "PRIMARY_DOOM_BLAST_DESCRIPTION", $"{UtilityText("Homing")}. Teleport to the target and pummel them for {DamageValueText(chaosSnapPummelDamageCoefficient)} repeatedly while the skill is held. Release to {UtilityText("Launch")} the target for {DamageValueText(chaosSnapFinalDamageCoefficient)}. {HedgehogUtils.Helpers.wipIcon} Use your {UtilityText("utility skill")} to teleport away from or behind the target. Hold for the skill's entire duration to attack again for {RedText($"{doomBlastExtraDamageCoefficient * 100f}%")}");
+            Language.Add(prefix + "PRIMARY_DOOM_BLAST_PICKUP", $"Hold for the skill's entire duration to attack again for {RedText($"{doomBlastExtraDamageCoefficient * 100f}%")}. {RedText("Corrupts Chaos Snap")}.");
+            #endregion
             #endregion
 
             #region Secondary
@@ -68,8 +74,9 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Language.Add(prefix + "SECONDARY_CHAOS_SPEAR_DESCRIPTION", DamageText("Shocking")+". "+ UtilityText("Homing")+". " + agilePrefix + $"Fire a Chaos Spear dealing {DamageValueText(chaosSpearDamageCoefficient)} and applying a {UtilityText("Chaos Mark")}.");
             
             #region Doom
-            Language.Add(prefix + "SECONDARY_DOOM_SPEAR_NAME", RedText("Doom Spear"));
-            Language.Add(prefix + "SECONDARY_DOOM_SPEAR_DESCRIPTION", DamageText("Shocking") + ". " + UtilityText("Homing") + ". " + agilePrefix + $"Fire Doom Spears {RedText("at up to 5 targets")} dealing {DamageValueText(chaosSpearDamageCoefficient)} and applying {UtilityText("Chaos Marks")}.");
+            Language.Add(prefix + "SECONDARY_DOOM_SPEAR_NAME", RedText(HedgehogUtils.Helpers.wipIcon + "Doom Spear"));
+            Language.Add(prefix + "SECONDARY_DOOM_SPEAR_DESCRIPTION", DamageText("Shocking") + ". " + UtilityText("Homing") + ". " + agilePrefix + $"Fire Doom Spears {RedText($"at up to {doomSpearCount} targets")} dealing {DamageValueText(chaosSpearDamageCoefficient)} and applying {UtilityText("Chaos Marks")}.");
+            Language.Add(prefix + "SECONDARY_DOOM_SPEAR_PICKUP", $"Fire Doom Spears {RedText($"at up to {doomSpearCount} targets")} at once. {RedText("Corrupts Chaos Spear")}.");
             #endregion
 
             #endregion
@@ -84,17 +91,26 @@ namespace ShadowMod.Characters.Survivors.Shadow
             #region Chaos Boost
             Language.Add(prefix + "SPECIAL_CHAOS_BOOST_NAME", $"Chaos Boost");
             Language.Add(prefix + "SPECIAL_CHAOS_BOOST_DESCRIPTION", $"{RedText("kill cooldown")}. Release a burst of energy dealing {DamageValueText(chaosBoostDamageCoefficient)} and applying {UtilityText("Chaos Marks")}. Enhance your stats for {UtilityText(chaosBoostMaxDuration+"s")}. Reactivate to {UtilityText("upgrade")} the effect up to {DamageText("3")} times and reset its duration. After {DamageText("3")} uses, unleash {DeathText("Chaos Blast")}.");
+
+            #region Doom
+            Language.Add(prefix + "SPECIAL_DOOM_WING_NAME", RedText(HedgehogUtils.Helpers.wipIcon + "Doom Wing"));
+            Language.Add(prefix + "SPECIAL_DOOM_WING_DESCRIPTION", $"{RedText("kill cooldown")}. Release a burst of energy dealing {DamageValueText(chaosBoostDamageCoefficient)} and applying {UtilityText("Chaos Marks")}. Grow wings, {RedText("greatly enhancing your stats")} and gaining {RedText("flight while boosting")} for {UtilityText(chaosBoostMaxDuration + "s")}. Reactivate to reset its duration. After {DamageText("3")} uses, unleash {DeathText("Chaos Blast")}.");
+            Language.Add(prefix + "SPECIAL_DOOM_WING_PICKUP", $"Grow Doom Wings, {RedText($"greatly increasing your stats")} and allowing you to {RedText("fly while boosting")}. {RedText("Corrupts Chaos Boost")}.");
             #endregion
+            #endregion
+
             #region Chaos Blast
             string chaosBlastDescription = $"{UtilityText("Homing")}. Hold the target in place and release a massive explosion dealing {DamageValueText(chaosBlastDamageCoefficient)} repeatedly.";
             Language.Add(prefix + "KEYWORD_CHAOS_BLAST", KeywordText("Chaos Blast", chaosBlastDescription));
             Language.Add(prefix + "SPECIAL_CHAOS_BLAST_NAME", $"Chaos Blast");
             Language.Add(prefix + "SPECIAL_CHAOS_BLAST_DESCRIPTION", chaosBlastDescription);
             #endregion
+
             #region Chaos Control
             Language.Add(prefix + "SPECIAL_CHAOS_CONTROL_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Control");
             Language.Add(prefix + "SPECIAL_CHAOS_CONTROL_DESCRIPTION", $"{HedgehogUtils.Helpers.wipIcon}");
             #endregion
+
             #endregion
 
             #region Paths
@@ -102,10 +118,15 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Language.Add(prefix + "DARK_PICKUP_SUFFIX", $"{RedText("This marks the path you've chosen.")}");
 
             Language.Add(prefix + "ITEM_DOOM_POWER", $"{HedgehogUtils.Helpers.wipIcon} Doom Power");
-            string doomPowerDescription = HedgehogUtils.Helpers.wipIcon;
+            string doomPowerDescription = $"{RedText("Permanently upgrade your skills")} into more aggressive variants.";
             Language.Add(prefix + "ITEM_DOOM_POWER_PICKUP", doomPowerDescription);
             Language.Add(prefix + "ITEM_DOOM_POWER_DESC", doomPowerDescription);
             //Language.Add(prefix + "ITEM_DOOM_POWER_LORE", "");
+
+            Language.Add(prefix + "BLACK_DOOM_SPAWN", RedText("Black Doom appears.."));
+            Language.Add(prefix + "BLACK_DOOM_NAME", "Black Doom");
+            Language.Add(prefix + "BLACK_DOOM_CONTEXT", "Accept Doom's Power..?");
+            Language.Add(prefix + "BLACK_DOOM_DESCRIPTION", "As Shadow, gain a Doom Power, which permanently upgrades one of your skills.\n\nThis will set you on the Dark path for the rest of the run, making you unable to use the Chaos Emeralds.");
             #endregion
 
             Language.Add(prefix + "VOICELINES_ENABLE_DESCRIPTION", $"Voicelines recorded by {UtilityText("MotherEggVA")}.");

@@ -47,30 +47,50 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public static AssetReferenceT<RuntimeAnimatorController> displayAnimator = new AssetReferenceT<RuntimeAnimatorController>("4397b394b0996d44ba60f0f7769a33d1");
         public static AssetReferenceT<Avatar> animatorAvatar = new AssetReferenceT<Avatar>("3f55d8352b2212743b809db2974cdd5e");
 
+        #region Character Icons
         public static AssetReferenceTexture characterIcon = new AssetReferenceTexture("fbdab69c75e3cd94596054335b2c2744");
         public static AssetReferenceSprite passiveSkillIcon = new AssetReferenceSprite("9fcf79bda87678d4e80f4eb6462e4fdf");
+
         public static AssetReferenceSprite chaosSnapSkillIcon = new AssetReferenceSprite("89141efa71806744d9caf29b253b0d33");
         public static AssetReferenceSprite chaosSpearSkillIcon = new AssetReferenceSprite("18f6e1df055a2dd4085e66d3d3c5979e");
         public static AssetReferenceSprite boostSkillIcon = new AssetReferenceSprite("1c07abb3d41d38c4cac5563c3c1630d7");
         public static AssetReferenceSprite chaosBoostSkillIcon = new AssetReferenceSprite("6c6ddbdba1fa78d4caaf9fe144d3ac0e");
         public static AssetReferenceSprite chaosBoostUpgradedSkillIcon = new AssetReferenceSprite("8e7fefe0591a7bf41912ee88085e598d");
         public static AssetReferenceSprite chaosBlastSkillIcon = new AssetReferenceSprite("d36947727e0d2484d8bba10709948a83");
+
         public static AssetReferenceSprite voicelineEnableSkillIcon = new AssetReferenceSprite("c2cc0e85354a76044a13ee6e9667480a");
         public static AssetReferenceSprite voicelineDisableSkillIcon = new AssetReferenceSprite("13162ebc3e59e934eaf3c5aa849b2948");
 
-        public static AssetReferenceT<Sprite> shadowLogoIcon = new("eec1a2a0d7c225548aa2ba6f9c8a5531");
+        #region Doom Skill Icons
+        public static AssetReferenceSprite doomBlastSkillIcon = new AssetReferenceSprite("c69ee8e8c0ccd5c4c9ab016e47a5328c");
+        public static AssetReferenceSprite doomSpearSkillIcon = new AssetReferenceSprite("e53b10eb5fbccc745a308a44d9f9eb34");
+        public static AssetReferenceSprite doomBoostSkillIcon = new AssetReferenceSprite("1c07abb3d41d38c4cac5563c3c1630d7");
+        public static AssetReferenceSprite doomWingSkillIcon = new AssetReferenceSprite("872766d8c9b26e846b35b3d2a63e5664");
+        public static AssetReferenceSprite doomWingUpgradedSkillIcon = new AssetReferenceSprite("c43d3d32e0bb5aa43966e4e9cf0ee935");
+        #endregion
+        #endregion
 
+        #region Paths Related
+        public static AssetReferenceT<Sprite> shadowLogoIcon = new("eec1a2a0d7c225548aa2ba6f9c8a5531");
+        public static AssetReferenceT<GameObject> blackDoomInteractable = new("46576300890e4a14aa5ef325e2976e7b");
+        #endregion
+
+        #region Default Skin
         public static AssetReferenceT<Material> defaultSkinMaterial = new AssetReferenceT<Material>("14d6d121af8aca345b797120c5f6331b");
         public static AssetReferenceT<Mesh> defaultSkinMesh = new AssetReferenceT<Mesh>("fee9d8e08c8c818498f7613f868f2e34");
         public static AssetReferenceT<Mesh> defaultSkinSwordMesh = new AssetReferenceT<Mesh>("06ba2d7b66b5a7c47ae54f402cb9e132");
         public static AssetReferenceT<Mesh> defaultSkinGunMesh = new AssetReferenceT<Mesh>("95bb770c878495b4296296a4b09a6034");
         public static AssetReferenceSprite defaultSkinIcon = new AssetReferenceSprite("0be3f4ea9f44e3d4da982f8a0fca23a9");
+        #endregion
 
+        #region Mastery Skin
         public static AssetReferenceT<Material> masterySkinMaterial = new AssetReferenceT<Material>("507751368e16e18409e1c93f8022eb8c");
         public static AssetReferenceT<Mesh> masterySkinMesh = new AssetReferenceT<Mesh>("e49dd36434c00024985424af2da4cedd");
         public static AssetReferenceT<Mesh> masterySkinSwordMesh = new AssetReferenceT<Mesh>("7a3e4cd720806a248b00c548032956cd");
         public static AssetReferenceSprite masterySkinIcon = new AssetReferenceSprite("639a10fc5e926d644a0bfc95000aaa8d");
+        #endregion
 
+        #region Skill VFX
         public static AssetReferenceT<GameObject> projectileGhost = new AssetReferenceT<GameObject>("2b1ae6eb92856db41a261cf5336101dc");
 
         public static AssetReferenceT<GameObject> projectileExplodeEffect = new AssetReferenceT<GameObject>("05b273758480af74a919e826c7b80a86");
@@ -79,6 +99,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
         public static AssetReferenceT<GameObject> chaosBoostActivation = new("ad91f54836c7f9249beb441a7c743d31");
         public static AssetReferenceT<GameObject> chaosBlastExplosion = new("e035764ea9303ca41a4c9d0138783c24");
+        #endregion
         #endregion
 
         public static void Init()
