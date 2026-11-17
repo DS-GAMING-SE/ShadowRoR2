@@ -55,7 +55,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Language.Add(prefix + "PASSIVE_DESCRIPTION", $"With the <color=#e7c7e6>Artifact of Chaos Emeralds</color> enabled, Shadow can choose to {UtilityText("wield the Chaos Emeralds")}, accept the {RedText("dark influence of Black Doom")}, or forsake both and {HealingText("fight only with his own power")}.");
             Language.Add(prefix + "KEYWORD_HERO_PATH", KeywordText($"{UtilityText("Hero")}", $"Collect the Chaos Emeralds. Improves your {UtilityText("mobility")} and increases your {UtilityText("Homing")} range."));
             Language.Add(prefix + "KEYWORD_DARK_PATH", KeywordText($"{RedText("Dark")}", $"Accept Doom Powers at the end of each stage. {RedText("Permanently upgrade your skills")} into more aggressive variants."));
-            Language.Add(prefix + "KEYWORD_NEUTRAL_PATH", KeywordText($"{HealingText("Neutral")}", $"{UtilityText("Upon death")}, {UtilityText("return to life")} and remove your inhibitor rings for the rest of the stage, giving {DamageText("incredible power")} but {HealthText("disabling your items")}."));
+            Language.Add(prefix + "KEYWORD_NEUTRAL_PATH", KeywordText($"{HealingText("Neutral")}", $"{UtilityText("Upon death")}, {UtilityText("return to life")} and remove your inhibitor rings for the rest of the stage, gaining {DamageText("incredible power")} but {HealthText("disabling your items")}."));
             #endregion
 
             #region Primary
@@ -126,7 +126,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Language.Add(prefix + "BLACK_DOOM_SPAWN", RedText("Black Doom appears.."));
             Language.Add(prefix + "BLACK_DOOM_NAME", "Black Doom");
             Language.Add(prefix + "BLACK_DOOM_CONTEXT", "Accept Doom's Power..?");
-            Language.Add(prefix + "BLACK_DOOM_DESCRIPTION", "As Shadow, gain a Doom Power, which permanently upgrades one of your skills.\n\nThis will set you on the Dark path for the rest of the run, making you unable to use the Chaos Emeralds.");
+            Language.Add(prefix + "BLACK_DOOM_DESCRIPTION", "As Shadow, gain a Doom Power, which permanently upgrades one of your skills.\n\nThis will set you on the Dark path for the rest of the run. You won't be able to use anything related to the other paths, such as the Chaos Emeralds or Inhibitor Rings.");
             #endregion
 
             Language.Add(prefix + "VOICELINES_ENABLE_DESCRIPTION", $"Voicelines recorded by {UtilityText("MotherEggVA")}.");

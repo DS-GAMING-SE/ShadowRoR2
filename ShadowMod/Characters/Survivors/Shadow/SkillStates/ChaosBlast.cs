@@ -16,10 +16,18 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         protected int maxAttacks;
         private CameraTargetParams.AimRequest aimRequest;
         protected BlastAttack attack; // switch to overlap?
+        public HurtBox target;
         public override void OnEnter()
         {
             base.OnEnter();
-            if (NetworkServer.active) characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
+            if (NetworkServer.active)
+            {
+                characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
+                if (target && target.healthComponent)
+                {
+                    target.healthComponent.body.AddBuff(HedgehogUtils.Buffs.hiddenRootBuff);
+                }
+            }
             attackInterval = ShadowStaticValues.chaosBlastInterval / attackSpeedStat;
             maxAttacks = Mathf.FloorToInt(ShadowStaticValues.chaosBlastDuration / attackInterval);
             if (cameraTargetParams)
@@ -92,10 +100,14 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
 
         public override void OnExit()
         {
-            if (NetworkServer.active) 
-            { 
+            if (NetworkServer.active)
+            {
                 characterBody.RemoveBuff(RoR2Content.Buffs.HiddenInvincibility);
                 characterBody.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, 0.7f);
+                if (target && target.healthComponent)
+                {
+                    target.healthComponent.body.RemoveBuff(HedgehogUtils.Buffs.hiddenRootBuff);
+                }
             }
             while (isAuthority && numAttacks < maxAttacks)
             {
@@ -116,6 +128,16 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         public override InterruptPriority GetMinimumInterruptPriority()
         {
             return InterruptPriority.Vehicle;
+        }
+        public override void OnSerialize(NetworkWriter writer)
+        {
+            base.OnSerialize(writer);
+            writer.Write(HurtBoxReference.FromHurtBox(target));
+        }
+        public override void OnDeserialize(NetworkReader reader)
+        {
+            base.OnDeserialize(reader);
+            target = reader.ReadHurtBoxReference().ResolveHurtBox();
         }
     }
 }

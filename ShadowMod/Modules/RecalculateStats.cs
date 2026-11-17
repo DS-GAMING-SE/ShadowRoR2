@@ -14,9 +14,9 @@ namespace ShadowMod.Modules
     {
         public static void Initialize()
         {
-            RecalculateStatsAPI.GetStatCoefficients += HenryRecalculateStats;
+            RecalculateStatsAPI.GetStatCoefficients += ShadowRecalculateStats;
         }
-        private static void HenryRecalculateStats(CharacterBody self, RecalculateStatsAPI.StatHookEventArgs stats)
+        private static void ShadowRecalculateStats(CharacterBody self, RecalculateStatsAPI.StatHookEventArgs stats)
         {
             if (self)
             {
@@ -48,6 +48,13 @@ namespace ShadowMod.Modules
                     stats.attackSpeedMultAdd += chaosBoostStats;
                     stats.moveSpeedMultAdd += chaosBoostStats;
                     stats.armorAdd += chaosBoostArmor;
+                }
+                if (self.HasBuff(doomWingFormBuff))
+                {
+                    stats.attackSpeedMultAdd += doomWingFormStats;
+                    stats.moveSpeedMultAdd += doomWingFormStats;
+                    stats.damageMultAdd += doomWingFormDamage;
+                    stats.armorAdd += doomWingFormArmor;
                 }
             }
         }

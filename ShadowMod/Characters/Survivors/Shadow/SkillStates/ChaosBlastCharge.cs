@@ -11,7 +11,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
     public class ChaosBlastCharge : StickToTargetState
     {
         protected float chargeDuration;
-        public virtual Type nextStateType { get { return typeof(ChaosBlast); } }
+        public virtual ChaosBlast nextState { get { return new ChaosBlast(); } }
 
 
         private CameraTargetParams.AimRequest aimRequest;
@@ -48,9 +48,10 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             base.FixedUpdate();
             if (isAuthority && fixedAge > chargeDuration)
             {
-                BaseSkillState nextState = (BaseSkillState)EntityStateCatalog.InstantiateState(nextStateType);
-                nextState.activatorSkillSlot = activatorSkillSlot;
-                outer.SetNextState(nextState);
+                ChaosBlast state = nextState;
+                state.activatorSkillSlot = activatorSkillSlot;
+                state.target = target;
+                outer.SetNextState(state);
             }
         }
         public override void OnExit()

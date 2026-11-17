@@ -123,6 +123,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             InitializeSkins();
             InitializeCharacterMaster();
 
+            Paths.ShadowPaths.Init();
             Paths.Items.Init();
             Paths.BlackDoom.Init();
 

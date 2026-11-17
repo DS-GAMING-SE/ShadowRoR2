@@ -116,6 +116,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Texture texRedRamp = AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_ColorRamps.texRampTeleporter_png).WaitForCompletion();
             Texture texRedPinkRamp = AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_ColorRamps.texRampArchWisp_png).WaitForCompletion();
             Texture texPurpleRamp /*pink and cool when brighter*/ = AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC1_Common_ColorRamps.texRampRailgun_png).WaitForCompletion();
+            Texture texRampDefault = AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_ColorRamps.texRampDefault_png).WaitForCompletion();
+            Texture texRampTwotone /*Use 26 rgb to make wind*/ = AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_ColorRamps.texRampTwotone_jpg).WaitForCompletion();
 
             Material matTracerBright = AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_VFX.matTracerBright_mat).WaitForCompletion();
             Material matGlowHard = AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC4.matProvUltFlareGlowHard2_mat).WaitForCompletion();
@@ -161,6 +163,23 @@ namespace ShadowMod.Characters.Survivors.Shadow
             matChaosBlastFog.name = "matShadowChaosBlastFog";
             matChaosBlastFog.SetColor("_TintColor", new Color(0.6f, 0f, 0.1f));
             matChaosBlastFog.SetFloat("_InvFade", 0.02f);
+            Material matGlowStrongHorizontal = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_SolusHeart.matSolusHeartEyeBlink_mat).WaitForCompletion());
+            matGlowStrongHorizontal.name = "matShadowGlowStrongHorizontal";
+            matGlowStrongHorizontal.SetColor("_TintColor", Color.white);
+            matGlowStrongHorizontal.SetFloat("_InvFade", 1f);
+            matGlowStrongHorizontal.SetFloat("_Boost", 20f);
+            matGlowStrongHorizontal.SetInt("_ZTest", 8);
+            matGlowStrongHorizontal.SetFloat("_DepthOffset", -5f);
+            matGlowStrongHorizontal.EnableKeyword("VERTEXCOLOR");
+            Material matSubtleSoftRing = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_moon2.matMoonBatteryShockwaveRing_mat).WaitForCompletion());
+            matSubtleSoftRing.name = "matShadowSubtleSoftRing";
+            matSubtleSoftRing.SetTexture("_RemapTex", texRampDefault);
+            matSubtleSoftRing.SetColor("_TintColor", new Color(0.5f, 0.5f, 0.5f));
+            matSubtleSoftRing.SetFloat("_Boost", 1f);
+            matSubtleSoftRing.SetFloat("_AlphaBoost", 2f);
+            matSubtleSoftRing.SetFloat("_InvFade", 0.1f);
+            matSubtleSoftRing.SetInt("_ZTest", 8);
+            matSubtleSoftRing.SetFloat("_DepthOffset", -10f);
             // Look into Death Mark VFX mats for Doom
 
             Mesh donut1Mesh = AssetAsyncReferenceManager<Mesh>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_VFX.mdlVFXDonut1_fbx).WaitForCompletion();
@@ -273,17 +292,33 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 chaosBlastExplosionEffect.transform.GetChild(12).gameObject.SetMaterialAndMesh(matBurnGroundSphere, pSphere1Mesh);
                 chaosBlastExplosionEffect.transform.GetChild(13).gameObject.SetMaterialAndMesh(matChaosBlastFog, pSphere1Mesh);
                 chaosBlastExplosionEffect.transform.GetChild(14).GetComponent<ParticleSystemRenderer>().sharedMaterial = HedgehogUtils.Assets.darkSparkle;
+                chaosBlastExplosionEffect.transform.GetChild(15).GetComponent<ParticleSystemRenderer>().sharedMaterial = matGlowStrongHorizontal;
+                chaosBlastExplosionEffect.transform.GetChild(16).gameObject.SetMaterialAndMesh(matSubtleSoftRing, donut1Mesh);
+                chaosBlastExplosionEffect.transform.GetChild(17).gameObject.SetMaterialAndMesh(matSubtleSoftRing, donut1Mesh);
+                chaosBlastExplosionEffect.transform.GetChild(18).gameObject.SetMaterialAndMesh(matGenericRing, donut2Mesh);
 
-                ShakeEmitter shakeEmitter = chaosBlastExplosionEffect.AddComponent<ShakeEmitter>();
-                shakeEmitter.amplitudeTimeDecay = true;
-                shakeEmitter.duration = 0.4f;
-                shakeEmitter.radius = 4f;
-                shakeEmitter.scaleShakeRadiusWithLocalScale = true;
+                ShakeEmitter impactsShakeEmitter = chaosBlastExplosionEffect.AddComponent<ShakeEmitter>();
+                impactsShakeEmitter.amplitudeTimeDecay = true;
+                impactsShakeEmitter.duration = 0.4f;
+                impactsShakeEmitter.radius = 5f;
+                impactsShakeEmitter.scaleShakeRadiusWithLocalScale = true;
 
-                shakeEmitter.wave = new Wave
+                impactsShakeEmitter.wave = new Wave
                 {
-                    amplitude = 1f,
+                    amplitude = 2f,
                     frequency = 40f,
+                    cycleOffset = 0f
+                };
+                ShakeEmitter lingerShakeEmitter = chaosBlastExplosionEffect.AddComponent<ShakeEmitter>();
+                lingerShakeEmitter.amplitudeTimeDecay = true;
+                lingerShakeEmitter.duration = 2.1f;
+                lingerShakeEmitter.radius = 4f;
+                lingerShakeEmitter.scaleShakeRadiusWithLocalScale = true;
+
+                lingerShakeEmitter.wave = new Wave
+                {
+                    amplitude = 0.6f,
+                    frequency = 20f,
                     cycleOffset = 0f
                 };
             };

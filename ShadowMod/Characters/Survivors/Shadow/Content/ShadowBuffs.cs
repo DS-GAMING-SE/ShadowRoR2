@@ -18,6 +18,10 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public static BuffDef chaosMarkDebuff;
         public static BuffDef chaosBoostBuff;
 
+        // MISSING LOOKINGGLASS COMPAT
+        public static BuffDef doomWingFormBuff;
+        public static BuffDef inhibitorRingFormBuff;
+
         public static void Init()
         {
             boostBuff = Modules.Content.CreateAndAddBuff("bdShadowBoost",
@@ -34,6 +38,16 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 LegacyResourcesAPI.Load<BuffDef>("BuffDefs/CloakSpeed").iconSprite,
                 ShadowSurvivor.shadowRedColor,
                 true,
+                false);
+            doomWingFormBuff = Modules.Content.CreateAndAddBuff("bdShadowDoomWing",
+                LegacyResourcesAPI.Load<BuffDef>("BuffDefs/CloakSpeed").iconSprite,
+                ShadowSurvivor.shadowRedColor,
+                false,
+                false);
+            inhibitorRingFormBuff = Modules.Content.CreateAndAddBuff("bdShadowInhibitorRing",
+                LegacyResourcesAPI.Load<BuffDef>("BuffDefs/CloakSpeed").iconSprite,
+                ShadowSurvivor.shadowYellowColor,
+                false,
                 false);
 
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(LookingGlass.PluginInfo.PLUGIN_GUID))

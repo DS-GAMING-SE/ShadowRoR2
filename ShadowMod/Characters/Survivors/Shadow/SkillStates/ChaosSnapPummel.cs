@@ -13,7 +13,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         protected float attackTimer;
         protected OverlapAttack attack = new OverlapAttack();
 
-        protected virtual Type nextStateType { get { return typeof(ChaosSnapFinal); } }
+        protected virtual EntityState nextState { get { return new ChaosSnapFinal(); } }
 
         private ICharacterGravityParameterProvider enemyGrav;
         protected bool canPushTarget;
@@ -71,7 +71,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         }
         protected virtual void SetNextState()
         {
-            EntityState state = EntityStateCatalog.InstantiateState(nextStateType);
+            EntityState state = nextState;
             if (state is ChaosSnapFinal final)
             {
                 final.target = target;

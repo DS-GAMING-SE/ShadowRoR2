@@ -21,7 +21,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         protected float duration;
         private const float INTANGIBLE_DURATION_PERCENT = 0.7f;
 
-        public abstract Type nextStateType { get; }
+        public abstract EntityState nextState { get; }
         private bool invincible;
         private ChaosSnapManager.ChaosSnapInstanceHandle handle;
 
@@ -92,7 +92,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         }
         protected virtual void SetNextState()
         {
-            EntityState state = EntityStateCatalog.InstantiateState(nextStateType);
+            EntityState state = nextState;
             if (state is StickToTargetState stick)
             {
                 stick.target = target;

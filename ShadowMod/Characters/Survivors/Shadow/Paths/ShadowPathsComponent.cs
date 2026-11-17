@@ -1,4 +1,5 @@
 ﻿using EnemiesReturns.Components;
+using HedgehogUtils.Forms;
 using RoR2;
 using RoR2.Stats;
 using System;
@@ -10,18 +11,22 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
     public class ShadowPathsComponent : MonoBehaviour
     {
         public CharacterBody characterBody;
+        public FormComponent formComponent;
         public int lastDoomPowerCount;
         private void Awake()
         {
             characterBody = base.GetComponent<CharacterBody>();
+            formComponent = GetComponent<FormComponent>();
         }
         private void OnEnable()
         {
             characterBody.onInventoryChanged += UpdateDoomPowerCount;
+            formComponent.OnFormChanged += SetPathOnTransform;
         }
         private void OnDisable()
         {
             characterBody.onInventoryChanged -= UpdateDoomPowerCount;
+            formComponent.OnFormChanged -= SetPathOnTransform;
         }
 
         private void Start()
@@ -47,6 +52,8 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
 
             if (doomPowerCount == lastDoomPowerCount) return;
 
+            if (NetworkServer.active && doomPowerCount >= ShadowStaticValues.doomPowersMax) RoR2.Util.KarmaEventTrigger("ChaosEmeraldKarma");
+
             for (int i = 0; i < DoomPowerDef.doomPowerDefs.Length; i++)
             {
                 if (Math.Max(doomPowerCount, lastDoomPowerCount) >= DoomPowerDef.doomPowerDefs[i].requiredDoomPower)
@@ -66,6 +73,13 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
                 else break;
             }
             lastDoomPowerCount = doomPowerCount;
+        }
+        private void SetPathOnTransform(FormDef previous, FormDef current)
+        {
+            if (current == HedgehogUtils.Forms.SuperForm.SuperFormDef.superFormDef && ShadowPaths.GetPath(characterBody.inventory) == ShadowPaths.Path.Neutral)
+            {
+                ShadowPaths.SetPath(characterBody.inventory, ShadowPaths.Path.Hero);
+            }
         }
     }
 }

@@ -47,21 +47,29 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
         {
             if (!NetworkServer.active || !EligibleShadowExists()) return;
 
-            teleporter.AttemptSpawnPortal(blackDoomSpawnCard, 0f, 30f, ShadowSurvivor.SHADOW_PREFIX + "BLACK_DOOM_SPAWN");
+            teleporter.AttemptSpawnPortal(blackDoomSpawnCard, 8f, 30f, ShadowSurvivor.SHADOW_PREFIX + "BLACK_DOOM_SPAWN");
         }
         public static bool EligibleShadowExists()
         {
             foreach (var player in PlayerCharacterMasterController.instances)
             {
-                if (player.master.backupBodyIndex == shadowBodyIndex || (player.body && player.body.bodyIndex == shadowBodyIndex))
+                if (player.isConnected && EligibleForDoomPowers(player))
                 {
-                    ShadowPaths.Path path = GetPath(player.master.inventory);
-                    if (path == ShadowPaths.Path.Dark || path == ShadowPaths.Path.Neutral)
+                    return true;
+                }
+            }
+            return false;
+        }
+        public static bool EligibleForDoomPowers(PlayerCharacterMasterController player)
+        {
+            if (player.master.backupBodyIndex == shadowBodyIndex || (player.body && player.body.bodyIndex == shadowBodyIndex))
+                {
+                ShadowPaths.Path path = GetPath(player.master.inventory);
+                if (path == ShadowPaths.Path.Dark || path == ShadowPaths.Path.Neutral)
+                {
+                    if (player.master.inventory.GetItemCountPermanent(Items.doomPowerItemDef.itemIndex) < ShadowStaticValues.doomPowersMax)
                     {
-                        if (player.master.inventory.GetItemCountPermanent(Items.doomPowerItemDef.itemIndex) < ShadowStaticValues.doomPowersMax)
-                        {
-                            return true;
-                        }
+                        return true;
                     }
                 }
             }
@@ -96,9 +104,10 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
 
         public Interactability GetInteractability(Interactor activator)
         {
-            if (enabled && activator.TryGetComponent(out CharacterBody characterBody) && characterBody.master && !masterBlacklist.Contains(characterBody.master))
+            if (enabled && activator.TryGetComponent(out CharacterBody characterBody) && characterBody.master && !masterBlacklist.Contains(characterBody.master)
+                && characterBody.master.playerCharacterMasterController)
             {
-                return characterBody.bodyIndex == shadowBodyIndex ? Interactability.Available : Interactability.ConditionsNotMet;
+                return EligibleForDoomPowers(characterBody.master.playerCharacterMasterController) ? Interactability.Available : Interactability.ConditionsNotMet;
             }
             return Interactability.Disabled;
         }

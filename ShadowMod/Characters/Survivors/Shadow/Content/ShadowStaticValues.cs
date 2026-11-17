@@ -15,6 +15,10 @@ namespace ShadowMod.Characters.Survivors.Shadow
         #region Paths
         #region Doom
         public const int doomPowersMax = 3;
+
+        public const float doomWingFormDamage = 0.5f;
+        public const float doomWingFormStats = chaosBoost3Stats;
+        public const int doomWingFormArmor = 100;
         #endregion
         #endregion
 
@@ -33,8 +37,11 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public const float chaosSnapCooldown = 5f;
 
         #region Doom Blast
-        public const float doomBlastExtraDamageCoefficient = 10f;
+        public const float doomBlastFinalDamageCoefficient = 10f;
         public const float doomBlastFinalProcCoefficient = 1.5f;
+
+        public const float doomBlastExtraDamageCoefficient = 10f;
+        public const float doomBlastExtraProcCoefficient = 1.5f;
         #endregion
 
         #endregion
@@ -54,6 +61,10 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public const float boostListedSpeedCoefficient = 0.35f;
 
         public const float boostArmor = 50;
+
+        #region Doom Boost
+        public const float doomBoostListedSpeedCoefficient = 0.5f;
+        #endregion
         #endregion
 
         #region Chaos Boost

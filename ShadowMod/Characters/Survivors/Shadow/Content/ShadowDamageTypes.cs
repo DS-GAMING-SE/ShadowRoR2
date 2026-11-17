@@ -27,7 +27,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
         }
         public static void ConsumeChaosMark(CharacterBody characterBody, GenericSkill skillSlot, bool recharge = true)
         {
-            if (recharge && characterBody.hasAuthority && skillSlot.CanApplyAmmoPack())
+            if (recharge && characterBody.hasAuthority && skillSlot.skillDef is ChaosSnapSkillDef && skillSlot.CanApplyAmmoPack())
             {
                 skillSlot.ApplyAmmoPack();
             }

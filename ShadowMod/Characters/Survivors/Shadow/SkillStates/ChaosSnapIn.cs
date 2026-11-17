@@ -9,8 +9,8 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
 {
     public class ChaosSnapIn : TeleportIntoState, ISkillState
     {
-        public override Type nextStateType { get { return typeof(ChaosSnapPummel); } }
-        public virtual Type nextSingleStateType { get { return typeof(ChaosSnapSingle); } }
+        public override EntityState nextState { get { return new ChaosSnapPummel(); } }
+        public virtual EntityState nextSingleState { get { return new ChaosSnapSingle(); } }
 
         public bool rechargeFromChaosMark = true;
 
@@ -32,7 +32,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             }
             else
             {
-                EntityState state = EntityStateCatalog.InstantiateState(nextSingleStateType);
+                EntityState state = nextSingleState;
                 if (state is ChaosSnapSingle final)
                 {
                     final.target = target;
