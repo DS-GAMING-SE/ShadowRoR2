@@ -10,6 +10,7 @@ using R2API;
 using UnityEngine.UI;
 using RoR2.UI;
 using UnityEngine.Rendering.PostProcessing;
+using RoR2.AsyncManagement;
 
 namespace ShadowMod.Characters.Survivors.Shadow
 {
@@ -22,12 +23,14 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public static GameObject chaosMarkConsumeEffect;
 
         public static GameObject chaosSpearOrbEffect;
+        public static Material chaosSpearShockingOverlay;
+        public static Material doomSpearShockingOverlay;
 
         public static GameObject boostFlashEffect;
         public static GameObject boostAuraEffect;
 
-        public static GameObject chaosBoostActivationEffect;
-        public static GameObject chaosBlastExplosionEffect;
+        public static EntityStateGameObject chaosBoostActivationEffect;
+        public static EntityStateGameObject chaosBlastExplosionEffect;
         public static GameObject bombExplosionEffect;
 
         public static GameObject pathItemHeroNotificationPrefab;
@@ -40,54 +43,54 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public static GameObject bombProjectilePrefab;
 
         #region AssetGUIDs
-        public static AssetReferenceT<GameObject> characterModel = new AssetReferenceT<GameObject>("a32fb17ad7dfd7b4f8b893feaf7d7512");
-        public static AssetReferenceT<GameObject> displayPrefab = new AssetReferenceT<GameObject>("9552880169ac54248bdf012a5175ef46");
+        public static AssetReferenceT<GameObject> characterModelRef = new AssetReferenceT<GameObject>("a32fb17ad7dfd7b4f8b893feaf7d7512");
+        public static AssetReferenceT<GameObject> displayPrefabRef = new AssetReferenceT<GameObject>("9552880169ac54248bdf012a5175ef46");
 
-        public static AssetReferenceT<RuntimeAnimatorController> animator = new AssetReferenceT<RuntimeAnimatorController>("f1a82152954bc974895f8ff9f035f84f");
-        public static AssetReferenceT<RuntimeAnimatorController> displayAnimator = new AssetReferenceT<RuntimeAnimatorController>("4397b394b0996d44ba60f0f7769a33d1");
-        public static AssetReferenceT<Avatar> animatorAvatar = new AssetReferenceT<Avatar>("3f55d8352b2212743b809db2974cdd5e");
+        public static AssetReferenceT<RuntimeAnimatorController> animatorRef = new AssetReferenceT<RuntimeAnimatorController>("f1a82152954bc974895f8ff9f035f84f");
+        public static AssetReferenceT<RuntimeAnimatorController> displayAnimatorRef = new AssetReferenceT<RuntimeAnimatorController>("4397b394b0996d44ba60f0f7769a33d1");
+        public static AssetReferenceT<Avatar> animatorAvatarRef = new AssetReferenceT<Avatar>("3f55d8352b2212743b809db2974cdd5e");
 
         #region Character Icons
-        public static AssetReferenceTexture characterIcon = new AssetReferenceTexture("fbdab69c75e3cd94596054335b2c2744");
-        public static AssetReferenceSprite passiveSkillIcon = new AssetReferenceSprite("9fcf79bda87678d4e80f4eb6462e4fdf");
+        public static AssetReferenceTexture characterIconRef = new AssetReferenceTexture("fbdab69c75e3cd94596054335b2c2744");
+        public static AssetReferenceSprite passiveSkillIconRef = new AssetReferenceSprite("9fcf79bda87678d4e80f4eb6462e4fdf");
 
-        public static AssetReferenceSprite chaosSnapSkillIcon = new AssetReferenceSprite("89141efa71806744d9caf29b253b0d33");
-        public static AssetReferenceSprite chaosSpearSkillIcon = new AssetReferenceSprite("18f6e1df055a2dd4085e66d3d3c5979e");
-        public static AssetReferenceSprite boostSkillIcon = new AssetReferenceSprite("1c07abb3d41d38c4cac5563c3c1630d7");
-        public static AssetReferenceSprite chaosBoostSkillIcon = new AssetReferenceSprite("6c6ddbdba1fa78d4caaf9fe144d3ac0e");
-        public static AssetReferenceSprite chaosBoostUpgradedSkillIcon = new AssetReferenceSprite("8e7fefe0591a7bf41912ee88085e598d");
-        public static AssetReferenceSprite chaosBlastSkillIcon = new AssetReferenceSprite("d36947727e0d2484d8bba10709948a83");
+        public static AssetReferenceSprite chaosSnapSkillIconRef = new AssetReferenceSprite("89141efa71806744d9caf29b253b0d33");
+        public static AssetReferenceSprite chaosSpearSkillIconRef = new AssetReferenceSprite("18f6e1df055a2dd4085e66d3d3c5979e");
+        public static AssetReferenceSprite boostSkillIconRef = new AssetReferenceSprite("1c07abb3d41d38c4cac5563c3c1630d7");
+        public static AssetReferenceSprite chaosBoostSkillIconRef = new AssetReferenceSprite("6c6ddbdba1fa78d4caaf9fe144d3ac0e");
+        public static AssetReferenceSprite chaosBoostUpgradedSkillIconRef = new AssetReferenceSprite("8e7fefe0591a7bf41912ee88085e598d");
+        public static AssetReferenceSprite chaosBlastSkillIconRef = new AssetReferenceSprite("d36947727e0d2484d8bba10709948a83");
 
-        public static AssetReferenceSprite voicelineEnableSkillIcon = new AssetReferenceSprite("c2cc0e85354a76044a13ee6e9667480a");
-        public static AssetReferenceSprite voicelineDisableSkillIcon = new AssetReferenceSprite("13162ebc3e59e934eaf3c5aa849b2948");
+        public static AssetReferenceSprite voicelineEnableSkillIconRef = new AssetReferenceSprite("c2cc0e85354a76044a13ee6e9667480a");
+        public static AssetReferenceSprite voicelineDisableSkillIconRef = new AssetReferenceSprite("13162ebc3e59e934eaf3c5aa849b2948");
 
         #region Doom Skill Icons
-        public static AssetReferenceSprite doomBlastSkillIcon = new AssetReferenceSprite("c69ee8e8c0ccd5c4c9ab016e47a5328c");
-        public static AssetReferenceSprite doomSpearSkillIcon = new AssetReferenceSprite("e53b10eb5fbccc745a308a44d9f9eb34");
-        public static AssetReferenceSprite doomBoostSkillIcon = new AssetReferenceSprite("1c07abb3d41d38c4cac5563c3c1630d7");
-        public static AssetReferenceSprite doomWingSkillIcon = new AssetReferenceSprite("872766d8c9b26e846b35b3d2a63e5664");
-        public static AssetReferenceSprite doomWingUpgradedSkillIcon = new AssetReferenceSprite("c43d3d32e0bb5aa43966e4e9cf0ee935");
+        public static AssetReferenceSprite doomBlastSkillIconRef = new AssetReferenceSprite("c69ee8e8c0ccd5c4c9ab016e47a5328c");
+        public static AssetReferenceSprite doomSpearSkillIconRef = new AssetReferenceSprite("e53b10eb5fbccc745a308a44d9f9eb34");
+        public static AssetReferenceSprite doomBoostSkillIconRef = new AssetReferenceSprite("1c07abb3d41d38c4cac5563c3c1630d7");
+        public static AssetReferenceSprite doomWingSkillIconRef = new AssetReferenceSprite("872766d8c9b26e846b35b3d2a63e5664");
+        public static AssetReferenceSprite doomWingUpgradedSkillIconRef = new AssetReferenceSprite("c43d3d32e0bb5aa43966e4e9cf0ee935");
         #endregion
         #endregion
 
         #region Paths Related
-        public static AssetReferenceT<Sprite> shadowLogoIcon = new("eec1a2a0d7c225548aa2ba6f9c8a5531");
-        public static AssetReferenceT<GameObject> blackDoomInteractable = new("46576300890e4a14aa5ef325e2976e7b");
+        public static AssetReferenceT<Sprite> shadowLogoIconRef = new("eec1a2a0d7c225548aa2ba6f9c8a5531");
+        public static AssetReferenceT<GameObject> blackDoomInteractableRef = new("46576300890e4a14aa5ef325e2976e7b");
         #endregion
 
         #region Default Skin
-        public static AssetReferenceT<Material> defaultSkinMaterial = new AssetReferenceT<Material>("14d6d121af8aca345b797120c5f6331b");
-        public static AssetReferenceT<Mesh> defaultSkinMesh = new AssetReferenceT<Mesh>("fee9d8e08c8c818498f7613f868f2e34");
-        public static AssetReferenceT<Mesh> defaultSkinSwordMesh = new AssetReferenceT<Mesh>("06ba2d7b66b5a7c47ae54f402cb9e132");
-        public static AssetReferenceT<Mesh> defaultSkinGunMesh = new AssetReferenceT<Mesh>("95bb770c878495b4296296a4b09a6034");
-        public static AssetReferenceSprite defaultSkinIcon = new AssetReferenceSprite("0be3f4ea9f44e3d4da982f8a0fca23a9");
+        public static AssetReferenceT<Material> defaultSkinMaterialRef = new AssetReferenceT<Material>("14d6d121af8aca345b797120c5f6331b");
+        public static AssetReferenceT<Mesh> defaultSkinMeshRef = new AssetReferenceT<Mesh>("fee9d8e08c8c818498f7613f868f2e34");
+        public static AssetReferenceT<Mesh> defaultSkinSwordMeshRef = new AssetReferenceT<Mesh>("06ba2d7b66b5a7c47ae54f402cb9e132");
+        public static AssetReferenceT<Mesh> defaultSkinGunMeshRef = new AssetReferenceT<Mesh>("95bb770c878495b4296296a4b09a6034");
+        public static AssetReferenceSprite defaultSkinIconRef = new AssetReferenceSprite("0be3f4ea9f44e3d4da982f8a0fca23a9");
         #endregion
 
         #region Mastery Skin
-        public static AssetReferenceT<Material> masterySkinMaterial = new AssetReferenceT<Material>("507751368e16e18409e1c93f8022eb8c");
-        public static AssetReferenceT<Mesh> masterySkinMesh = new AssetReferenceT<Mesh>("e49dd36434c00024985424af2da4cedd");
-        public static AssetReferenceT<Mesh> masterySkinSwordMesh = new AssetReferenceT<Mesh>("7a3e4cd720806a248b00c548032956cd");
-        public static AssetReferenceSprite masterySkinIcon = new AssetReferenceSprite("639a10fc5e926d644a0bfc95000aaa8d");
+        public static AssetReferenceT<Material> masterySkinMaterialRef = new AssetReferenceT<Material>("507751368e16e18409e1c93f8022eb8c");
+        public static AssetReferenceT<Mesh> masterySkinMeshRef = new AssetReferenceT<Mesh>("e49dd36434c00024985424af2da4cedd");
+        public static AssetReferenceT<Mesh> masterySkinSwordMeshRef = new AssetReferenceT<Mesh>("7a3e4cd720806a248b00c548032956cd");
+        public static AssetReferenceSprite masterySkinIconRef = new AssetReferenceSprite("639a10fc5e926d644a0bfc95000aaa8d");
         #endregion
 
         #region Skill VFX
@@ -97,8 +100,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public static AssetReferenceT<GameObject> swingEffect = new AssetReferenceT<GameObject>("3534552e7829f9842ba3156065afc540");
         public static AssetReferenceT<GameObject> hitEffect = new AssetReferenceT<GameObject>("48eebb9268b618943a4b60bb011fb96d");
 
-        public static AssetReferenceT<GameObject> chaosBoostActivation = new("ad91f54836c7f9249beb441a7c743d31");
-        public static AssetReferenceT<GameObject> chaosBlastExplosion = new("e035764ea9303ca41a4c9d0138783c24");
+        public static AssetReferenceT<GameObject> chaosBoostActivationRef = new("ad91f54836c7f9249beb441a7c743d31");
+        public static AssetReferenceT<GameObject> chaosBlastExplosionRef = new("e035764ea9303ca41a4c9d0138783c24");
         #endregion
         #endregion
 
@@ -180,6 +183,10 @@ namespace ShadowMod.Characters.Survivors.Shadow
             matSubtleSoftRing.SetFloat("_InvFade", 0.1f);
             matSubtleSoftRing.SetInt("_ZTest", 8);
             matSubtleSoftRing.SetFloat("_DepthOffset", -10f);
+            chaosSpearShockingOverlay = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common.matIsShocked_mat).WaitForCompletion());
+            chaosSpearShockingOverlay.SetTexture("_RemapTex", AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC1_Common_ColorRamps.texRampMinorConstructElectric_png).WaitForCompletion());
+            chaosSpearShockingOverlay.SetFloat("_Boost", 5f);
+            doomSpearShockingOverlay = AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_Drones.matIsShockedRed_mat).WaitForCompletion();
             // Look into Death Mark VFX mats for Doom
 
             Mesh donut1Mesh = AssetAsyncReferenceManager<Mesh>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_VFX.mdlVFXDonut1_fbx).WaitForCompletion();
@@ -222,106 +229,111 @@ namespace ShadowMod.Characters.Survivors.Shadow
             boostFlashEffect = HedgehogUtils.Assets.CreateBoostFlashEffect("ShadowBoostFlash", AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_ColorRamps.texRampDroneFire_png).WaitForCompletion(), ShadowSurvivor.shadowYellowColor);
             boostAuraEffect = HedgehogUtils.Assets.CreateBoostAuraEffect("ShadowBoostAura", AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_ColorRamps.texRampDroneFire_png).WaitForCompletion(), ShadowSurvivor.shadowYellowColor);
 
-            chaosBoostActivation.LoadAssetAsync().Completed += (x) =>
+            #region Chaos Boost Activation
+            GameObject chaosBoostActivationPrefab = AssetAsyncReferenceManager<GameObject>.LoadAsset(chaosBoostActivationRef).WaitForCompletion();
+            chaosBoostActivationEffect = new EntityStateGameObject(chaosBoostActivationRef.AssetGUID);
+            chaosBoostActivationEffect.unloadType = AsyncReferenceHandleUnloadType.OnRunEnd;
+            Asset.CreateEffect(chaosBoostActivationPrefab, 1f, true, "", out var chaosBoostActivationVfx, out var chaosBoostActivationEff);
+            chaosBoostActivationVfx.vfxIntensity = VFXAttributes.VFXIntensity.Medium;
+            chaosBoostActivationEff.applyScale = true;
+            var pp = chaosBoostActivationPrefab.transform.GetChild(0);
+            var ppDuration = pp.gameObject.AddComponent<PostProcessDuration>();
+            ppDuration.ppVolume = pp.GetComponent<PostProcessVolume>();
+            ppDuration.ppVolume.sharedProfile = ppRed;
+            ppDuration.maxDuration = 0.35f;
+            ppDuration.ppWeightCurve = AnimationCurve.EaseInOut(0f, 0.5f, 1f, 0f);
+            chaosBoostActivationPrefab.transform.GetChild(1).gameObject.AddLightIntensityCurve(AnimationCurve.EaseInOut(0f, 1f, 1f, 0f), 0.5f);
+            chaosBoostActivationPrefab.transform.GetChild(2).GetComponent<ParticleSystemRenderer>().sharedMaterial = matSphereBurst;
+            chaosBoostActivationPrefab.transform.GetChild(3).GetComponent<ParticleSystemRenderer>().sharedMaterial = matGlowHard;
+            chaosBoostActivationPrefab.transform.GetChild(4).GetComponent<ParticleSystemRenderer>().sharedMaterial = HedgehogUtils.Assets.glitchOverlayMaterial;
+            chaosBoostActivationPrefab.transform.GetChild(5).GetComponent<ParticleSystemRenderer>().sharedMaterial = matDistortionFaded;
+            chaosBoostActivationPrefab.transform.GetChild(6).gameObject.SetMaterialAndMesh(matSphereParticle, noiseSphereMesh);
+            chaosBoostActivationPrefab.transform.GetChild(7).gameObject.SetMaterialAndMeshes(matPinkPurpleLightning, electricMeshes);
+            chaosBoostActivationPrefab.transform.GetChild(8).GetComponent<ParticleSystemRenderer>().sharedMaterial = matSpark;
+            chaosBoostActivationPrefab.transform.GetChild(9).GetComponent<ParticleSystemRenderer>().sharedMaterial = matTracerBright;
+            chaosBoostActivationPrefab.transform.GetChild(10).GetComponent<ParticleSystemRenderer>().sharedMaterial = matGlowHard;
+
+            ShakeEmitter shakeEmitter = chaosBoostActivationPrefab.AddComponent<ShakeEmitter>();
+            shakeEmitter.amplitudeTimeDecay = true;
+            shakeEmitter.duration = 0.4f;
+            shakeEmitter.radius = 15f;
+            shakeEmitter.scaleShakeRadiusWithLocalScale = true;
+
+            shakeEmitter.wave = new Wave
             {
-                chaosBoostActivationEffect = Asset.CreateEffect(x.Result, 1f, true, "", out var vfx, out var effect);
-                vfx.vfxIntensity = VFXAttributes.VFXIntensity.Medium;
-                effect.applyScale = true;
-                var pp = chaosBoostActivationEffect.transform.GetChild(0);
-                var ppDuration = pp.gameObject.AddComponent<PostProcessDuration>();
-                ppDuration.ppVolume = pp.GetComponent<PostProcessVolume>();
-                ppDuration.ppVolume.sharedProfile = ppRed;
-                ppDuration.maxDuration = 0.35f;
-                ppDuration.ppWeightCurve = AnimationCurve.EaseInOut(0f, 0.5f, 1f, 0f);
-                chaosBoostActivationEffect.transform.GetChild(1).gameObject.AddLightIntensityCurve(AnimationCurve.EaseInOut(0f, 1f, 1f, 0f), 0.5f);
-                chaosBoostActivationEffect.transform.GetChild(2).GetComponent<ParticleSystemRenderer>().sharedMaterial = matSphereBurst;
-                chaosBoostActivationEffect.transform.GetChild(3).GetComponent<ParticleSystemRenderer>().sharedMaterial = matGlowHard;
-                chaosBoostActivationEffect.transform.GetChild(4).GetComponent<ParticleSystemRenderer>().sharedMaterial = HedgehogUtils.Assets.glitchOverlayMaterial;
-                chaosBoostActivationEffect.transform.GetChild(5).GetComponent<ParticleSystemRenderer>().sharedMaterial = matDistortionFaded;
-                chaosBoostActivationEffect.transform.GetChild(6).gameObject.SetMaterialAndMesh(matSphereParticle, noiseSphereMesh);
-                chaosBoostActivationEffect.transform.GetChild(7).gameObject.SetMaterialAndMeshes(matPinkPurpleLightning, electricMeshes);
-                chaosBoostActivationEffect.transform.GetChild(8).GetComponent<ParticleSystemRenderer>().sharedMaterial = matSpark;
-                chaosBoostActivationEffect.transform.GetChild(9).GetComponent<ParticleSystemRenderer>().sharedMaterial = matTracerBright;
-                chaosBoostActivationEffect.transform.GetChild(10).GetComponent<ParticleSystemRenderer>().sharedMaterial = matGlowHard;
-
-                ShakeEmitter shakeEmitter = chaosBoostActivationEffect.AddComponent<ShakeEmitter>();
-                shakeEmitter.amplitudeTimeDecay = true;
-                shakeEmitter.duration = 0.4f;
-                shakeEmitter.radius = 4f;
-                shakeEmitter.scaleShakeRadiusWithLocalScale = true;
-
-                shakeEmitter.wave = new Wave
-                {
-                    amplitude = 0.5f,
-                    frequency = 40f,
-                    cycleOffset = 0f
-                };
+                amplitude = 0.4f,
+                frequency = 40f,
+                cycleOffset = 0f
             };
-            chaosBlastExplosion.LoadAssetAsync().Completed += (x) =>
+            #endregion
+
+            #region Chaos Blast Explosion
+            GameObject chaosBlastExplosionPrefab = AssetAsyncReferenceManager<GameObject>.LoadAsset(chaosBlastExplosionRef).WaitForCompletion();
+            chaosBlastExplosionEffect = new EntityStateGameObject(chaosBlastExplosionRef.AssetGUID);
+            chaosBlastExplosionEffect.unloadType = AsyncReferenceHandleUnloadType.OnRunEnd;
+            Asset.CreateEffect(chaosBlastExplosionPrefab, 7f, false, "", out var chaosBlastExplosionVfx, out var chaosBlastExplosionEff);
+            chaosBlastExplosionVfx.vfxIntensity = VFXAttributes.VFXIntensity.High;
+            chaosBlastExplosionEff.applyScale = true;
+            var flashPP = chaosBlastExplosionPrefab.transform.GetChild(2);
+            var flashPPDuration = flashPP.gameObject.AddComponent<PostProcessDuration>();
+            flashPPDuration.ppVolume = flashPP.GetComponent<PostProcessVolume>();
+            flashPPDuration.ppVolume.sharedProfile = ppChaosBlastImpact;
+            flashPPDuration.maxDuration = 0.15f;
+            flashPPDuration.ppWeightCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+            var interiorPP = chaosBlastExplosionPrefab.transform.GetChild(1);
+            var interiorPPDuration = interiorPP.gameObject.AddComponent<PostProcessDuration>();
+            interiorPPDuration.ppVolume = interiorPP.GetComponent<PostProcessVolume>();
+            interiorPPDuration.ppVolume.sharedProfile = ppChaosBlast;
+            interiorPPDuration.maxDuration = 2f;
+            interiorPPDuration.ppWeightCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+            var exteriorPP = chaosBlastExplosionPrefab.transform.GetChild(0);
+            var exteriorPPDuration = exteriorPP.gameObject.AddComponent<PostProcessDuration>();
+            exteriorPPDuration.ppVolume = exteriorPP.GetComponent<PostProcessVolume>();
+            exteriorPPDuration.ppVolume.sharedProfile = ppRed;
+            exteriorPPDuration.maxDuration = 2f;
+            exteriorPPDuration.ppWeightCurve = AnimationCurve.EaseInOut(0f, 0.65f, 1f, 0f);
+            chaosBlastExplosionPrefab.transform.GetChild(3).gameObject.AddLightIntensityCurve(AnimationCurve.EaseInOut(0f, 1f, 1f, 0f), 1.8f);
+            chaosBlastExplosionPrefab.transform.GetChild(4).gameObject.SetMaterialAndMesh(matChaosBlastOuterSphere, pSphere1Mesh);
+            chaosBlastExplosionPrefab.transform.GetChild(5).GetComponent<ParticleSystemRenderer>().sharedMaterial = AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Gravekeeper.matOmniExplosion1ArchWisp_mat).WaitForCompletion();
+            chaosBlastExplosionPrefab.transform.GetChild(6).gameObject.SetMaterialAndMesh(matSphereParticle, noiseSphereMesh);
+            chaosBlastExplosionPrefab.transform.GetChild(7).gameObject.SetMaterialAndMesh(matSubtleWindTrail, donut5Mesh);
+            chaosBlastExplosionPrefab.transform.GetChild(8).gameObject.SetMaterialAndMesh(matSubtleWindTrail, donut1Mesh);
+            chaosBlastExplosionPrefab.transform.GetChild(9).GetComponent<ParticleSystemRenderer>().sharedMaterial = matTracerBright;
+            chaosBlastExplosionPrefab.transform.GetChild(10).GetComponent<ParticleSystemRenderer>().sharedMaterial = matGlowSoft;
+            chaosBlastExplosionPrefab.transform.GetChild(11).GetComponent<ParticleSystemRenderer>().sharedMaterial = matGlowHard;
+            chaosBlastExplosionPrefab.transform.GetChild(12).gameObject.SetMaterialAndMesh(matBurnGroundSphere, pSphere1Mesh);
+            chaosBlastExplosionPrefab.transform.GetChild(13).gameObject.SetMaterialAndMesh(matChaosBlastFog, pSphere1Mesh);
+            chaosBlastExplosionPrefab.transform.GetChild(14).GetComponent<ParticleSystemRenderer>().sharedMaterial = HedgehogUtils.Assets.darkSparkle;
+            chaosBlastExplosionPrefab.transform.GetChild(15).GetComponent<ParticleSystemRenderer>().sharedMaterial = matGlowStrongHorizontal;
+            chaosBlastExplosionPrefab.transform.GetChild(16).gameObject.SetMaterialAndMesh(matSubtleSoftRing, donut1Mesh);
+            chaosBlastExplosionPrefab.transform.GetChild(17).gameObject.SetMaterialAndMesh(matSubtleSoftRing, donut1Mesh);
+            chaosBlastExplosionPrefab.transform.GetChild(18).gameObject.SetMaterialAndMesh(matGenericRing, donut2Mesh);
+
+            ShakeEmitter impactsShakeEmitter = chaosBlastExplosionPrefab.AddComponent<ShakeEmitter>();
+            impactsShakeEmitter.amplitudeTimeDecay = true;
+            impactsShakeEmitter.duration = 0.4f;
+            impactsShakeEmitter.radius = 150f;
+            impactsShakeEmitter.scaleShakeRadiusWithLocalScale = true;
+
+            impactsShakeEmitter.wave = new Wave
             {
-                chaosBlastExplosionEffect = Asset.CreateEffect(x.Result, 7f, false, "", out var vfx, out var effect);
-                vfx.vfxIntensity = VFXAttributes.VFXIntensity.High;
-                effect.applyScale = true;
-                var flashPP = chaosBlastExplosionEffect.transform.GetChild(2);
-                var flashPPDuration = flashPP.gameObject.AddComponent<PostProcessDuration>();
-                flashPPDuration.ppVolume = flashPP.GetComponent<PostProcessVolume>();
-                flashPPDuration.ppVolume.sharedProfile = ppChaosBlastImpact;
-                flashPPDuration.maxDuration = 0.15f;
-                flashPPDuration.ppWeightCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
-                var interiorPP = chaosBlastExplosionEffect.transform.GetChild(1);
-                var interiorPPDuration = interiorPP.gameObject.AddComponent<PostProcessDuration>();
-                interiorPPDuration.ppVolume = interiorPP.GetComponent<PostProcessVolume>();
-                interiorPPDuration.ppVolume.sharedProfile = ppChaosBlast;
-                interiorPPDuration.maxDuration = 2f;
-                interiorPPDuration.ppWeightCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
-                var exteriorPP = chaosBlastExplosionEffect.transform.GetChild(0);
-                var exteriorPPDuration = exteriorPP.gameObject.AddComponent<PostProcessDuration>();
-                exteriorPPDuration.ppVolume = exteriorPP.GetComponent<PostProcessVolume>();
-                exteriorPPDuration.ppVolume.sharedProfile = ppRed;
-                exteriorPPDuration.maxDuration = 2f;
-                exteriorPPDuration.ppWeightCurve = AnimationCurve.EaseInOut(0f, 0.65f, 1f, 0f);
-                chaosBlastExplosionEffect.transform.GetChild(3).gameObject.AddLightIntensityCurve(AnimationCurve.EaseInOut(0f, 1f, 1f, 0f), 1.8f);
-                chaosBlastExplosionEffect.transform.GetChild(4).gameObject.SetMaterialAndMesh(matChaosBlastOuterSphere, pSphere1Mesh);
-                chaosBlastExplosionEffect.transform.GetChild(5).GetComponent<ParticleSystemRenderer>().sharedMaterial = AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Gravekeeper.matOmniExplosion1ArchWisp_mat).WaitForCompletion();
-                chaosBlastExplosionEffect.transform.GetChild(6).gameObject.SetMaterialAndMesh(matSphereParticle, noiseSphereMesh);
-                chaosBlastExplosionEffect.transform.GetChild(7).gameObject.SetMaterialAndMesh(matSubtleWindTrail, donut5Mesh);
-                chaosBlastExplosionEffect.transform.GetChild(8).gameObject.SetMaterialAndMesh(matSubtleWindTrail, donut1Mesh);
-                chaosBlastExplosionEffect.transform.GetChild(9).GetComponent<ParticleSystemRenderer>().sharedMaterial = matTracerBright;
-                chaosBlastExplosionEffect.transform.GetChild(10).GetComponent<ParticleSystemRenderer>().sharedMaterial = matGlowSoft;
-                chaosBlastExplosionEffect.transform.GetChild(11).GetComponent<ParticleSystemRenderer>().sharedMaterial = matGlowHard;
-                chaosBlastExplosionEffect.transform.GetChild(12).gameObject.SetMaterialAndMesh(matBurnGroundSphere, pSphere1Mesh);
-                chaosBlastExplosionEffect.transform.GetChild(13).gameObject.SetMaterialAndMesh(matChaosBlastFog, pSphere1Mesh);
-                chaosBlastExplosionEffect.transform.GetChild(14).GetComponent<ParticleSystemRenderer>().sharedMaterial = HedgehogUtils.Assets.darkSparkle;
-                chaosBlastExplosionEffect.transform.GetChild(15).GetComponent<ParticleSystemRenderer>().sharedMaterial = matGlowStrongHorizontal;
-                chaosBlastExplosionEffect.transform.GetChild(16).gameObject.SetMaterialAndMesh(matSubtleSoftRing, donut1Mesh);
-                chaosBlastExplosionEffect.transform.GetChild(17).gameObject.SetMaterialAndMesh(matSubtleSoftRing, donut1Mesh);
-                chaosBlastExplosionEffect.transform.GetChild(18).gameObject.SetMaterialAndMesh(matGenericRing, donut2Mesh);
-
-                ShakeEmitter impactsShakeEmitter = chaosBlastExplosionEffect.AddComponent<ShakeEmitter>();
-                impactsShakeEmitter.amplitudeTimeDecay = true;
-                impactsShakeEmitter.duration = 0.4f;
-                impactsShakeEmitter.radius = 5f;
-                impactsShakeEmitter.scaleShakeRadiusWithLocalScale = true;
-
-                impactsShakeEmitter.wave = new Wave
-                {
-                    amplitude = 2f,
-                    frequency = 40f,
-                    cycleOffset = 0f
-                };
-                ShakeEmitter lingerShakeEmitter = chaosBlastExplosionEffect.AddComponent<ShakeEmitter>();
-                lingerShakeEmitter.amplitudeTimeDecay = true;
-                lingerShakeEmitter.duration = 2.1f;
-                lingerShakeEmitter.radius = 4f;
-                lingerShakeEmitter.scaleShakeRadiusWithLocalScale = true;
-
-                lingerShakeEmitter.wave = new Wave
-                {
-                    amplitude = 0.6f,
-                    frequency = 20f,
-                    cycleOffset = 0f
-                };
+                amplitude = 1.5f,
+                frequency = 30f,
+                cycleOffset = 0f
             };
+            ShakeEmitter lingerShakeEmitter = chaosBlastExplosionPrefab.AddComponent<ShakeEmitter>();
+            lingerShakeEmitter.amplitudeTimeDecay = true;
+            lingerShakeEmitter.duration = 2.1f;
+            lingerShakeEmitter.radius = 100f;
+            lingerShakeEmitter.scaleShakeRadiusWithLocalScale = true;
+
+            lingerShakeEmitter.wave = new Wave
+            {
+                amplitude = 0.4f,
+                frequency = 9f,
+                cycleOffset = 0f
+            };
+            #endregion
 
             Material pathItemNotificationBackgroundMat = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_UI.matUIIconDronePurchase_mat).WaitForCompletion());
             pathItemNotificationBackgroundMat.name = "matUIShadowPathItemBackground";
@@ -331,6 +343,10 @@ namespace ShadowMod.Characters.Survivors.Shadow
             pathItemHeroNotificationPrefab = CreatePathItemNotificationPrefab("ShadowPathItemHeroNotificationPanel", new Color32(149, 205, 229, 255), pathItemNotificationBackgroundMat);
             pathItemDarkNotificationPrefab = CreatePathItemNotificationPrefab("ShadowPathItemDarkNotificationPanel", new Color32(254, 124, 124, 255), pathItemNotificationBackgroundMat);
             // Captain tazer for blue part of Chaos Blast
+        }
+        private static void CreateChaosBlast()
+        {
+
         }
 
         private static GameObject CreatePathItemNotificationPrefab(string name, Color color, Material mat)
@@ -343,13 +359,13 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 if (bgTransform.TryGetComponent<AsyncImage>(out var asyncImage))
                 {
                     asyncImage.Clear();
-                    asyncImage.SetAddress(shadowLogoIcon);
+                    asyncImage.SetAddress(shadowLogoIconRef);
                 }
                 if (bgTransform.TryGetComponent<RawImage>(out var image))
                 {
                     image.color = color;
                     image.material = mat;
-                    image.texture = AssetAsyncReferenceManager<Sprite>.LoadAsset(shadowLogoIcon).WaitForCompletion().texture;
+                    image.texture = AssetAsyncReferenceManager<Sprite>.LoadAsset(shadowLogoIconRef).WaitForCompletion().texture;
                 }
                 ((RectTransform)bgTransform).sizeDelta = new Vector2(96, 96);
             }

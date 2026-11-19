@@ -2,6 +2,7 @@
 using HedgehogUtils.Forms;
 using RoR2;
 using RoR2.Stats;
+using ShadowMod.Characters.Survivors.Shadow.Components;
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -12,11 +13,13 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
     {
         public CharacterBody characterBody;
         public FormComponent formComponent;
+        public HomingTracker homingTracker;
         public int lastDoomPowerCount;
         private void Awake()
         {
             characterBody = base.GetComponent<CharacterBody>();
             formComponent = GetComponent<FormComponent>();
+            homingTracker = GetComponent<HomingTracker>();
         }
         private void OnEnable()
         {
@@ -63,10 +66,12 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
                         if (doomPowerCount >= DoomPowerDef.doomPowerDefs[i].requiredDoomPower && lastDoomPowerCount < DoomPowerDef.doomPowerDefs[i].requiredDoomPower)
                         {
                             characterBody.skillLocator.GetSkill(DoomPowerDef.doomPowerDefs[i].skillSlot).SetSkillOverride(this, DoomPowerDef.doomPowerDefs[i].skillDef, GenericSkill.SkillOverridePriority.Upgrade);
+                            if (DoomPowerDef.doomPowerDefs[i] == DoomPowerDef.doomSpearDef && homingTracker) homingTracker.maxTargets = 5;
                         }
                         else if (doomPowerCount < DoomPowerDef.doomPowerDefs[i].requiredDoomPower && lastDoomPowerCount >= DoomPowerDef.doomPowerDefs[i].requiredDoomPower)
                         {
                             characterBody.skillLocator.GetSkill(DoomPowerDef.doomPowerDefs[i].skillSlot).UnsetSkillOverride(this, DoomPowerDef.doomPowerDefs[i].skillDef, GenericSkill.SkillOverridePriority.Upgrade);
+                            if (DoomPowerDef.doomPowerDefs[i] == DoomPowerDef.doomSpearDef && homingTracker) homingTracker.maxTargets = 1;
                         }
                     }
                 }

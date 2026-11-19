@@ -118,7 +118,7 @@ namespace ShadowMod.Modules
         public static Material SetSpecular(this Material material, float strength, float exponent)
         {
             material.SetFloat("_SpecularStrength", strength);
-            material.SetFloat("SpecularExponent", exponent);
+            material.SetFloat("_SpecularExponent", exponent);
             return material;
         }
     }

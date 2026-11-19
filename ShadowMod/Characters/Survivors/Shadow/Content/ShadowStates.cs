@@ -16,6 +16,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Modules.Content.AddEntityState(typeof(ChaosSnapSingle));
 
             Modules.Content.AddEntityState(typeof(ChaosSpear));
+            Modules.Content.AddEntityState(typeof(ShockStateChaosSpear));
 
             Modules.Content.AddEntityState(typeof(Boost));
             Modules.Content.AddEntityState(typeof(BoostIdle));
@@ -28,6 +29,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
             #region Doom Powers
             Modules.Content.AddEntityState(typeof(DoomSpear));
+            Modules.Content.AddEntityState(typeof(ShockStateDoomSpear));
             #endregion
         }
     }

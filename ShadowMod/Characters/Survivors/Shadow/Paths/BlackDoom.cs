@@ -20,7 +20,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
         {
             TeleporterInteraction.onTeleporterChargedGlobal += TrySpawnBlackDoom;
 
-            blackDoomInteractablePrefab = AssetAsyncReferenceManager<GameObject>.LoadAsset(ShadowAssets.blackDoomInteractable).WaitForCompletion();
+            blackDoomInteractablePrefab = AssetAsyncReferenceManager<GameObject>.LoadAsset(ShadowAssets.blackDoomInteractableRef).WaitForCompletion();
 
             blackDoomSpawnCard = ScriptableObject.CreateInstance<InteractableSpawnCard>();
             blackDoomSpawnCard.prefab = blackDoomInteractablePrefab;

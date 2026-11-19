@@ -28,8 +28,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public override string masterName => "ShadowTheHedgehogMonsterMaster"; //if you do not
 
         //the names of the prefabs you set up in unity that we will use to build your character
-        public override string modelPrefabGUID => ShadowAssets.characterModel.AssetGUID;
-        public override string displayPrefabGUID => ShadowAssets.displayPrefab.AssetGUID;
+        public override string modelPrefabGUID => ShadowAssets.characterModelRef.AssetGUID;
+        public override string displayPrefabGUID => ShadowAssets.displayPrefabRef.AssetGUID;
 
         public const string SHADOW_PREFIX = ShadowPlugin.DEVELOPER_PREFIX + "_SHADOW_";
 
@@ -46,7 +46,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             bodyNameToken = SHADOW_PREFIX + "NAME",
             subtitleNameToken = SHADOW_PREFIX + "SUBTITLE",
 
-            characterPortrait = ShadowAssets.characterIcon.LoadAssetAsync().WaitForCompletion(),
+            characterPortrait = ShadowAssets.characterIconRef.LoadAssetAsync().WaitForCompletion(),
             bodyColor = shadowRedColor,
             sortPosition = 138,
 
@@ -66,17 +66,17 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 [new CustomRendererInfo
                 {
                     childName = "Model",
-                    materialReference = ShadowAssets.defaultSkinMaterial
+                    materialReference = ShadowAssets.defaultSkinMaterialRef
                 },
                 new CustomRendererInfo
                 {
                     childName = "SwordModel",
-                    materialReference = ShadowAssets.defaultSkinMaterial
+                    materialReference = ShadowAssets.defaultSkinMaterialRef
                 },
                 new CustomRendererInfo
                 {
                     childName = "GunModel",
-                    materialReference = ShadowAssets.defaultSkinMaterial
+                    materialReference = ShadowAssets.defaultSkinMaterialRef
                 }];
 
         public override UnlockableDef characterUnlockableDef => ShadowUnlockables.characterUnlockableDef;
@@ -208,7 +208,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 skillNameToken = SHADOW_PREFIX + "PASSIVE_NAME",
                 skillDescriptionToken = SHADOW_PREFIX + "PASSIVE_DESCRIPTION",
                 keywordTokens = [SHADOW_PREFIX + "KEYWORD_HERO_PATH", SHADOW_PREFIX + "KEYWORD_DARK_PATH", SHADOW_PREFIX + "KEYWORD_NEUTRAL_PATH"],
-                skillIcon = ShadowAssets.passiveSkillIcon.LoadAssetAsync().WaitForCompletion(),
+                skillIcon = ShadowAssets.passiveSkillIconRef.LoadAssetAsync().WaitForCompletion(),
 
                 //unless you're somehow activating your passive like a skill, none of the following is needed.
                 //but that's just me saying things. the tools are here at your disposal to do whatever you like with
@@ -253,7 +253,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 skillName = "ShadowChaosSnap",
                 skillNameToken = SHADOW_PREFIX + "PRIMARY_CHAOS_SNAP_NAME",
                 skillDescriptionToken = SHADOW_PREFIX + "PRIMARY_CHAOS_SNAP_DESCRIPTION",
-                skillIcon = ShadowAssets.chaosSnapSkillIcon.LoadAssetAsync().WaitForCompletion(),
+                skillIcon = ShadowAssets.chaosSnapSkillIconRef.LoadAssetAsync().WaitForCompletion(),
                 keywordTokens = [SHADOW_PREFIX + "KEYWORD_HOMING", HedgehogUtils.Language.launchKeyword],
 
                 activationState = new EntityStates.SerializableEntityStateType(typeof(ChaosSnapIn)),
@@ -295,7 +295,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 skillNameToken = SHADOW_PREFIX + "SECONDARY_CHAOS_SPEAR_NAME",
                 skillDescriptionToken = SHADOW_PREFIX + "SECONDARY_CHAOS_SPEAR_DESCRIPTION",
                 keywordTokens = ["KEYWORD_SHOCKING", SHADOW_PREFIX + "KEYWORD_HOMING", "KEYWORD_AGILE", SHADOW_PREFIX + "KEYWORD_CHAOS_MARK"],
-                skillIcon = ShadowAssets.chaosSpearSkillIcon.LoadAssetAsync().WaitForCompletion(),
+                skillIcon = ShadowAssets.chaosSpearSkillIconRef.LoadAssetAsync().WaitForCompletion(),
 
                 activationState = new EntityStates.SerializableEntityStateType(typeof(ChaosSpear)),
                 activationStateMachineName = "Weapon",
@@ -361,7 +361,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             boostSkillDef = HedgehogUtils.Boost.SkillDefs.CreateBoostSkillDef<HedgehogUtils.Boost.SkillDefs.BoostSkillDef>(
                 SHADOW_PREFIX + "UTILITY_BOOST_NAME",
                 SHADOW_PREFIX + "UTILITY_BOOST_DESCRIPTION",
-                ShadowAssets.boostSkillIcon.LoadAssetAsync().WaitForCompletion(),
+                ShadowAssets.boostSkillIconRef.LoadAssetAsync().WaitForCompletion(),
                 new EntityStates.SerializableEntityStateType(typeof(Boost)),
                 new EntityStates.SerializableEntityStateType(typeof(BoostIdle)),
                 new EntityStates.SerializableEntityStateType(typeof(Brake)),
@@ -380,7 +380,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 skillName = "ShadowChaosBoost",
                 skillNameToken = SHADOW_PREFIX + "SPECIAL_CHAOS_BOOST_NAME",
                 skillDescriptionToken = SHADOW_PREFIX + "SPECIAL_CHAOS_BOOST_DESCRIPTION",
-                skillIcon = ShadowAssets.chaosBoostSkillIcon.LoadAssetAsync().WaitForCompletion(),
+                skillIcon = ShadowAssets.chaosBoostSkillIconRef.LoadAssetAsync().WaitForCompletion(),
                 keywordTokens = [SHADOW_PREFIX + "KEYWORD_KILL_COOLDOWN", SHADOW_PREFIX + "KEYWORD_CHAOS_MARK", SHADOW_PREFIX + "KEYWORD_CHAOS_BLAST"],
 
                 activationState = new EntityStates.SerializableEntityStateType(typeof(ChaosBoost)),
@@ -401,14 +401,14 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
                 dontAllowPastMaxStocks = true
             });
-            chaosBoostSkillDef.upgradeSkillIcon = ShadowAssets.chaosBoostUpgradedSkillIcon.LoadAssetAsync().WaitForCompletion();
+            chaosBoostSkillDef.upgradeSkillIcon = ShadowAssets.chaosBoostUpgradedSkillIconRef.LoadAssetAsync().WaitForCompletion();
             chaosBoostSkillDef.upgradeRechargeInterval = ShadowStaticValues.chaosBoostKillsToUpgrade;
             chaosBlastSkillDef = Skills.CreateSkillDef<HomingKillCooldownSkillDef>(new SkillDefInfo
             {
                 skillName = "ShadowChaosBlast",
                 skillNameToken = SHADOW_PREFIX + "SPECIAL_CHAOS_BLAST_NAME",
                 skillDescriptionToken = SHADOW_PREFIX + "SPECIAL_CHAOS_BLAST_DESCRIPTION",
-                skillIcon = ShadowAssets.chaosBlastSkillIcon.LoadAssetAsync().WaitForCompletion(),
+                skillIcon = ShadowAssets.chaosBlastSkillIconRef.LoadAssetAsync().WaitForCompletion(),
                 keywordTokens = [SHADOW_PREFIX + "KEYWORD_HOMING", SHADOW_PREFIX + "KEYWORD_KILL_COOLDOWN"],
 
                 activationState = new EntityStates.SerializableEntityStateType(typeof(ChaosBlastIn)),
@@ -443,14 +443,14 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 skillName = "ShadowVoicelinesEnable",
                 skillNameToken = HedgehogUtils.Language.voicelinesEnableToken,
                 skillDescriptionToken = SHADOW_PREFIX + "VOICELINES_ENABLE_DESCRIPTION",
-                skillIcon = ShadowAssets.voicelineEnableSkillIcon.LoadAssetAsync().WaitForCompletion()
+                skillIcon = ShadowAssets.voicelineEnableSkillIconRef.LoadAssetAsync().WaitForCompletion()
             });
             SkillDef voicelinesDisable = Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = "ShadowVoicelinesDisable",
                 skillNameToken = HedgehogUtils.Language.voicelinesDisableToken,
                 skillDescriptionToken = "",
-                skillIcon = ShadowAssets.voicelineDisableSkillIcon.LoadAssetAsync().WaitForCompletion()
+                skillIcon = ShadowAssets.voicelineDisableSkillIconRef.LoadAssetAsync().WaitForCompletion()
             });
             Skills.AddSkillsToFamily(voicelinesGenericSkill.skillFamily, voicelinesEnable, voicelinesDisable);
 
@@ -469,47 +469,48 @@ namespace ShadowMod.Characters.Survivors.Shadow
             doomSpearSkillDef.skillName = "ShadowDoomSpear";
             doomSpearSkillDef.skillNameToken = SHADOW_PREFIX + "SECONDARY_DOOM_SPEAR_NAME";
             doomSpearSkillDef.skillDescriptionToken = SHADOW_PREFIX + "SECONDARY_DOOM_SPEAR_DESCRIPTION";
-            doomSpearSkillDef.icon = ShadowAssets.doomSpearSkillIcon.LoadAssetAsync().WaitForCompletion();
+            doomSpearSkillDef.icon = ShadowAssets.doomSpearSkillIconRef.LoadAssetAsync().WaitForCompletion();
             doomSpearSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(DoomSpear));
 
             SkillDef doomBlastSkillDef = ScriptableObject.Instantiate(chaosSnapSkillDef);
             doomBlastSkillDef.skillName = "ShadowDoomBlast";
             doomBlastSkillDef.skillNameToken = SHADOW_PREFIX + "PRIMARY_DOOM_BLAST_NAME";
             doomBlastSkillDef.skillDescriptionToken = SHADOW_PREFIX + "PRIMARY_DOOM_BLAST_DESCRIPTION";
-            doomBlastSkillDef.icon = ShadowAssets.doomBlastSkillIcon.LoadAssetAsync().WaitForCompletion();
+            doomBlastSkillDef.icon = ShadowAssets.doomBlastSkillIconRef.LoadAssetAsync().WaitForCompletion();
             //doomBlastSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(ChaosSnapIn));
 
             ChaosBoostSkillDef doomWingSkillDef = ScriptableObject.Instantiate(chaosBoostSkillDef);
             doomWingSkillDef.skillName = "ShadowDoomWing";
             doomWingSkillDef.skillNameToken = SHADOW_PREFIX + "SPECIAL_DOOM_WING_NAME";
             doomWingSkillDef.skillDescriptionToken = SHADOW_PREFIX + "SPECIAL_DOOM_WING_DESCRIPTION";
-            doomWingSkillDef.icon = ShadowAssets.doomWingSkillIcon.LoadAssetAsync().WaitForCompletion();
+            doomWingSkillDef.icon = ShadowAssets.doomWingSkillIconRef.LoadAssetAsync().WaitForCompletion();
             //doomWingSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(ChaosBoost));
-            doomWingSkillDef.upgradeSkillIcon = ShadowAssets.doomWingUpgradedSkillIcon.LoadAssetAsync().WaitForCompletion();
-            Paths.DoomPowerDef.AddDoomPowerDefs([new Paths.DoomPowerDef
+            doomWingSkillDef.upgradeSkillIcon = ShadowAssets.doomWingUpgradedSkillIconRef.LoadAssetAsync().WaitForCompletion();
+            Paths.DoomPowerDef.doomSpearDef = new Paths.DoomPowerDef
             {
                 skillSlot = SkillSlot.Secondary,
                 skillToOverride = chaosSpearSkillDef,
                 skillDef = doomSpearSkillDef,
                 pickupToken = SHADOW_PREFIX + "SECONDARY_DOOM_SPEAR_PICKUP",
                 requiredDoomPower = 1
-            },
-            new Paths.DoomPowerDef
+            };
+            Paths.DoomPowerDef.doomBlastDef = new Paths.DoomPowerDef
             {
                 skillSlot = SkillSlot.Primary,
                 skillToOverride = chaosSnapSkillDef,
                 skillDef = doomBlastSkillDef,
                 pickupToken = SHADOW_PREFIX + "PRIMARY_DOOM_BLAST_PICKUP",
                 requiredDoomPower = 2
-            },
-            new Paths.DoomPowerDef
+            };
+            Paths.DoomPowerDef.doomWingDef = new Paths.DoomPowerDef
             {
                 skillSlot = SkillSlot.Special,
                 skillToOverride = chaosBoostSkillDef,
                 skillDef = doomWingSkillDef,
                 pickupToken = SHADOW_PREFIX + "SPECIAL_DOOM_WING_PICKUP",
                 requiredDoomPower = 3
-            }]);
+            };
+            Paths.DoomPowerDef.AddDoomPowerDefs([Paths.DoomPowerDef.doomSpearDef, Paths.DoomPowerDef.doomBlastDef, Paths.DoomPowerDef.doomWingDef]);
         }
         #endregion skills
 
@@ -518,32 +519,32 @@ namespace ShadowMod.Characters.Survivors.Shadow
         {
             ModelSkinController skinController = prefabCharacterModel.gameObject.AddComponent<ModelSkinController>();
             ModelSkinController skinController2 = displayPrefab.gameObject.AddComponent<ModelSkinController>();
-            skinController._animatorControllerAddress = ShadowAssets.animator;
-            skinController._avatarAddress = ShadowAssets.animatorAvatar;
-            skinController2._animatorControllerAddress = ShadowAssets.displayAnimator;
-            skinController2._avatarAddress = ShadowAssets.animatorAvatar;
+            skinController._animatorControllerAddress = ShadowAssets.animatorRef;
+            skinController._avatarAddress = ShadowAssets.animatorAvatarRef;
+            skinController2._animatorControllerAddress = ShadowAssets.displayAnimatorRef;
+            skinController2._avatarAddress = ShadowAssets.animatorAvatarRef;
             ChildLocator childLocator = prefabCharacterModel.GetComponent<ChildLocator>();
             CharacterModel.RendererInfo[] defaultRendererinfos = prefabCharacterModel.baseRendererInfos;
 
             List<SkinDef> skins = new List<SkinDef>();
 
             #region DefaultSkin
-            AssetAsyncReferenceManager<Material>.LoadAsset(ShadowAssets.defaultSkinMaterial).Completed += delegate (AsyncOperationHandle<Material> x)
+            AssetAsyncReferenceManager<Material>.LoadAsset(ShadowAssets.defaultSkinMaterialRef).Completed += delegate (AsyncOperationHandle<Material> x)
             { x.Result.SetHopooMaterial(); };
-            AssetAsyncReferenceManager<Material>.LoadAsset(ShadowAssets.masterySkinMaterial).Completed += delegate (AsyncOperationHandle<Material> x)
+            AssetAsyncReferenceManager<Material>.LoadAsset(ShadowAssets.masterySkinMaterialRef).Completed += delegate (AsyncOperationHandle<Material> x)
             { x.Result.SetHopooMaterial(); };
 
             SkinDefParams defaultSkinDefParams = ScriptableObject.CreateInstance<SkinDefParams>();
             defaultSkinDefParams.rendererInfos = ArrayUtils.Clone(defaultRendererinfos);
             defaultSkinDefParams.meshReplacements =  
-            [ new SkinDefParams.MeshReplacement { meshAddress = ShadowAssets.defaultSkinMesh, renderer = defaultRendererinfos[0].renderer },
-            new SkinDefParams.MeshReplacement { meshAddress = ShadowAssets.defaultSkinSwordMesh, renderer = defaultRendererinfos[1].renderer },
-            new SkinDefParams.MeshReplacement { meshAddress = ShadowAssets.defaultSkinGunMesh, renderer = defaultRendererinfos[2].renderer }];
+            [ new SkinDefParams.MeshReplacement { meshAddress = ShadowAssets.defaultSkinMeshRef, renderer = defaultRendererinfos[0].renderer },
+            new SkinDefParams.MeshReplacement { meshAddress = ShadowAssets.defaultSkinSwordMeshRef, renderer = defaultRendererinfos[1].renderer },
+            new SkinDefParams.MeshReplacement { meshAddress = ShadowAssets.defaultSkinGunMeshRef, renderer = defaultRendererinfos[2].renderer }];
             R2API.SkinDefParamsInfo defaultSkinParamsInfo = new R2API.SkinDefParamsInfo
             {
                 Name = SHADOW_PREFIX + "DEFAULT_SKIN_NAME",
                 NameToken = "DEFAULT_SKIN",
-                Icon = Addressables.LoadAssetAsync<Sprite>(ShadowAssets.defaultSkinIcon).WaitForCompletion(),
+                Icon = Addressables.LoadAssetAsync<Sprite>(ShadowAssets.defaultSkinIconRef).WaitForCompletion(),
                 UnlockableDef = null,
                 RootObject = prefabCharacterModel.gameObject,
                 SkinDefParams = defaultSkinDefParams
@@ -558,18 +559,18 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
             SkinDefParams masterySkinDefParams = ScriptableObject.CreateInstance<SkinDefParams>();
             masterySkinDefParams.rendererInfos = ArrayUtils.Clone(defaultRendererinfos);
-            masterySkinDefParams.rendererInfos[0].defaultMaterialAddress = ShadowAssets.masterySkinMaterial;
-            masterySkinDefParams.rendererInfos[1].defaultMaterialAddress = ShadowAssets.masterySkinMaterial;
-            masterySkinDefParams.rendererInfos[2].defaultMaterialAddress = ShadowAssets.masterySkinMaterial;
+            masterySkinDefParams.rendererInfos[0].defaultMaterialAddress = ShadowAssets.masterySkinMaterialRef;
+            masterySkinDefParams.rendererInfos[1].defaultMaterialAddress = ShadowAssets.masterySkinMaterialRef;
+            masterySkinDefParams.rendererInfos[2].defaultMaterialAddress = ShadowAssets.masterySkinMaterialRef;
             masterySkinDefParams.meshReplacements =
-            [ new SkinDefParams.MeshReplacement { meshAddress = ShadowAssets.masterySkinMesh, renderer = defaultRendererinfos[0].renderer },
-            new SkinDefParams.MeshReplacement { meshAddress = ShadowAssets.masterySkinSwordMesh, renderer = defaultRendererinfos[1].renderer },
-            new SkinDefParams.MeshReplacement { meshAddress = ShadowAssets.defaultSkinGunMesh, renderer = defaultRendererinfos[2].renderer }];
+            [ new SkinDefParams.MeshReplacement { meshAddress = ShadowAssets.masterySkinMeshRef, renderer = defaultRendererinfos[0].renderer },
+            new SkinDefParams.MeshReplacement { meshAddress = ShadowAssets.masterySkinSwordMeshRef, renderer = defaultRendererinfos[1].renderer },
+            new SkinDefParams.MeshReplacement { meshAddress = ShadowAssets.defaultSkinGunMeshRef, renderer = defaultRendererinfos[2].renderer }];
             R2API.SkinDefParamsInfo masterySkinParamsInfo = new R2API.SkinDefParamsInfo
             {
                 Name = SHADOW_PREFIX + "MASTERY_SKIN_NAME",
                 NameToken = SHADOW_PREFIX + "MASTERY_SKIN_NAME",
-                Icon = Addressables.LoadAssetAsync<Sprite>(ShadowAssets.masterySkinIcon).WaitForCompletion(),
+                Icon = Addressables.LoadAssetAsync<Sprite>(ShadowAssets.masterySkinIconRef).WaitForCompletion(),
                 UnlockableDef = ShadowUnlockables.masterySkinUnlockableDef,
                 RootObject = prefabCharacterModel.gameObject,
                 SkinDefParams = masterySkinDefParams

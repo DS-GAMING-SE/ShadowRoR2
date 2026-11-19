@@ -245,9 +245,10 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
             if (value > _maxTargets)
             {
                 allIndicatorsInitialized = false;
-                for (int i = _maxTargets; i < value - _maxTargets; i++)
+                for (int i = _maxTargets; i < value; i++)
                 {
-                    indicators[i] = new IndicatorPair { indicator = new Indicator(base.gameObject, HedgehogUtils.Assets.lockOnIndicator) };
+                    indicators[i] = new IndicatorPair { indicator = new Indicator(base.gameObject, HedgehogUtils.Assets.lockOnIndicator), primary = i == 0 };
+                    indicators[i].indicator.active = true;
                 }
             }
         }

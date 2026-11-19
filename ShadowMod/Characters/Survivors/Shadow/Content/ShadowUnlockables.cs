@@ -15,7 +15,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             masterySkinUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(
                 ShadowMasteryAchievement.unlockableIdentifier,
                 Modules.Tokens.GetAchievementNameToken(ShadowMasteryAchievement.identifier), 
-                ShadowAssets.masterySkinIcon);
+                ShadowAssets.masterySkinIconRef);
         }
     }
 }

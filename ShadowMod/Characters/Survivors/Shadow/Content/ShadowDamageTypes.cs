@@ -1,4 +1,5 @@
-﻿using RoR2;
+﻿using EntityStates;
+using RoR2;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,9 +13,35 @@ namespace ShadowMod.Characters.Survivors.Shadow
     {
         //public static ModdedDamageType chaosMark;
         public static AttackIdentityIndex shadowChaosMarkAttackIdentityIndex;
+        public static ModdedDamageType chaosSpearShocking;
+        public static ModdedDamageType doomSpearShocking;
         internal static void Initialize()
         {
             //chaosMark = ReserveDamageType();
+            chaosSpearShocking = ReserveDamageType();
+            doomSpearShocking = ReserveDamageType();
+            On.RoR2.GlobalEventManager.OnHitEnemy += OnHitEnemy;
+        }
+
+        private static void OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
+        {
+            orig(self, damageInfo, victim);
+            if (damageInfo.damageType.HasModdedDamageType(chaosSpearShocking))
+            {
+                if (victim.TryGetComponent<SetStateOnHurt>(out var stun) && stun.canBeStunned)
+                {
+                    stun.SetCustomState(EntityStateCatalog.GetStateIndex(typeof(SkillStates.ShockStateChaosSpear)), InterruptPriority.Pain,
+                        new SetStateOnHurt.CustomStateInfo { duration = 5f * damageInfo.procCoefficient });
+                }
+            }
+            else if (damageInfo.damageType.HasModdedDamageType(doomSpearShocking))
+            {
+                if (victim.TryGetComponent<SetStateOnHurt>(out var stun) && stun.canBeStunned)
+                {
+                    stun.SetCustomState(EntityStateCatalog.GetStateIndex(typeof(SkillStates.DoomPowerUpgrades.ShockStateDoomSpear)), InterruptPriority.Pain,
+                        new SetStateOnHurt.CustomStateInfo { duration = 5f * damageInfo.procCoefficient });
+                }
+            }
         }
 
         [DamageMacroMethod(assignToStaticReference = "shadowChaosMarkAttackIdentityIndex", index = AttackIdentityIndex.AssignAtRuntime, phase = (DamageMacroPhase.PostDamageCalculation), searchableName = "ShadowChaosMark")]

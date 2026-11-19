@@ -11,12 +11,12 @@ namespace ShadowMod.Characters.Survivors.Shadow
 {
     public class ChaosSpearOrb : GenericDamageOrb
     {
-        public static ChaosSpearOrb CreateChaosSpearOrb(CharacterBody attacker, Vector3 origin, HurtBox target)
+        public static ChaosSpearOrb CreateChaosSpearOrb(CharacterBody attacker, Vector3 origin, HurtBox target, DamageAPI.ModdedDamageType moddedDamageType)
         {
             ChaosSpearOrb orb = new ChaosSpearOrb();
             orb.speed = 120f;
-            orb.damageType = new DamageTypeCombo(DamageType.Shock5s, DamageTypeExtended.Electrical, DamageSource.Secondary);
-            //orb.damageType.AddModdedDamageType(ShadowDamageTypes.chaosMark);
+            orb.damageType = new DamageTypeCombo(DamageType.Generic, DamageTypeExtended.Electrical, DamageSource.Secondary);
+            orb.damageType.AddModdedDamageType(moddedDamageType);
             orb.damageType.attackIdentityIndex = ShadowDamageTypes.shadowChaosMarkAttackIdentityIndex;
             orb.target = target;
             orb.origin = origin;

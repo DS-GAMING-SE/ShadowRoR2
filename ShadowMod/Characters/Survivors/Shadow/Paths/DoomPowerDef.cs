@@ -9,6 +9,10 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
 {
     public class DoomPowerDef : IComparable<DoomPowerDef>
     {
+        public static DoomPowerDef doomSpearDef;
+        public static DoomPowerDef doomBlastDef;
+        public static DoomPowerDef doomWingDef;
+
         public SkillSlot skillSlot;
         public SkillDef skillToOverride;
         public SkillDef skillDef;

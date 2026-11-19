@@ -47,9 +47,9 @@ namespace ShadowMod.Characters.Survivors.Shadow
         #endregion
 
         #region Chaos Spear
-        public const float chaosSpearDamageCoefficient = 7f;
+        public const float chaosSpearDamageCoefficient = 6f;
 
-        public const float chaosSpearCooldown = 7f;
+        public const float chaosSpearCooldown = 6f;
 
         #region Doom Spear
         public const int doomSpearCount = 5;
@@ -74,13 +74,13 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
         public const RoR2.BlastAttack.FalloffModel chaosBoostFalloff = RoR2.BlastAttack.FalloffModel.HalfLinear;
 
-        public const float chaosBoost1Stats = 0.3f;
+        public const float chaosBoost1Stats = 0.25f;
         public const int chaosBoost1Armor = 50;
 
-        public const float chaosBoost2Stats = 0.5f;
+        public const float chaosBoost2Stats = 0.4f;
         public const int chaosBoost2Armor = 60;
 
-        public const float chaosBoost3Stats = 0.65f;
+        public const float chaosBoost3Stats = 0.5f;
         public const int chaosBoost3Armor = 70;
 
         public const float chaosBoostMaxDuration = 30f;

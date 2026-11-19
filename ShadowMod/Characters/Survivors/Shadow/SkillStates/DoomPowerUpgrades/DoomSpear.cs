@@ -20,7 +20,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates.DoomPowerUpgrades
         }
         protected override Orb CreateSpear(HurtBox target)
         {
-            return ChaosSpearOrb.CreateChaosSpearOrb(characterBody, transform.position, target);
+            return ChaosSpearOrb.CreateChaosSpearOrb(characterBody, transform.position, target, ShadowDamageTypes.doomSpearShocking);
         }
     }
 }
