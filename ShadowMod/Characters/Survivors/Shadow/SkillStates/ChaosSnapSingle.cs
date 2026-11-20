@@ -72,6 +72,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         }
         private void Attack()
         {
+            Util.PlaySound("Play_dsshadowthehedgehog_hit_large", gameObject);
             CreateAttack();
             ModifyAttack(attack);
             FireAttack();

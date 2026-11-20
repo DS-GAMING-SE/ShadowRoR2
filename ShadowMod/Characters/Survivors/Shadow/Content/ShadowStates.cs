@@ -28,6 +28,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Modules.Content.AddEntityState(typeof(ChaosBlast));
 
             #region Doom Powers
+            Modules.Content.AddEntityState(typeof(GainingDoomPower));
+
             Modules.Content.AddEntityState(typeof(DoomSpear));
             Modules.Content.AddEntityState(typeof(ShockStateDoomSpear));
             #endregion

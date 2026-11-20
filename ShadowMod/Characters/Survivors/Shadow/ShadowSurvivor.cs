@@ -454,13 +454,13 @@ namespace ShadowMod.Characters.Survivors.Shadow
             });
             Skills.AddSkillsToFamily(voicelinesGenericSkill.skillFamily, voicelinesEnable, voicelinesDisable);
 
-            /*ShadowVoiceLineComponent voiceline = bodyPrefab.AddComponent<ShadowVoiceLineComponent>();
-            string voicelineSoundBankPath = Assembly.GetExecutingAssembly().Location.Replace("ShadowMod.dll", @"Soundbanks\ShadowVoicelinesBank.bnk");
+            ShadowVoicelineComponent voiceline = bodyPrefab.AddComponent<ShadowVoicelineComponent>();
+            string voicelineSoundBankPath = Assembly.GetExecutingAssembly().Location.Replace("ShadowMod.dll", @"Soundbanks\DSShadowTheHedgehogVoicelinesBank.bnk");
             voiceline.soundBankFilePath = voicelineSoundBankPath;
             voiceline.voicelinesEnableSkillDef = voicelinesEnable;
-            voiceline.Initialize();
-            HedgehogUtils.Voicelines.VoicelineDisplayComponent.AddDisplayPrefabVoicelineComponent(displayPrefab, bodyPrefab, voicelinesGenericSkill.skillFamily, voicelinesEnable, voicelineSoundBankPath,
-                ShadowVoiceLineComponent.lobby1);*/
+            ShadowVoicelineComponent.Initialize();
+            /*HedgehogUtils.Voicelines.VoicelineDisplayComponent.AddDisplayPrefabVoicelineComponent(displayPrefab, bodyPrefab, voicelinesGenericSkill.skillFamily, voicelinesEnable, voicelineSoundBankPath,
+                ShadowVoicelineComponent.lobby1);*/
         }
 
         private void AddDoomPowerSkills()

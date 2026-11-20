@@ -16,7 +16,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates.DoomPowerUpgrades
 
         protected override void FireSpearVFX()
         {
-
+            Util.PlaySound("Play_dsshadowthehedgehog_chaos_spear_fire", gameObject);
         }
         protected override Orb CreateSpear(HurtBox target)
         {

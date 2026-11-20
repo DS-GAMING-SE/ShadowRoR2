@@ -5,6 +5,10 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
 {
     public class ShadowVoicelineComponent : VoicelineComponent
     {
+        internal static void Initialize()
+        {
+
+        }
         private void Awake()
         {
             //any funny custom behavior you want here

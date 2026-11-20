@@ -57,6 +57,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             while (attackTimer <= 0 && CanStickToTarget())
             {
                 attackTimer += ShadowStaticValues.chaosSnapPummelInterval / characterBody.attackSpeed;
+                Util.PlaySound("Play_dsshadowthehedgehog_hit", gameObject);
                 if (isAuthority)
                 {
                     CreateAttack();

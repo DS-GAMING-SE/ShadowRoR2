@@ -16,7 +16,8 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         private float healthFraction;
         private float shockInterval = 0.1f;
         private TemporaryOverlayInstance temporaryOverlay;
-        private string enterSoundString = "";
+        private string enterSoundString = "Play_captain_m2_tazed_loop";
+        private string exitSoundString = "Stop_captain_m2_tazed_loop";
         private EffectManagerHelper stunVfxInstance;
         protected virtual Material overlayMaterial { get { return ShadowAssets.chaosSpearShockingOverlay; } }
         protected virtual GameObject stunVfxPrefab { get { return ShadowAssets.chaosSpearShockedEffect; } }
@@ -97,6 +98,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             {
                 stunVfxInstance.ReturnToPool();
             }
+            Util.PlaySound(this.exitSoundString, base.gameObject);
             base.OnExit();
         }
 

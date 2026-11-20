@@ -106,12 +106,8 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
             };
             doomPowerPickupDef.attemptGrant?.Invoke(ref grantContext);
 
-            if (false/*!(EntityStateMachine.TryFindByCustomName(characterBody.gameObject, "Body", out var bodyStateMachine) && 
-                bodyStateMachine.SetInterruptState(new GainDoomPower(), EntityStates.InterruptPriority.Vehicle))*/)
-            {
-
-            }
-            else
+            if (!(EntityStateMachine.TryFindByCustomName(characterBody.gameObject, "Body", out var bodyStateMachine) && 
+                bodyStateMachine.SetInterruptState(new SkillStates.DoomPowerUpgrades.GainingDoomPower(), EntityStates.InterruptPriority.Vehicle)))
             {
                 DoomPowerItemNotification(characterBody.master);
             }

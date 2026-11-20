@@ -66,7 +66,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
                         if (doomPowerCount >= DoomPowerDef.doomPowerDefs[i].requiredDoomPower && lastDoomPowerCount < DoomPowerDef.doomPowerDefs[i].requiredDoomPower)
                         {
                             characterBody.skillLocator.GetSkill(DoomPowerDef.doomPowerDefs[i].skillSlot).SetSkillOverride(this, DoomPowerDef.doomPowerDefs[i].skillDef, GenericSkill.SkillOverridePriority.Upgrade);
-                            if (DoomPowerDef.doomPowerDefs[i] == DoomPowerDef.doomSpearDef && homingTracker) homingTracker.maxTargets = 5;
+                            if (DoomPowerDef.doomPowerDefs[i] == DoomPowerDef.doomSpearDef && homingTracker) homingTracker.maxTargets = ShadowStaticValues.doomSpearCount;
                         }
                         else if (doomPowerCount < DoomPowerDef.doomPowerDefs[i].requiredDoomPower && lastDoomPowerCount >= DoomPowerDef.doomPowerDefs[i].requiredDoomPower)
                         {

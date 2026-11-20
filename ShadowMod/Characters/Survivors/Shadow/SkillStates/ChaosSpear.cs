@@ -86,7 +86,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
 
         protected virtual void FireSpearVFX()
         {
-
+            Util.PlaySound("Play_dsshadowthehedgehog_chaos_spear_fire", gameObject);
         }
         protected virtual void FireSpear(HurtBox target)
         {

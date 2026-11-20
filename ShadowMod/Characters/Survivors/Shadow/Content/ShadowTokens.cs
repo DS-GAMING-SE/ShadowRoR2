@@ -64,7 +64,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
             #region Doom
             Language.Add(prefix + "PRIMARY_DOOM_BLAST_NAME", RedText(HedgehogUtils.Helpers.wipIcon + " Doom Blast"));
-            Language.Add(prefix + "PRIMARY_DOOM_BLAST_DESCRIPTION", $"{UtilityText("Homing")}. Teleport to the target and pummel them for {DamageValueText(chaosSnapPummelDamageCoefficient)} repeatedly while the skill is held. Release to {UtilityText("Launch")} the target for {DamageValueText(chaosSnapFinalDamageCoefficient)}. {HedgehogUtils.Helpers.wipIcon} Use your {UtilityText("utility skill")} to teleport away from or behind the target. Hold for the skill's entire duration to attack again for {RedText($"{doomBlastExtraDamageCoefficient * 100f}%")}");
+            Language.Add(prefix + "PRIMARY_DOOM_BLAST_DESCRIPTION", $"{UtilityText("Homing")}. Teleport to the target and pummel them for {DamageValueText(chaosSnapPummelDamageCoefficient)} repeatedly while the skill is held. Release to {UtilityText("Launch")} the target for {DamageValueText(chaosSnapFinalDamageCoefficient)}. {HedgehogUtils.Helpers.wipIcon} Use your {UtilityText("utility skill")} to teleport away from or behind the target. {RedText($"Hold for the skill's entire duration to attack again for {doomBlastExtraDamageCoefficient * 100f}%")}");
             Language.Add(prefix + "PRIMARY_DOOM_BLAST_PICKUP", $"Hold for the skill's entire duration to attack again for {RedText($"{doomBlastExtraDamageCoefficient * 100f}%")}. {RedText("Corrupts Chaos Snap")}.");
             #endregion
             #endregion
@@ -74,7 +74,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Language.Add(prefix + "SECONDARY_CHAOS_SPEAR_DESCRIPTION", DamageText("Shocking")+". "+ UtilityText("Homing")+". " + agilePrefix + $"Fire a Chaos Spear dealing {DamageValueText(chaosSpearDamageCoefficient)} and applying a {UtilityText("Chaos Mark")}.");
             
             #region Doom
-            Language.Add(prefix + "SECONDARY_DOOM_SPEAR_NAME", RedText(HedgehogUtils.Helpers.wipIcon + "Doom Spear"));
+            Language.Add(prefix + "SECONDARY_DOOM_SPEAR_NAME", RedText("Doom Spear"));
             Language.Add(prefix + "SECONDARY_DOOM_SPEAR_DESCRIPTION", DamageText("Shocking") + ". " + UtilityText("Homing") + ". " + agilePrefix + $"Fire Doom Spears {RedText($"at up to {doomSpearCount} targets")} dealing {DamageValueText(chaosSpearDamageCoefficient)} and applying {UtilityText("Chaos Marks")}.");
             Language.Add(prefix + "SECONDARY_DOOM_SPEAR_PICKUP", $"Fire Doom Spears {RedText($"at up to {doomSpearCount} targets")} at once. {RedText("Corrupts Chaos Spear")}.");
             #endregion
@@ -84,6 +84,11 @@ namespace ShadowMod.Characters.Survivors.Shadow
             #region Utility
             Language.Add(prefix + "UTILITY_BOOST_NAME", $"Boost");
             Language.Add(prefix + "UTILITY_BOOST_DESCRIPTION", $"Spend boost meter to {UtilityText($"move {100f * boostListedSpeedCoefficient}% faster")} than normal. If airborne, do a short {UtilityText("mid-air dash")}.");
+
+            #region Doom Boost
+            Language.Add(prefix + "UTILITY_DOOM_BOOST_NAME", RedText("Doom Boost"));
+            Language.Add(prefix + "UTILITY_DOOM_BOOST_DESCRIPTION", $"Spend boost meter to {RedText($"move {100f * doomBoostListedSpeedCoefficient}% faster")} than normal. If airborne, {RedText("fly")}.");
+            #endregion
             #endregion
 
             #region Special
@@ -117,7 +122,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Language.Add(prefix + "HERO_PICKUP_SUFFIX", $"{UtilityText("This marks the path you've chosen.")}");
             Language.Add(prefix + "DARK_PICKUP_SUFFIX", $"{RedText("This marks the path you've chosen.")}");
 
-            Language.Add(prefix + "ITEM_DOOM_POWER", $"{HedgehogUtils.Helpers.wipIcon} Doom Power");
+            Language.Add(prefix + "ITEM_DOOM_POWER", $"Doom Power");
             string doomPowerDescription = $"{RedText("Permanently upgrade your skills")} into more aggressive variants.";
             Language.Add(prefix + "ITEM_DOOM_POWER_PICKUP", doomPowerDescription);
             Language.Add(prefix + "ITEM_DOOM_POWER_DESC", doomPowerDescription);

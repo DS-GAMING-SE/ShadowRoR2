@@ -75,6 +75,18 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
             }
             return false;
         }
+        public static int GetHighestNonMaxDoomPowerCount()
+        {
+            int highest = 0;
+            foreach (var player in PlayerCharacterMasterController.instances)
+            {
+                if (player.isConnected && EligibleForDoomPowers(player))
+                {
+                    highest = Math.Max(highest, player.master.inventory.GetItemCountPermanent(Items.doomPowerItemDef.itemIndex));
+                }
+            }
+            return highest;
+        }
         public IInspectInfoProvider inspectInfoProvider;
         public List<CharacterMaster> masterBlacklist = new List<CharacterMaster>();
 

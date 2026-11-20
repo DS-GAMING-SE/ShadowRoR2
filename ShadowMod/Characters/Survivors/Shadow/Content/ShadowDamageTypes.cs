@@ -62,6 +62,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             {
                 characterBody.inventory.GiveItemRented(KillCooldownSkillDef.killCooldownChargeItemDef.itemIndex);
             }
+            Util.PlaySound("Play_dsshadowthehedgehog_chaos_mark_consumed", characterBody.gameObject);
             EffectManager.SpawnEffect(ShadowAssets.chaosMarkConsumeEffect, new EffectData { origin = skillSlot.characterBody.corePosition, rootObject = skillSlot.characterBody.mainHurtBox.gameObject }, false);
         }
     }

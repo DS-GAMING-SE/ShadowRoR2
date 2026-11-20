@@ -246,7 +246,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             GameObject chaosSpearHitPrefab = AssetAsyncReferenceManager<GameObject>.LoadAsset(chaosSpearHitRef).WaitForCompletion();
             chaosSpearHitEffect = new EntityStateGameObject(chaosSpearHitRef.AssetGUID);
             chaosSpearHitEffect.unloadType = AsyncReferenceHandleUnloadType.OnRunEnd;
-            Asset.CreateEffect(chaosSpearHitPrefab, 0.4f, false, "", out _, out _);
+            Asset.CreateEffect(chaosSpearHitPrefab, 0.4f, false, "Play_dsshadowthehedgehog_chaos_spear_hit", out _, out _);
             chaosSpearHitPrefab.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().sharedMaterial = HedgehogUtils.Assets.chromaImpact;
             chaosSpearHitPrefab.transform.GetChild(1).GetComponent<ParticleSystemRenderer>().sharedMaterial = matGlowSoft;
             chaosSpearHitPrefab.transform.GetChild(2).GetComponent<ParticleSystemRenderer>().sharedMaterial = matHitSpark;
