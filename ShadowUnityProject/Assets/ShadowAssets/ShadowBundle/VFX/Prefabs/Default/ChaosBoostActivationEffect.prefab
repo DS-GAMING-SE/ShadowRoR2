@@ -24539,7 +24539,7 @@ GameObject:
   - component: {fileID: 545124832629590757}
   - component: {fileID: 8324744006540682759}
   m_Layer: 0
-  m_Name: ChaosBoostSparks
+  m_Name: ChaosBoostHitSparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -52,7 +52,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public const float chaosSpearCooldown = 6f;
 
         #region Doom Spear
-        public const int doomSpearCount = 5;
+        public const int doomSpearCount = 3;
         #endregion
 
         #endregion

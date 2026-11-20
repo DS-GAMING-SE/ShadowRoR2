@@ -157,6 +157,18 @@ MonoBehaviour:
     m_Address: Assets/ShadowAssets/ShadowBundle/Icons/texDoomWingUpgradedSkillIcon.png
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: cb1538cda4ed7d146bf7d2718d328508
+    m_Address: Assets/ShadowAssets/ShadowBundle/VFX/Prefabs/Default/ChaosSpearHitEffect.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 872882cee89840e4c85e402a249d26af
+    m_Address: Assets/ShadowAssets/ShadowBundle/VFX/Prefabs/Default/ChaosSpearShockedEffect.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 141d1d52f19f4c846b85dc6c728e4766
+    m_Address: Assets/ShadowAssets/ShadowBundle/VFX/Prefabs/Default/ChaosSpearOrbEffect.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 80780dc7c8eea2546b3509246a72a4ca, type: 2}
   m_SchemaSet:

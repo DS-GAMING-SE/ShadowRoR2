@@ -19,22 +19,20 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         private string enterSoundString = "";
         private EffectManagerHelper stunVfxInstance;
         protected virtual Material overlayMaterial { get { return ShadowAssets.chaosSpearShockingOverlay; } }
-        protected virtual GameObject stunVfxPrefab { get { return null; } }
-        private static readonly int Hurt1StateHash = Animator.StringToHash("Hurt1");
-        private static readonly int Hurt2StateHash = Animator.StringToHash("Hurt2");
+        protected virtual GameObject stunVfxPrefab { get { return ShadowAssets.chaosSpearShockedEffect; } }
         private static readonly int FlinchStartStateHash = Animator.StringToHash("FlinchStart");
         public override void OnEnter()
         {
             base.OnEnter();
             this.animator = base.GetModelAnimator();
-            flinchLayerIndex = this.animator.GetLayerIndex("Flinch");
+            if (animator) flinchLayerIndex = this.animator.GetLayerIndex("Flinch");
             if (base.sfxLocator && base.sfxLocator.barkSound != "")
             {
                 Util.PlaySound(base.sfxLocator.barkSound, base.gameObject);
             }
             Util.PlaySound(this.enterSoundString, base.gameObject);
-            this.PlayAnimation("Body", (Random.Range(0, 2) == 0) ? ShockState.Hurt1StateHash : ShockState.Hurt2StateHash);
-            if (this.overlayMaterial != null)
+            PlayAnimation("Body", (Random.Range(0, 2) == 0) ? ShockState.Hurt1StateHash : ShockState.Hurt2StateHash);
+            if (overlayMaterial)
             {
                 Transform modelTransform = base.GetModelTransform();
                 if (modelTransform)
@@ -51,8 +49,10 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
             }
             if (stunVfxPrefab)
             {
-                this.stunVfxInstance = EffectManager.GetAndActivatePooledEffect(this.stunVfxPrefab.gameObject, base.transform, true);
-                this.stunVfxInstance.GetComponent<ScaleParticleSystemDuration>().newDuration = this.shockDuration;
+                stunVfxInstance = EffectManager.GetAndActivatePooledEffect(stunVfxPrefab, transform, true);
+                float radius = Mathf.Max(characterBody.radius, 1f);
+                stunVfxInstance.transform.localScale = new Vector3(radius, radius, radius);
+                stunVfxInstance.GetComponent<ScaleParticleSystemDuration>().newDuration = shockDuration;
             }
             if (base.characterBody.healthComponent)
             {
