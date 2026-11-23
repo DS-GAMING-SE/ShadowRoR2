@@ -152,6 +152,15 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Material matYellowLightningBroken = new Material(matYellowLightning);
             matYellowLightningBroken.SetTexture("_Cloud1Tex", AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_TiledTextures.texCloudDifferenceBW1_png).WaitForCompletion());
             matYellowLightningBroken.SetVector("_CutoffScroll", new Vector4(16, 48, 0, 0));
+            Material matDoomLightning = new Material(matYellowLightning);
+            matDoomLightning.SetTexture("_RemapTex", texRedRamp);
+            matDoomLightning.SetFloat("_AlphaBoost", 4f);
+            matDoomLightning.SetFloat("_AlphaBias", 0.1f);
+            matDoomLightning.SetFloat("_Boost", 10f);
+            Material matDoomLightningBroken = new Material(matYellowLightningBroken);
+            matDoomLightningBroken.SetTexture("_RemapTex", texRedRamp);
+            matDoomLightningBroken.SetFloat("_AlphaBoost", 3f);
+            matDoomLightningBroken.SetFloat("_Boost", 10f);
             Material matGenericRing = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_BFG.matBeamSphereBeam_mat).WaitForCompletion());
             matGenericRing.name = "matShadowGenericRing";
             matGenericRing.SetTexture("_RemapTex", AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_ColorRamps.texRampTritone_png).WaitForCompletion());

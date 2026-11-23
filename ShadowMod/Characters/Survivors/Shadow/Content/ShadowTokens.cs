@@ -63,7 +63,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Language.Add(prefix + "PRIMARY_CHAOS_SNAP_DESCRIPTION", $"{UtilityText("Homing")}. Teleport to the target and pummel them for {DamageValueText(chaosSnapPummelDamageCoefficient)} repeatedly while the skill is held. Release to {UtilityText("Launch")} the target for {DamageValueText(chaosSnapFinalDamageCoefficient)}. {HedgehogUtils.Helpers.wipIcon} Use your {UtilityText("utility skill")} to teleport away from or behind the target.");
 
             #region Doom
-            Language.Add(prefix + "PRIMARY_DOOM_BLAST_NAME", RedText(HedgehogUtils.Helpers.wipIcon + " Doom Blast"));
+            Language.Add(prefix + "PRIMARY_DOOM_BLAST_NAME", HedgehogUtils.Helpers.wipIcon + " Doom Blast");
             Language.Add(prefix + "PRIMARY_DOOM_BLAST_DESCRIPTION", $"{UtilityText("Homing")}. Teleport to the target and pummel them for {DamageValueText(chaosSnapPummelDamageCoefficient)} repeatedly while the skill is held. Release to {UtilityText("Launch")} the target for {DamageValueText(chaosSnapFinalDamageCoefficient)}. {HedgehogUtils.Helpers.wipIcon} Use your {UtilityText("utility skill")} to teleport away from or behind the target. {RedText($"Hold for the skill's entire duration to attack again for {doomBlastExtraDamageCoefficient * 100f}%")}");
             Language.Add(prefix + "PRIMARY_DOOM_BLAST_PICKUP", $"Hold for the skill's entire duration to attack again for {RedText($"{doomBlastExtraDamageCoefficient * 100f}%")}. {RedText("Corrupts Chaos Snap")}.");
             #endregion
@@ -74,7 +74,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Language.Add(prefix + "SECONDARY_CHAOS_SPEAR_DESCRIPTION", DamageText("Shocking")+". "+ UtilityText("Homing")+". " + agilePrefix + $"Fire a Chaos Spear dealing {DamageValueText(chaosSpearDamageCoefficient)} and applying a {UtilityText("Chaos Mark")}.");
             
             #region Doom
-            Language.Add(prefix + "SECONDARY_DOOM_SPEAR_NAME", RedText("Doom Spear"));
+            Language.Add(prefix + "SECONDARY_DOOM_SPEAR_NAME", "Doom Spear");
             Language.Add(prefix + "SECONDARY_DOOM_SPEAR_DESCRIPTION", DamageText("Shocking") + ". " + UtilityText("Homing") + ". " + agilePrefix + $"Fire Doom Spears {RedText($"at up to {doomSpearCount} targets")} dealing {DamageValueText(chaosSpearDamageCoefficient)} and applying {UtilityText("Chaos Marks")}.");
             Language.Add(prefix + "SECONDARY_DOOM_SPEAR_PICKUP", $"Fire Doom Spears {RedText($"at up to {doomSpearCount} targets")} at once. {RedText("Corrupts Chaos Spear")}.");
             #endregion
@@ -98,7 +98,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Language.Add(prefix + "SPECIAL_CHAOS_BOOST_DESCRIPTION", $"{RedText("kill cooldown")}. Release a burst of energy dealing {DamageValueText(chaosBoostDamageCoefficient)} and applying {UtilityText("Chaos Marks")}. Enhance your stats for {UtilityText(chaosBoostMaxDuration+"s")}. Reactivate to {UtilityText("upgrade")} the effect up to {DamageText("3")} times and reset its duration. After {DamageText("3")} uses, unleash {DeathText("Chaos Blast")}.");
 
             #region Doom
-            Language.Add(prefix + "SPECIAL_DOOM_WING_NAME", RedText(HedgehogUtils.Helpers.wipIcon + "Doom Wing"));
+            Language.Add(prefix + "SPECIAL_DOOM_WING_NAME", HedgehogUtils.Helpers.wipIcon + " Doom Wing");
             Language.Add(prefix + "SPECIAL_DOOM_WING_DESCRIPTION", $"{RedText("kill cooldown")}. Release a burst of energy dealing {DamageValueText(chaosBoostDamageCoefficient)} and applying {UtilityText("Chaos Marks")}. Grow wings, {RedText("greatly enhancing your stats")} and gaining {RedText("flight while boosting")} for {UtilityText(chaosBoostMaxDuration + "s")}. Reactivate to reset its duration. After {DamageText("3")} uses, unleash {DeathText("Chaos Blast")}.");
             Language.Add(prefix + "SPECIAL_DOOM_WING_PICKUP", $"Grow Doom Wings, {RedText($"greatly increasing your stats")} and allowing you to {RedText("fly while boosting")}. {RedText("Corrupts Chaos Boost")}.");
             #endregion

@@ -5,6 +5,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
     public static class ShadowStaticValues
     {
         #region General
+
+        public const float homingMaxAngle = 12f;
         public const float homingRange = 48f;
         public const float homingRangeHero = 75f;
         public const float homingRangeSuper = 90f;
@@ -53,6 +55,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
         #region Doom Spear
         public const int doomSpearCount = 3;
+
+        public const float doomSpearMaxAngle = 30f;
         #endregion
 
         #endregion
@@ -64,6 +68,10 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
         #region Doom Boost
         public const float doomBoostListedSpeedCoefficient = 0.5f;
+        #endregion
+
+        #region Super Boost
+        public const float superBoostListedSpeedCoefficient = 0.75f;
         #endregion
         #endregion
 

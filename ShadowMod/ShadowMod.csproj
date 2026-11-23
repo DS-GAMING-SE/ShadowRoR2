@@ -83,6 +83,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Characters\Survivors\Shadow\SkillStates\BlackDoom\" />
+	  <Folder Include="Characters\Survivors\Shadow\SkillStates\InhibitorRings\" />
 	  <Folder Include="Characters\Survivors\Shadow\SkillStates\SuperFormUpgrades\" />
 	</ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

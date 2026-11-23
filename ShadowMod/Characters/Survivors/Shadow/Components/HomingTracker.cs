@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using static UnityEngine.UIElements.StylePropertyAnimationSystem;
 
 namespace ShadowMod.Characters.Survivors.Shadow.Components
 {
@@ -24,6 +23,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
             }
         }
         private int _maxTargets = 1;
+        private float minNonExtraThetaDot;
 
         public bool visible;
         public bool locked
@@ -52,7 +52,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
         private float trackerUpdateStopwatch;
         private float trackerUpdateFrequency = 8f;
 
-        private static Vector3 secondaryIndicatorScale = new Vector3(0.6f, 0.6f, 0.6f);
+        private static Vector3 secondaryIndicatorScale = new Vector3(0.8f, 0.8f, 0.8f);
 
         private Color primaryColor;
         private Color secondaryColor;
@@ -61,6 +61,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
 
         private void Awake()
         {
+            SetTrackingStats(1, ShadowStaticValues.homingMaxAngle);
             indicators = new IndicatorPair[maxTargets];
             for (int i = 0; i < indicators.Length; i++)
             {
@@ -118,10 +119,12 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
         }
         public void ResetColors()
         {
-            SetColors(ShadowSurvivor.shadowYellowColor, ShadowSurvivor.shadowRedColor);
+            SetIndicatorStyle(Paths.ShadowPaths.GetPath(characterBody.inventory));
         }
         public void SetColors(Color primary, Color secondary)
         {
+            if (primaryColor == primary && secondaryColor == secondary) return;
+
             primaryColor = primary;
             secondaryColor = secondary;
             UpdateColors();
@@ -135,7 +138,17 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
         }
         private void UpdateColors(IndicatorPair indicator)
         {
-            if (indicator.lockOnIndicator) indicator.lockOnIndicator.SetColors(primaryColor, secondaryColor);
+            if (indicator.lockOnIndicator) 
+            {
+                if (indicator.primary)
+                {
+                    indicator.lockOnIndicator.SetColors(primaryColor, secondaryColor);
+                }
+                else
+                {
+                    indicator.lockOnIndicator.SetColors(secondaryColor, new Color(0, 0, 0, 0));
+                }
+            }
         }
         private void OnDisable()
         {
@@ -203,7 +216,6 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
             this.search.sortMode = BullseyeSearch.SortMode.Angle;
             this.search.maxDistanceFilter = maxRange;
             this.search.minDistanceFilter = 0;
-            this.search.maxAngleFilter = 12;
             this.search.RefreshCandidates();
             this.search.FilterOutGameObject(base.gameObject);
             int targetedCount = 0;
@@ -211,10 +223,22 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
             {
                 indicator.target = null;
             }
+            bool targetFoundNotWithinExtraAngle = false;
             foreach (var hurt in search.GetResults())
             {
                 if (hurt && hurt.healthComponent && hurt.healthComponent.body && hurt.healthComponent.alive)
                 {
+                    if (minNonExtraThetaDot > 0)
+                    {
+                        if (targetFoundNotWithinExtraAngle || Vector3.Dot((hurt.transform.position - aimRay.origin).normalized, aimRay.direction) > minNonExtraThetaDot)
+                        {
+                            targetFoundNotWithinExtraAngle = true;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
                     indicators[targetedCount++].target = hurt;
                 }
                 if (targetedCount >= indicators.Length) break;
@@ -256,6 +280,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
         private void RecalculateHomingStats(CharacterBody characterBody)
         {
             CalculateMaxRange();
+            SetIndicatorStyle(Paths.ShadowPaths.GetPath(characterBody.inventory));
         }
         private void CalculateMaxRange()
         {
@@ -270,6 +295,27 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
                 return;
             }
             maxRange = ShadowStaticValues.homingRange;
+        }
+        public void SetIndicatorStyle(Paths.ShadowPaths.Path path)
+        {
+            switch (path)
+            {
+                case Paths.ShadowPaths.Path.Dark:
+                    SetColors(new Color(1f, 0.92f, 0.95f), ShadowSurvivor.shadowRedColor);
+                    break;
+                case Paths.ShadowPaths.Path.Hero:
+                    SetColors(ShadowSurvivor.shadowYellowColor, Color.cyan);
+                    break;
+                default:
+                    SetColors(ShadowSurvivor.shadowYellowColor, ShadowSurvivor.shadowRedColor);
+                    break;
+            }
+        }
+        public void SetTrackingStats(int numTargets, float maxAngleFilter, float extraMaxAngleFilter = -1)
+        {
+            maxTargets = numTargets;
+            search.maxAngleFilter = Mathf.Max(maxAngleFilter, extraMaxAngleFilter);
+            minNonExtraThetaDot = extraMaxAngleFilter < 0 ? -1 : Mathf.Cos(Mathf.Clamp(maxAngleFilter, 0f, 180f) * Mathf.Deg2Rad);
         }
 
         private class IndicatorPair

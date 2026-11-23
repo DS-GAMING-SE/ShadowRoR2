@@ -18,8 +18,11 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public static BuffDef chaosMarkDebuff;
         public static BuffDef chaosBoostBuff;
 
-        // MISSING LOOKINGGLASS COMPAT
         public static BuffDef doomWingFormBuff;
+        public static BuffDef doomBoostBuff;
+
+        public static BuffDef superBoostBuff;
+
         public static BuffDef inhibitorRingFormBuff;
 
         public static void Init()
@@ -49,6 +52,16 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 ShadowSurvivor.shadowYellowColor,
                 false,
                 false);
+            doomBoostBuff = Modules.Content.CreateAndAddBuff("bdShadowDoomBoost",
+                LegacyResourcesAPI.Load<BuffDef>("BuffDefs/CloakSpeed").iconSprite,
+                ShadowSurvivor.shadowRedColor,
+                false,
+                false);
+            superBoostBuff = Modules.Content.CreateAndAddBuff("bdShadowSuperBoost",
+                LegacyResourcesAPI.Load<BuffDef>("BuffDefs/CloakSpeed").iconSprite,
+                ShadowSurvivor.shadowYellowColor,
+                false,
+                false);
 
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(LookingGlass.PluginInfo.PLUGIN_GUID))
             {
@@ -63,6 +76,10 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 RegisterLookingGlassBuff(en, boostBuff, "Shadow Boost", $"Gain <style=cIsUtility>+{ShadowStaticValues.boostArmor} armor</style>. Gain <style=cIsUtility>+{ShadowStaticValues.boostListedSpeedCoefficient * 100}% movement speed</style>.");
                 RegisterLookingGlassBuff(en, chaosMarkDebuff, "Shadow Chaos Mark", $"Can be consumed to refresh Chaos Snap's cooldown.");
                 RegisterLookingGlassBuff(en, chaosBoostBuff, "Shadow Chaos Boost", $"Gain +{ShadowStaticValues.chaosBoost1Stats * 100f}%-{ShadowStaticValues.chaosBoost3Stats * 100}% {DamageText("attack speed")} and {UtilityText("movement speed")}. Gain {UtilityText("+" + ShadowStaticValues.chaosBoost1Armor+"-"+ShadowStaticValues.chaosBoost3Armor+" armor")}.");
+                RegisterLookingGlassBuff(en, doomWingFormBuff, "Shadow Doom Wing", $"Gain +{ShadowStaticValues.doomWingFormStats * 100}% {DamageText("attack speed")} and {UtilityText("movement speed")}. Gain {UtilityText(ShadowStaticValues.doomWingFormArmor + " armor")}. Gain {DamageText((ShadowStaticValues.doomWingFormDamage * 100f) + "% damage")}.");
+                RegisterLookingGlassBuff(en, inhibitorRingFormBuff, "Shadow Inhibitor Rings", $"Greatly increases all stats. All your items are disabled.");
+                RegisterLookingGlassBuff(en, doomBoostBuff, "Shadow Doom Boost", $"Gain <style=cIsUtility>+{ShadowStaticValues.boostArmor} armor</style>. Gain <style=cIsUtility>+{ShadowStaticValues.doomBoostListedSpeedCoefficient * 100}% movement speed</style>.");
+                RegisterLookingGlassBuff(en, superBoostBuff, "Shadow Super Boost", $"Gain <style=cIsUtility>+{ShadowStaticValues.boostArmor} armor</style>. Gain <style=cIsUtility>+{ShadowStaticValues.superBoostListedSpeedCoefficient * 100}% movement speed</style>.");
             }
         }
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]

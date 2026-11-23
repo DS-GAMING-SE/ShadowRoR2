@@ -26,6 +26,9 @@ namespace ShadowMod.Characters.Survivors.Shadow
         private static void OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
         {
             orig(self, damageInfo, victim);
+
+            if (damageInfo.rejected) return;
+
             if (damageInfo.damageType.HasModdedDamageType(chaosSpearShocking))
             {
                 if (victim.TryGetComponent<SetStateOnHurt>(out var stun) && stun.canBeStunned)

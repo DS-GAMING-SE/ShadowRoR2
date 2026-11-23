@@ -66,12 +66,12 @@ namespace ShadowMod.Characters.Survivors.Shadow.Paths
                         if (doomPowerCount >= DoomPowerDef.doomPowerDefs[i].requiredDoomPower && lastDoomPowerCount < DoomPowerDef.doomPowerDefs[i].requiredDoomPower)
                         {
                             characterBody.skillLocator.GetSkill(DoomPowerDef.doomPowerDefs[i].skillSlot).SetSkillOverride(this, DoomPowerDef.doomPowerDefs[i].skillDef, GenericSkill.SkillOverridePriority.Upgrade);
-                            if (DoomPowerDef.doomPowerDefs[i] == DoomPowerDef.doomSpearDef && homingTracker) homingTracker.maxTargets = ShadowStaticValues.doomSpearCount;
+                            if (DoomPowerDef.doomPowerDefs[i] == DoomPowerDef.doomSpearDef && homingTracker) homingTracker.SetTrackingStats(ShadowStaticValues.doomSpearCount, ShadowStaticValues.homingMaxAngle, ShadowStaticValues.doomSpearMaxAngle);
                         }
                         else if (doomPowerCount < DoomPowerDef.doomPowerDefs[i].requiredDoomPower && lastDoomPowerCount >= DoomPowerDef.doomPowerDefs[i].requiredDoomPower)
                         {
                             characterBody.skillLocator.GetSkill(DoomPowerDef.doomPowerDefs[i].skillSlot).UnsetSkillOverride(this, DoomPowerDef.doomPowerDefs[i].skillDef, GenericSkill.SkillOverridePriority.Upgrade);
-                            if (DoomPowerDef.doomPowerDefs[i] == DoomPowerDef.doomSpearDef && homingTracker) homingTracker.maxTargets = 1;
+                            if (DoomPowerDef.doomPowerDefs[i] == DoomPowerDef.doomSpearDef && homingTracker) homingTracker.SetTrackingStats(1, ShadowStaticValues.homingMaxAngle);
                         }
                     }
                 }

@@ -56,6 +56,16 @@ namespace ShadowMod.Modules
                     stats.damageMultAdd += doomWingFormDamage;
                     stats.armorAdd += doomWingFormArmor;
                 }
+                if (self.HasBuff(doomBoostBuff))
+                {
+                    HedgehogUtils.Boost.BoostLogic.BoostStats(self, stats, doomBoostListedSpeedCoefficient);
+                    stats.armorAdd += boostArmor;
+                }
+                if (self.HasBuff(superBoostBuff))
+                {
+                    HedgehogUtils.Boost.BoostLogic.BoostStats(self, stats, superBoostListedSpeedCoefficient);
+                    stats.armorAdd += boostArmor;
+                }
             }
         }
     }

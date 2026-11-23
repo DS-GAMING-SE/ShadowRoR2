@@ -57,7 +57,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             healthRegen = 1f,
             armor = 0f,
             moveSpeed = 8.5f,
-            acceleration = 50f,
+            acceleration = 30f,
 
             jumpCount = 2,
         };
@@ -182,7 +182,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             AddDoomPowerSkills();
         }
         public ChaosSnapSkillDef chaosSnapSkillDef;
-        public SkillDef chaosSpearSkillDef;
+        public TrackingSkillDef chaosSpearSkillDef;
         public HedgehogUtils.Boost.SkillDefs.BoostSkillDef boostSkillDef;
         public ChaosBoostSkillDef chaosBoostSkillDef;
         public HomingKillCooldownSkillDef chaosBlastSkillDef;

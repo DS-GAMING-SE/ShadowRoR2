@@ -69,7 +69,22 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates.DoomPowerUpgrades
         }
         protected virtual void Burst()
         {
-
+            if (base.isAuthority)
+            {
+                BlastAttack blastAttack = new BlastAttack();
+                blastAttack.radius = 20f;
+                blastAttack.procCoefficient = 0f;
+                blastAttack.position = base.transform.position;
+                blastAttack.attacker = base.gameObject;
+                blastAttack.crit = false;
+                blastAttack.baseDamage = 0f;
+                blastAttack.falloffModel = BlastAttack.FalloffModel.Linear;
+                blastAttack.damageType = DamageType.Generic;
+                blastAttack.baseForce = 2000f;
+                blastAttack.teamIndex = base.teamComponent.teamIndex;
+                blastAttack.attackerFiltering = AttackerFiltering.NeverHitSelf;
+                blastAttack.Fire();
+            }
         }
         protected enum State
         {

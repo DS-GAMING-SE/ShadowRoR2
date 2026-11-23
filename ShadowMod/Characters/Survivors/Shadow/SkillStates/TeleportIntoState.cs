@@ -28,8 +28,12 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
-            homingTracker = GetComponent<HomingTracker>();
-            homingTracker.locked = true;
+            if (isAuthority)
+            {
+                homingTracker = GetComponent<HomingTracker>();
+                homingTracker.visible = true;
+                homingTracker.locked = true;
+            }
             if (!target) target = homingTracker.GetTrackingTarget();
             if (!target) // this shouldn't be happening, yet it has. Probably need to rewrite trackingskilldef
             {
@@ -109,7 +113,11 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         }
         public override void OnExit()
         {
-            homingTracker.locked = false;
+            if (isAuthority)
+            {
+                homingTracker.visible = false;
+                homingTracker.locked = false;
+            }
             var grav = characterMotor.gravityParameters;
             grav.channeledAntiGravityGranterCount--;
             if (NetworkServer.active && invincible) characterBody.RemoveBuff(RoR2Content.Buffs.Intangible);
