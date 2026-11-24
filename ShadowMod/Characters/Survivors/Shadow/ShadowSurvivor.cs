@@ -402,7 +402,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
                 dontAllowPastMaxStocks = true
             });
             chaosBoostSkillDef.upgradeSkillIcon = ShadowAssets.chaosBoostUpgradedSkillIconRef.LoadAssetAsync().WaitForCompletion();
-            chaosBoostSkillDef.upgradeRechargeInterval = ShadowStaticValues.chaosBoostKillsToUpgrade;
+            chaosBoostSkillDef.upgradeRechargeInterval = ShadowStaticValues.chaosBoostKillsToCharge;
+            chaosBoostSkillDef.chargedEffect = ShadowAssets.killCooldownChargedEffect;
             chaosBlastSkillDef = Skills.CreateSkillDef<HomingKillCooldownSkillDef>(new SkillDefInfo
             {
                 skillName = "ShadowChaosBlast",

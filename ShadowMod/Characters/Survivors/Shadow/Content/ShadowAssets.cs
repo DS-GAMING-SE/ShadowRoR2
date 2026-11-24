@@ -29,10 +29,15 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public static EntityStateGameObject chaosSpearShockedEffect;
 
 
+        public static EntityStateGameObject doomSpearOrbEffect;
+        public static EntityStateGameObject doomSpearHitEffect;
         public static Material doomSpearShockingOverlay;
+        public static EntityStateGameObject doomSpearShockedEffect;
 
         public static GameObject boostFlashEffect;
         public static GameObject boostAuraEffect;
+
+        public static EntityStateGameObject killCooldownChargedEffect;
 
         public static EntityStateGameObject chaosBoostActivationEffect;
         public static EntityStateGameObject chaosBlastExplosionEffect;
@@ -109,6 +114,12 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public static AssetReferenceT<GameObject> chaosSpearHitRef = new("cb1538cda4ed7d146bf7d2718d328508");
         public static AssetReferenceT<GameObject> chaosSpearShockedRef = new("872882cee89840e4c85e402a249d26af");
 
+        public static AssetReferenceT<GameObject> doomSpearOrbRef = new("9f2c4d6d35e9eb94ca5d11f868695417");
+        public static AssetReferenceT<GameObject> doomSpearHitRef = new("cbfd06c81e031af409634d28f2b3f505");
+        public static AssetReferenceT<GameObject> doomSpearShockedRef = new("b544a4c21cf4cb04e92f1fa583aba28a");
+
+
+        public static AssetReferenceT<GameObject> killCooldownChargedRef = new("a80a53c5dd133154cabf6619fbfe2afa");
         public static AssetReferenceT<GameObject> chaosBoostActivationRef = new("ad91f54836c7f9249beb441a7c743d31");
         public static AssetReferenceT<GameObject> chaosBlastExplosionRef = new("e035764ea9303ca41a4c9d0138783c24");
         #endregion
@@ -134,6 +145,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Material matTracerBright = AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_VFX.matTracerBright_mat).WaitForCompletion();
             Material matGlowHard = AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC4.matProvUltFlareGlowHard2_mat).WaitForCompletion();
             Material matGlowSoft = AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_VFX.matGlow1Soft_mat).WaitForCompletion();
+            Material matWideGlowSparkle = AssetAsyncReferenceManager<Material>.LoadAsset(new AssetReferenceT<Material>(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_VFX.matWideGlow_mat)).WaitForCompletion();
             Material matHitSpark = AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_VFX.matSpark1_mat).WaitForCompletion();
             Material matDistortionFaded = AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_VFX.matDistortionFaded_mat).WaitForCompletion();
             Material matSphereBurst = new Material(AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_DefectiveUnit.matDefectiveUnitDetonateSpherePulse_mat).WaitForCompletion());
@@ -211,6 +223,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             chaosSpearShockingOverlay.SetTexture("_RemapTex", AssetAsyncReferenceManager<Texture>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC1_Common_ColorRamps.texRampMinorConstructElectric_png).WaitForCompletion());
             chaosSpearShockingOverlay.SetFloat("_Boost", 4f);
             doomSpearShockingOverlay = AssetAsyncReferenceManager<Material>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_Drones.matIsShockedRed_mat).WaitForCompletion();
+            Material matInkTrail = AssetAsyncReferenceManager<Material>.LoadAsset(new AssetReferenceT<Material>(RoR2BepInExPack.GameAssetPathsBetter.RoR2_DLC3_Tanker.matTankerAccelerantTrail_mat)).WaitForCompletion();
             // Look into Death Mark VFX mats for Doom
 
             Mesh donut1Mesh = AssetAsyncReferenceManager<Mesh>.LoadAsset(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Common_VFX.mdlVFXDonut1_fbx).WaitForCompletion();
@@ -261,6 +274,18 @@ namespace ShadowMod.Characters.Survivors.Shadow
             chaosSpearHitPrefab.transform.GetChild(2).GetComponent<ParticleSystemRenderer>().sharedMaterial = matHitSpark;
             chaosSpearHitPrefab.transform.GetChild(3).gameObject.AddLightIntensityCurve(AnimationCurve.EaseInOut(0f, 1f, 1f, 0f), 0.4f);
             chaosSpearHitPrefab.transform.GetChild(4).GetComponent<ParticleSystemRenderer>().sharedMaterial = matDistortionFaded;
+
+            #region Doom Spear Hit
+            GameObject doomSpearHitPrefab = AssetAsyncReferenceManager<GameObject>.LoadAsset(doomSpearHitRef).WaitForCompletion();
+            doomSpearHitEffect = new EntityStateGameObject(doomSpearHitRef.AssetGUID);
+            doomSpearHitEffect.unloadType = AsyncReferenceHandleUnloadType.OnRunEnd;
+            Asset.CreateEffect(doomSpearHitPrefab, 0.4f, false, "Play_dsshadowthehedgehog_chaos_spear_hit", out _, out _);
+            doomSpearHitPrefab.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().sharedMaterial = HedgehogUtils.Assets.chromaImpact;
+            doomSpearHitPrefab.transform.GetChild(1).GetComponent<ParticleSystemRenderer>().sharedMaterial = matGlowSoft;
+            doomSpearHitPrefab.transform.GetChild(2).GetComponent<ParticleSystemRenderer>().sharedMaterial = matHitSpark;
+            doomSpearHitPrefab.transform.GetChild(3).gameObject.AddLightIntensityCurve(AnimationCurve.EaseInOut(0f, 1f, 1f, 0f), 0.4f);
+            doomSpearHitPrefab.transform.GetChild(4).GetComponent<ParticleSystemRenderer>().sharedMaterial = matDistortionFaded;
+            #endregion
             #endregion
 
             #region Chaos Spear Orb
@@ -274,9 +299,28 @@ namespace ShadowMod.Characters.Survivors.Shadow
             chaosSpearOrbComponent.endEffect = chaosSpearHitEffect;
 
             chaosSpearOrbPrefab.transform.GetChild(1).GetComponent<TrailRenderer>().sharedMaterial = matYellowLightning;
-            chaosSpearOrbPrefab.transform.GetChild(2).gameObject.AddComponent<RotateObject>().rotationSpeed = new Vector3(0, 0, 2500);
+            chaosSpearOrbPrefab.transform.GetChild(2).gameObject.AddComponent<RotateObject>().rotationSpeed = new Vector3(0, 0, 3500);
             chaosSpearOrbPrefab.transform.GetChild(2).GetChild(0).GetComponent<TrailRenderer>().sharedMaterial = matYellowLightningBroken;
             chaosSpearOrbPrefab.transform.GetChild(3).GetComponent<ParticleSystemRenderer>().sharedMaterial = matTracerBright;
+
+            #region Doom Spear Orb
+            GameObject doomSpearOrbPrefab = AssetAsyncReferenceManager<GameObject>.LoadAsset(doomSpearOrbRef).WaitForCompletion();
+            doomSpearOrbEffect = new EntityStateGameObject(doomSpearOrbRef.AssetGUID);
+            doomSpearOrbEffect.unloadType = AsyncReferenceHandleUnloadType.OnRunEnd;
+            Asset.CreateEffect(doomSpearOrbPrefab, -1f, false, "", out _, out var doomSpearOrbEff);
+            doomSpearOrbEff.positionAtReferencedTransform = false;
+            var doomSpearOrbComponent = doomSpearOrbPrefab.AddComponent<RoR2.Orbs.OrbEffect>();
+            doomSpearOrbComponent.movementCurve = AnimationCurve.Linear(0, 0, 1f, 1f);
+            doomSpearOrbComponent.endEffect = doomSpearHitEffect;
+
+            doomSpearOrbPrefab.transform.GetChild(1).GetComponent<TrailRenderer>().sharedMaterial = matDoomLightning;
+            var doomSpearRotateRoot = doomSpearOrbPrefab.transform.GetChild(2);
+            doomSpearRotateRoot.gameObject.AddComponent<RotateObject>().rotationSpeed = new Vector3(0, 0, 3500);
+            doomSpearRotateRoot.GetChild(0).GetComponent<TrailRenderer>().sharedMaterial = matDoomLightningBroken;
+            doomSpearRotateRoot.GetChild(1).GetComponent<TrailRenderer>().sharedMaterial = matInkTrail;
+            doomSpearRotateRoot.GetChild(2).GetComponent<TrailRenderer>().sharedMaterial = matInkTrail;
+            doomSpearOrbPrefab.transform.GetChild(3).GetComponent<ParticleSystemRenderer>().sharedMaterial = matTracerBright;
+            #endregion
             #endregion
 
             #region Chaos Spear Shocked
@@ -289,6 +333,31 @@ namespace ShadowMod.Characters.Survivors.Shadow
             chaosSpearShockedDuration.initialDuration = 5f;
             chaosSpearShockedDuration.particleSystems = [chaosSpearShockedPrefab.transform.GetChild(0).GetComponent<ParticleSystem>()];
             chaosSpearShockedPrefab.transform.GetChild(0).gameObject.SetMaterialAndMesh(matYellowLightningBroken, electricRingMesh);
+
+            #region Doom Spear Shocked
+            GameObject doomSpearShockedPrefab = AssetAsyncReferenceManager<GameObject>.LoadAsset(doomSpearShockedRef).WaitForCompletion();
+            doomSpearShockedEffect = new EntityStateGameObject(doomSpearShockedRef.AssetGUID);
+            doomSpearShockedEffect.unloadType = AsyncReferenceHandleUnloadType.OnRunEnd;
+            Asset.CreateEffect(doomSpearShockedPrefab, -1f, false, "", out _, out var doomSpearShockedEff);
+            doomSpearShockedEff.applyScale = true;
+            var doomSpearShockedDuration = doomSpearShockedPrefab.AddComponent<ScaleParticleSystemDuration>();
+            doomSpearShockedDuration.initialDuration = 5f;
+            doomSpearShockedDuration.particleSystems = [doomSpearShockedPrefab.transform.GetChild(0).GetComponent<ParticleSystem>()];
+            doomSpearShockedPrefab.transform.GetChild(0).gameObject.SetMaterialAndMesh(matDoomLightningBroken, electricRingMesh);
+            #endregion
+            #endregion
+
+            #region Kill Cooldown Charged
+            GameObject killCooldownChargedPrefab = AssetAsyncReferenceManager<GameObject>.LoadAsset(killCooldownChargedRef).WaitForCompletion();
+            killCooldownChargedEffect = new EntityStateGameObject(killCooldownChargedRef.AssetGUID);
+            killCooldownChargedEffect.unloadType = AsyncReferenceHandleUnloadType.OnRunEnd;
+            Asset.CreateEffect(killCooldownChargedPrefab, 0.7f, true, "Play_dsshadowthehedgehog_special_charged", out _, out _);
+            killCooldownChargedPrefab.transform.GetChild(0).gameObject.SetMaterialAndMesh(matSubtleSoftRing, donut1Mesh);
+            killCooldownChargedPrefab.transform.GetChild(1).GetComponent<ParticleSystemRenderer>().sharedMaterial = matGlowSoft;
+            killCooldownChargedPrefab.transform.GetChild(2).gameObject.SetMaterialAndMesh(matYellowLightningBroken, electricRingMesh);
+            killCooldownChargedPrefab.transform.GetChild(3).GetComponent<ParticleSystemRenderer>().sharedMaterial = matGlowStrongHorizontal;
+            killCooldownChargedPrefab.transform.GetChild(4).GetComponent<ParticleSystemRenderer>().sharedMaterial = matDistortionFaded;
+            killCooldownChargedPrefab.transform.GetChild(5).GetComponent<ParticleSystemRenderer>().sharedMaterial = matWideGlowSparkle;
             #endregion
 
             #region Chaos Boost Activation

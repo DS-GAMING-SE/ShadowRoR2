@@ -8,19 +8,22 @@ namespace ShadowMod.Characters.Survivors.Shadow
 
         public const float homingMaxAngle = 12f;
         public const float homingRange = 48f;
-        public const float homingRangeHero = 75f;
-        public const float homingRangeSuper = 90f;
 
         public const float chaosMarkDuration = 15f;
         #endregion
 
         #region Paths
-        #region Doom
+        #region Dark
         public const int doomPowersMax = 3;
 
         public const float doomWingFormDamage = 0.5f;
         public const float doomWingFormStats = chaosBoost3Stats;
         public const int doomWingFormArmor = 100;
+        #endregion
+
+        #region Hero
+        public const float homingRangeHero = 75f;
+        public const float homingRangeSuper = 90f;
         #endregion
         #endregion
 
@@ -95,7 +98,6 @@ namespace ShadowMod.Characters.Survivors.Shadow
         public const float chaosBoostDurationPerExtraStock = 10f;
 
         public const int chaosBoostKillsToCharge = 10;
-        public const int chaosBoostKillsToUpgrade = 10; // doesn't work
         #endregion
 
         #region Chaos Blast

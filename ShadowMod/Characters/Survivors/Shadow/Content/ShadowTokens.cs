@@ -25,11 +25,11 @@ namespace ShadowMod.Characters.Survivors.Shadow
         {
             string prefix = ShadowSurvivor.SHADOW_PREFIX;
 
-            string desc = "Shadow is a fast and aggressive melee survivor who tears through enemies individually ---reword?---.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine
+            string desc = "Shadow is a fast and aggressive melee survivor who tears through enemies one at a time while gradually growing in power.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine
              + "< ! > Shadow's lack of group damage can be circumvented with smart use of his Launching ability." + Environment.NewLine + Environment.NewLine
              + "< ! > Chaos Snap is your go-to attack for any situation. Use it in tandem with your other skills to avoid its cooldown." + Environment.NewLine + Environment.NewLine
-             + "< ! > Chaos Spear -." + Environment.NewLine + Environment.NewLine
-             + "< ! > Chaos Boost marks all nearby enemies, letting you attack without restraint and recharge the skill at the same time. Use it at the right time and watch your power snowball." + Environment.NewLine + Environment.NewLine;
+             + "< ! > Chaos Spear's shocking effect and Chaos Mark let you secure a safe start to your assault." + Environment.NewLine + Environment.NewLine
+             + "< ! > Chaos Boost marks all nearby enemies, letting you attack without restraint and recharge the skill at the same time. Use it near a group of enemies and watch your power snowball." + Environment.NewLine + Environment.NewLine;
 
             string outro = "..and so he left, ?????.";
             string outroFailure = "..and so he vanished, ?????.";
@@ -92,14 +92,15 @@ namespace ShadowMod.Characters.Survivors.Shadow
             #endregion
 
             #region Special
-            Language.Add(prefix + "KEYWORD_KILL_COOLDOWN", KeywordText("kill cooldown", $"Charge this skill's cooldown by killing enemies or consuming {UtilityText("Chaos Marks")}. Additional charges increase the skill's duration."));
+            string killCooldownName = "Onslaught";
+            Language.Add(prefix + "KEYWORD_KILL_COOLDOWN", KeywordText(killCooldownName, $"Charge this skill's cooldown by killing enemies or consuming {UtilityText("Chaos Marks")}. Additional charges increase the skill's duration."));
             #region Chaos Boost
             Language.Add(prefix + "SPECIAL_CHAOS_BOOST_NAME", $"Chaos Boost");
-            Language.Add(prefix + "SPECIAL_CHAOS_BOOST_DESCRIPTION", $"{RedText("kill cooldown")}. Release a burst of energy dealing {DamageValueText(chaosBoostDamageCoefficient)} and applying {UtilityText("Chaos Marks")}. Enhance your stats for {UtilityText(chaosBoostMaxDuration+"s")}. Reactivate to {UtilityText("upgrade")} the effect up to {DamageText("3")} times and reset its duration. After {DamageText("3")} uses, unleash {DeathText("Chaos Blast")}.");
+            Language.Add(prefix + "SPECIAL_CHAOS_BOOST_DESCRIPTION", $"{RedText(killCooldownName)}. Release a burst of energy dealing {DamageValueText(chaosBoostDamageCoefficient)} and applying {UtilityText("Chaos Marks")}. Enhance your stats for {UtilityText(chaosBoostMaxDuration+"s")}. Reactivate to {UtilityText("upgrade")} the effect up to {DamageText("3")} times and reset its duration. After {DamageText("3")} uses, unleash {DeathText("Chaos Blast")}.");
 
             #region Doom
             Language.Add(prefix + "SPECIAL_DOOM_WING_NAME", HedgehogUtils.Helpers.wipIcon + " Doom Wing");
-            Language.Add(prefix + "SPECIAL_DOOM_WING_DESCRIPTION", $"{RedText("kill cooldown")}. Release a burst of energy dealing {DamageValueText(chaosBoostDamageCoefficient)} and applying {UtilityText("Chaos Marks")}. Grow wings, {RedText("greatly enhancing your stats")} and gaining {RedText("flight while boosting")} for {UtilityText(chaosBoostMaxDuration + "s")}. Reactivate to reset its duration. After {DamageText("3")} uses, unleash {DeathText("Chaos Blast")}.");
+            Language.Add(prefix + "SPECIAL_DOOM_WING_DESCRIPTION", $"{RedText(killCooldownName)}. Release a burst of energy dealing {DamageValueText(chaosBoostDamageCoefficient)} and applying {UtilityText("Chaos Marks")}. Grow wings, {RedText("greatly enhancing your stats")} and gaining {RedText("flight while boosting")} for {UtilityText(chaosBoostMaxDuration + "s")}. Reactivate to reset its duration. After {DamageText("3")} uses, unleash {DeathText("Chaos Blast")}.");
             Language.Add(prefix + "SPECIAL_DOOM_WING_PICKUP", $"Grow Doom Wings, {RedText($"greatly increasing your stats")} and allowing you to {RedText("fly while boosting")}. {RedText("Corrupts Chaos Boost")}.");
             #endregion
             #endregion
@@ -108,12 +109,12 @@ namespace ShadowMod.Characters.Survivors.Shadow
             string chaosBlastDescription = $"{UtilityText("Homing")}. Hold the target in place and release a massive explosion dealing {DamageValueText(chaosBlastDamageCoefficient)} repeatedly.";
             Language.Add(prefix + "KEYWORD_CHAOS_BLAST", KeywordText("Chaos Blast", chaosBlastDescription));
             Language.Add(prefix + "SPECIAL_CHAOS_BLAST_NAME", $"Chaos Blast");
-            Language.Add(prefix + "SPECIAL_CHAOS_BLAST_DESCRIPTION", chaosBlastDescription);
+            Language.Add(prefix + "SPECIAL_CHAOS_BLAST_DESCRIPTION", RedText(killCooldownName) + ". " + chaosBlastDescription);
             #endregion
 
             #region Chaos Control
             Language.Add(prefix + "SPECIAL_CHAOS_CONTROL_NAME", $"{HedgehogUtils.Helpers.wipIcon} Chaos Control");
-            Language.Add(prefix + "SPECIAL_CHAOS_CONTROL_DESCRIPTION", $"{HedgehogUtils.Helpers.wipIcon}");
+            Language.Add(prefix + "SPECIAL_CHAOS_CONTROL_DESCRIPTION", $"{RedText(killCooldownName)}. {HedgehogUtils.Helpers.wipIcon}");
             #endregion
 
             #endregion
@@ -131,7 +132,7 @@ namespace ShadowMod.Characters.Survivors.Shadow
             Language.Add(prefix + "BLACK_DOOM_SPAWN", RedText("Black Doom appears.."));
             Language.Add(prefix + "BLACK_DOOM_NAME", "Black Doom");
             Language.Add(prefix + "BLACK_DOOM_CONTEXT", "Accept Doom's Power..?");
-            Language.Add(prefix + "BLACK_DOOM_DESCRIPTION", "As Shadow, gain a Doom Power, which permanently upgrades one of your skills.\n\nThis will set you on the Dark path for the rest of the run. You won't be able to use anything related to the other paths, such as the Chaos Emeralds or Inhibitor Rings.");
+            Language.Add(prefix + "BLACK_DOOM_DESCRIPTION", "As Shadow, gain a Doom Power, which permanently upgrades one of your skills.\n\nThis will set you on the Dark path for the rest of the run. You will be unable to use the Chaos Emeralds or remove your Inhibitor Rings.");
             #endregion
 
             Language.Add(prefix + "VOICELINES_ENABLE_DESCRIPTION", $"Voicelines recorded by {UtilityText("MotherEggVA")}.");

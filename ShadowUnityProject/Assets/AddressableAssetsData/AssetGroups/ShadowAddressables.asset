@@ -169,6 +169,22 @@ MonoBehaviour:
     m_Address: Assets/ShadowAssets/ShadowBundle/VFX/Prefabs/Default/ChaosSpearOrbEffect.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: cbfd06c81e031af409634d28f2b3f505
+    m_Address: Assets/ShadowAssets/ShadowBundle/VFX/Prefabs/Doom/DoomSpearHitEffect.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b544a4c21cf4cb04e92f1fa583aba28a
+    m_Address: Assets/ShadowAssets/ShadowBundle/VFX/Prefabs/Doom/DoomSpearShockedEffect.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9f2c4d6d35e9eb94ca5d11f868695417
+    m_Address: Assets/ShadowAssets/ShadowBundle/VFX/Prefabs/Doom/DoomSpearOrbEffect.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a80a53c5dd133154cabf6619fbfe2afa
+    m_Address: Assets/ShadowAssets/ShadowBundle/VFX/Prefabs/Default/KillCooldownChargedEffect.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 80780dc7c8eea2546b3509246a72a4ca, type: 2}
   m_SchemaSet:

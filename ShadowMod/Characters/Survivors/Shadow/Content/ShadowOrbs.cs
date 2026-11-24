@@ -11,7 +11,8 @@ namespace ShadowMod.Characters.Survivors.Shadow
 {
     public class ChaosSpearOrb : GenericDamageOrb
     {
-        public static ChaosSpearOrb CreateChaosSpearOrb(CharacterBody attacker, Vector3 origin, HurtBox target, DamageAPI.ModdedDamageType moddedDamageType)
+        private GameObject orbEffect;
+        public static ChaosSpearOrb CreateChaosSpearOrb(CharacterBody attacker, Vector3 origin, HurtBox target, DamageAPI.ModdedDamageType moddedDamageType, GameObject orbEffect)
         {
             ChaosSpearOrb orb = new ChaosSpearOrb();
             orb.speed = 120f;
@@ -25,12 +26,13 @@ namespace ShadowMod.Characters.Survivors.Shadow
             orb.damageValue = ShadowStaticValues.chaosSpearDamageCoefficient * attacker.damage;
             orb.attacker = attacker.gameObject;
             orb.procCoefficient = 1f;
+            orb.orbEffect = orbEffect;
             return orb;
         }
         
         public override GameObject GetOrbEffect()
         {
-            return ShadowAssets.chaosSpearOrbEffect;
+            return orbEffect;
         }
     }
     public class KillCooldownOrb : Orb

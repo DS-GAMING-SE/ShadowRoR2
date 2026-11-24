@@ -94,7 +94,7 @@ namespace ShadowMod.Characters.Survivors.Shadow.SkillStates
         }
         protected virtual Orb CreateSpear(HurtBox target)
         {
-            return ChaosSpearOrb.CreateChaosSpearOrb(characterBody, transform.position, target, ShadowDamageTypes.chaosSpearShocking);
+            return ChaosSpearOrb.CreateChaosSpearOrb(characterBody, transform.position, target, ShadowDamageTypes.chaosSpearShocking, ShadowAssets.chaosSpearOrbEffect);
         }
         protected virtual void PlayAnimation()
         {

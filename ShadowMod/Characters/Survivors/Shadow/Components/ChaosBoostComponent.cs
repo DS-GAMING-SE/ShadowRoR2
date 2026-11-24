@@ -1,5 +1,7 @@
 ﻿using RoR2;
 using RoR2.Skills;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,6 +24,8 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
         private SkillDef skillOverride;
         private bool skillOverrideActive;
         private int chaosBoostOverrideCount;
+        private Coroutine playChargedEffectAfterAFrame;
+        public Action<bool> onKillCooldownChargedChanged;
 
         private void Awake()
         {
@@ -69,6 +73,23 @@ namespace ShadowMod.Characters.Survivors.Shadow.Components
                 GlobalEventManager.onDeathProcServer -= OnKilledOther;
                 subscribed = false;
             }
+        }
+        public void KillCooldownChargedChanged(GenericSkill skillSlot, bool newCharged)
+        {
+            if (playChargedEffectAfterAFrame != null) return;
+
+            playChargedEffectAfterAFrame = StartCoroutine(VerifyKillCooldownChargedChanged(skillSlot, newCharged));
+        }
+        private IEnumerator VerifyKillCooldownChargedChanged(GenericSkill skillSlot, bool newCharged)
+        {
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+            if (skillSlot && (skillSlot.stock > 0 == newCharged))
+            {
+                onKillCooldownChargedChanged?.Invoke(newCharged);
+                EffectManager.SpawnEffect(ShadowAssets.killCooldownChargedEffect, new EffectData { origin = transform.position, rootObject = gameObject }, false);
+            }
+            playChargedEffectAfterAFrame = null;
         }
         private void OnDestroy()
         {
